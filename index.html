@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="pt-BR" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cloudly Game · Clássicos no navegador</title>
+    <meta name="description" content="Jogue clássicos de NES, Super Nintendo, Mega Drive, Nintendo 64, Game Boy e mais direto no navegador. Garanta seu acesso antecipado ao Cloudly Game." />
+    <meta name="theme-color" content="#070910" />
+    <meta property="og:title" content="Cloudly Game · Clássicos no navegador" />
+    <meta property="og:description" content="Sem instalar nada: jogue, salve na nuvem, chame os amigos e transmita ao vivo. Garanta seu acesso antecipado." />
+    <meta property="og:image" content="assets/logo.png" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Silkscreen&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true"></div>
+
+    <header class="nav">
+      <a class="brand" href="#topo" aria-label="Cloudly Game, início">
+        <svg class="brand-bolt" viewBox="0 0 100 112" height="33" width="29" aria-hidden="true">
+          <defs>
+            <linearGradient id="brand-bolt-gradient" x1="80" y1="0" x2="12" y2="110" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#c4fcff" />
+              <stop offset="45%" stop-color="#3fe2ff" />
+              <stop offset="100%" stop-color="#1a9dff" />
+            </linearGradient>
+          </defs>
+          <path d="M40 93 93 58l3 5z" fill="#2aa9ff" opacity="0.9" />
+          <path d="M57 4 90 2 66 33h22L8 110l36-62H21z" fill="url(#brand-bolt-gradient)" stroke="#e8feff" stroke-width="2.4" stroke-linejoin="round" />
+        </svg>
+      </a>
+      <nav class="nav-links" aria-label="Seções">
+        <a href="#recursos">Recursos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#ajuda" data-open-help>Perguntas</a>
+      </nav>
+      <a class="button button-primary button-small" href="#lista">Acesso antecipado</a>
+    </header>
+
+    <main id="topo">
+      <section class="hero" id="abertura">
+        <div class="hero-copy">
+          <h1 class="hero-title">Seus clássicos favoritos, direto no navegador.</h1>
+          <p class="lead">Jogue NES, Super Nintendo, Mega Drive, Nintendo 64, Game Boy e mais sem instalar nada. Seu progresso fica salvo na nuvem, seus amigos entram na partida e quem quiser assiste ao vivo.</p>
+          <ul class="hero-meta" aria-label="Destaques">
+            <li>11 plataformas</li>
+            <li>Até 4 jogadores por partida</li>
+            <li>Sem instalar nada</li>
+          </ul>
+          <div class="actions">
+            <a class="button button-primary button-with-icon button-large" href="#lista">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor" /></svg>
+              Quero acesso antecipado
+            </a>
+            <a class="button button-glass button-with-icon button-large" href="#como-funciona">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 11v5M12 8h.01" /></svg>
+              Ver como funciona
+            </a>
+          </div>
+        </div>
+        <section class="console-row" aria-labelledby="consoles-title">
+          <h2 class="explore-subtitle" id="consoles-title">Consoles</h2>
+          <div class="console-orbs" id="console-shelf"></div>
+        </section>
+      </section>
+
+      <section class="section" id="recursos">
+        <header class="section-head reveal">
+          <p class="section-kicker">Recursos</p>
+          <h2>Tudo o que um bom fliperama tem, sem sair do sofá.</h2>
+        </header>
+        <div class="bento">
+          <article class="bento-card reveal">
+            <div class="bento-visual" aria-hidden="true">
+              <div class="tv-card">
+                <div class="tv-card-media">
+                  <img class="tv-card-art" src="assets/pixel/cartridge.svg" alt="" />
+                  <span class="onair-pill"><span class="onair-dot"></span>Ao vivo</span>
+                  <span class="tv-card-tag is-top"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></svg>3/8</span>
+                  <span class="tv-card-tag">12:34</span>
+                </div>
+                <div class="tv-card-body">
+                  <span class="tv-card-title">Final da sala</span>
+                  <span class="live-players"><strong>George</strong><img class="rank-icon" src="assets/pixel/rankGold.svg" alt="" /><span class="live-players-sep">vs</span><strong>Claude</strong><img class="rank-icon" src="assets/pixel/rankDiamond.svg" alt="" /></span>
+                  <span class="card-meta">Versus · Público</span>
+                </div>
+              </div>
+            </div>
+            <h3>Ao vivo</h3>
+            <p>Transmita a partida para todo mundo, só para amigos ou para amigos escolhidos.</p>
+          </article>
+
+          <article class="bento-card reveal">
+            <div class="bento-visual" aria-hidden="true">
+              <div class="clip-box">
+                <span class="clip-button">
+                  <span class="clip-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2" /><path d="M16 10l5-3v10l-5-3" /></svg></span>
+                  <span><strong>Salvar os últimos 60 segundos</strong><span>Fez uma jogada boa? Guarde o momento sem parar o jogo.</span></span>
+                </span>
+                <p class="save-status">Clipe salvo! Ele aparece no seu perfil e você pode publicar na aba Ao vivo.</p>
+              </div>
+            </div>
+            <h3>Clipes</h3>
+            <p>Fez uma jogada boa? Salve os últimos 60 segundos sem parar o jogo.</p>
+          </article>
+
+          <article class="bento-card reveal">
+            <div class="bento-visual" aria-hidden="true">
+              <ul class="room-seats">
+                <li class="room-seat is-ready"><span class="room-seat-badge">P1</span><img class="seat-avatar" src="assets/pixel/robo.svg" alt="" /><span class="room-seat-name">George <small>(você)</small></span><span class="device"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01" /></svg>Online</span></li>
+                <li class="room-seat is-ready"><span class="room-seat-badge">P2</span><img class="seat-avatar" src="assets/pixel/ninja.svg" alt="" /><span class="room-seat-name">Samuel</span><span class="device"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01" /></svg>Online</span></li>
+                <li class="room-seat"><span class="room-seat-badge">P3</span><img class="seat-avatar" src="assets/pixel/gato.svg" alt="" /><span class="room-seat-name">Isadora</span><span class="device"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9h4M8 7v4M15 10h.01M18 8h.01" /><path d="M7 5h10a5 5 0 0 1 4.9 6l-1 5a3 3 0 0 1-5.2 1.3L14 16h-4l-1.7 1.3A3 3 0 0 1 3.1 16l-1-5A5 5 0 0 1 7 5z" /></svg>Local</span></li>
+                <li class="room-seat is-empty"><span class="room-seat-badge">P4</span><span class="room-seat-name">Vago</span></li>
+              </ul>
+            </div>
+            <h3>Multiplayer online e local</h3>
+            <p>Chame amigos pela internet com o código da sala ou jogue no mesmo aparelho, com controles. Até quatro na partida.</p>
+          </article>
+
+          <article class="bento-card reveal">
+            <div class="bento-visual" aria-hidden="true">
+              <div class="states-list">
+                <span class="state-slot"><span class="state-thumb is-saved"></span><span class="state-meta"><strong>Slot 1</strong><span>21/10/2026, 14:03</span></span></span>
+                <span class="state-slot"><span class="state-thumb is-saved is-alt"></span><span class="state-meta"><strong>Slot 2</strong><span>20/10/2026, 22:47</span></span></span>
+                <span class="state-slot"><span class="state-thumb">Vazio</span><span class="state-meta"><strong>Slot 3</strong><span>Vazio</span></span></span>
+              </div>
+              <span class="resume-chip"><span class="resume-dot"></span>Ponto de retorno guardado em 21/10/2026, 14:10</span>
+            </div>
+            <h3>Progresso na nuvem</h3>
+            <p>Seus saves vão junto com a sua conta, com três slots por jogo e um ponto para continuar.</p>
+          </article>
+
+          <article class="bento-card reveal">
+            <div class="bento-visual" aria-hidden="true">
+              <div class="xp-progress">
+                <div class="xp-progress-header">
+                  <span class="xp-progress-rank"><img src="assets/pixel/rankGold.svg" alt="" /><strong>Ouro III</strong></span>
+                  <span class="xp-progress-values"><strong>120</strong> / 300 XP</span>
+                </div>
+                <div class="xp-progress-track"><span class="xp-progress-level">LV <strong>12</strong></span><div class="xp-progress-bar"><span class="xp-progress-fill"></span></div></div>
+                <p class="xp-progress-hint">Faltam 180 XP para Ouro II.</p>
+              </div>
+              <div class="arcade-tile streak-tile">
+                <div class="arcade-tile-header"><span class="arcade-tile-label">Combo</span><span class="arcade-tile-meta">Recorde 9</span></div>
+                <div class="streak-count"><img src="assets/pixel/flame.svg" alt="" /><span class="streak-number"><strong>5</strong> dias seguidos</span></div>
+                <ol class="streak-week">
+                  <li class="is-played"><span></span>D</li><li class="is-played"><span></span>S</li><li class="is-played"><span></span>T</li><li class="is-played"><span></span>Q</li><li class="is-played is-today"><span></span>Q</li><li class="is-future"><span></span>S</li><li class="is-future"><span></span>S</li>
+                </ol>
+              </div>
+            </div>
+            <h3>XP, elos e combo</h3>
+            <p>Cada partida rende XP. Suba do Cobre à Ametista e mantenha o combo de dias seguidos.</p>
+          </article>
+
+          <article class="bento-card reveal">
+            <div class="bento-visual bento-devices" aria-hidden="true">
+              <span class="device-chip"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2" /><path d="M8 20h8M12 16v4" /></svg>Computador</span>
+              <span class="device-chip"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2" /><path d="M11 18h2" /></svg>Celular</span>
+              <span class="device-chip"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M11 18h2" /></svg>Tablet</span>
+              <span class="device-chip"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="13" rx="2" /><path d="M8 3l4 4 4-4" /></svg>TV</span>
+              <span class="device-chip"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2" /><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10" /></svg>Teclado</span>
+              <span class="device-chip"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9h4M8 7v4M15 10h.01M18 8h.01" /><path d="M7 5h10a5 5 0 0 1 4.9 6l-1 5a3 3 0 0 1-5.2 1.3L14 16h-4l-1.7 1.3A3 3 0 0 1 3.1 16l-1-5A5 5 0 0 1 7 5z" /></svg>Controle</span>
+              <span class="no-install">0 instalação</span>
+            </div>
+            <h3>Abriu, jogou</h3>
+            <p>Nada para baixar. Computador, celular, tablet ou TV, com teclado ou controle.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="como-funciona">
+        <header class="section-head reveal">
+          <p class="section-kicker">Como funciona</p>
+          <h2>Do clique ao primeiro chefão em segundos.</h2>
+        </header>
+        <ol class="quest">
+          <li class="stage reveal" style="--stage-color: #a78bfa">
+            <span class="stage-tag">FASE 1-1</span>
+            <img class="stage-sprite" src="assets/pixel/cartridge.svg" alt="" />
+            <h3>Escolha o jogo</h3>
+            <p>Navegue pelo catálogo por console, gênero ou pelo que está em alta.</p>
+          </li>
+          <li class="stage reveal" style="--stage-color: #2dd4bf">
+            <span class="stage-tag">FASE 1-2</span>
+            <img class="stage-sprite" src="assets/pixel/stopwatch.svg" alt="" />
+            <h3>Jogue na hora</h3>
+            <p>O jogo roda nos nossos servidores e chega até você em vídeo, com resposta rápida.</p>
+          </li>
+          <li class="stage reveal" style="--stage-color: #ff5c7f">
+            <span class="stage-tag">FASE 1-3</span>
+            <img class="stage-sprite" src="assets/pixel/heart.svg" alt="" />
+            <h3>Chame a galera</h3>
+            <p>Convide amigos para a sala, transmita ao vivo ou guarde o melhor momento em clipe.</p>
+          </li>
+          <li class="stage stage-boss reveal" style="--stage-color: #f5b82e">
+            <span class="stage-tag">CHEFÃO</span>
+            <img class="stage-sprite" src="assets/pixel/token.svg" alt="" />
+            <h3>Insira uma ficha</h3>
+            <p>Garanta seu acesso antecipado e seja dos primeiros a jogar quando abrirmos.</p>
+            <a class="button button-primary button-small" href="#lista">Continuar ▸</a>
+          </li>
+        </ol>
+      </section>
+
+      <section class="section signup" id="lista">
+        <div class="signup-card reveal">
+        <div class="signup-copy">
+          <p class="section-kicker">Acesso antecipado</p>
+          <h2>Garanta seu acesso antecipado.</h2>
+          <p class="lead">Deixe seu contato e avisamos você assim que o Cloudly Game entrar no ar. Quem se inscreve agora é o primeiro a jogar.</p>
+          <ul class="signup-points">
+            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7" /></svg></span><span><strong>Aviso por e-mail</strong>Avisamos assim que estiver no ar, sem spam.</span></li>
+            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7" /></svg></span><span><strong>Você escolhe os consoles</strong>Sua escolha ajuda a montar o catálogo do lançamento.</span></li>
+            <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7" /></svg></span><span><strong>Sai quando quiser</strong>É só pedir e tiramos você da lista.</span></li>
+          </ul>
+          <div class="signup-footer">
+            <img src="assets/mascot.png" alt="" width="56" height="45" />
+            <span>11 consoles · acesso antecipado</span>
+          </div>
+        </div>
+
+        <form class="form" id="lead-form" novalidate>
+          <div class="field">
+            <label for="name">Nome</label>
+            <input id="name" name="name" type="text" autocomplete="name" maxlength="80" required placeholder="Como podemos te chamar?" />
+            <p class="field-error" id="name-error" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="voce@email.com" />
+            <p class="field-error" id="email-error" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="phone">Celular <span class="optional">opcional</span></label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="numeric" maxlength="16" placeholder="(11) 91234-5678" />
+            <p class="field-error" id="phone-error" role="alert"></p>
+          </div>
+          <fieldset class="field">
+            <legend>Quais consoles você mais quer jogar? <span class="optional">opcional</span></legend>
+            <div class="chips" id="console-chips"></div>
+          </fieldset>
+
+          <div class="honeypot" aria-hidden="true">
+            <label for="website">Não preencha este campo</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <label class="consent">
+            <input id="consent" name="consent" type="checkbox" required />
+            <span>Aceito receber avisos do Cloudly Game sobre o acesso antecipado e o lançamento e concordo com o uso dos meus dados como descrito na <a href="#privacidade" data-open-privacy>nota de privacidade</a>.</span>
+          </label>
+          <p class="field-error" id="consent-error" role="alert"></p>
+
+          <button class="button button-primary button-block" id="submit" type="submit">
+            <span class="button-label">Quero acesso antecipado</span>
+            <span class="spinner" aria-hidden="true"></span>
+          </button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="success" id="success" hidden>
+          <img src="assets/mascot.png" alt="" width="160" height="129" />
+          <h3>Acesso antecipado garantido!</h3>
+          <p>Valeu, <span id="success-name"></span>. Assim que o Cloudly Game entrar no ar, você recebe o aviso antes de todo mundo.</p>
+        </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>© <span id="year"></span> Cloudly Game</span>
+      <a href="#privacidade" data-open-privacy>Privacidade</a>
+    </footer>
+
+    <dialog class="modal" id="privacidade" aria-labelledby="privacy-title">
+      <div class="modal-card">
+        <header class="modal-header">
+          <h2 id="privacy-title">Nota de privacidade</h2>
+          <button class="modal-close" type="button" aria-label="Fechar">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+          </button>
+        </header>
+        <p>Usamos seu nome, e-mail, celular (se você informar) e os consoles escolhidos apenas para avisar sobre o acesso antecipado e o lançamento do Cloudly Game e entender quais plataformas priorizar. Também registramos de onde você chegou até esta página (por exemplo, a campanha ou o site de origem) para saber quais canais funcionam.</p>
+        <p>O formulário é enviado pelo serviço Web3Forms, que entrega as inscrições por e-mail à equipe do Cloudly Game. Não vendemos nem compartilhamos seus dados. Para pedir a correção ou a remoção dos seus dados, responda o e-mail de aviso que você receber de nós.</p>
+        <button class="button button-primary modal-ok" type="button">Entendi</button>
+      </div>
+    </dialog>
+
+    <aside class="help" id="ajuda" aria-label="Ajuda">
+      <div class="help-panel" id="help-panel" role="dialog" aria-modal="false" aria-labelledby="help-title" hidden>
+        <header class="help-header">
+          <span class="help-avatar help-avatar-large"><img src="assets/mascot.png" alt="" width="40" height="32" /></span>
+          <div class="help-identity">
+            <h2 id="help-title">Cloudly</h2>
+            <span class="help-status">online</span>
+          </div>
+          <button class="help-close" type="button" aria-label="Fechar conversa com o Cloudly">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+          </button>
+        </header>
+        <div class="help-log" id="help-log" role="log" aria-live="polite" aria-label="Conversa"></div>
+        <div class="help-faq" id="help-faq" hidden>
+          <p class="help-faq-title">Perguntas frequentes</p>
+          <div class="help-faq-list" id="help-faq-list"></div>
+        </div>
+        <form class="help-composer" id="help-composer">
+          <button class="help-icon-button" id="help-faq-toggle" type="button" aria-expanded="false" aria-controls="help-faq" aria-label="Ver perguntas frequentes">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01" /></svg>
+          </button>
+          <label class="visually-hidden" for="help-input">Escreva sua dúvida</label>
+          <input id="help-input" type="text" autocomplete="off" maxlength="200" placeholder="Escreva sua dúvida…" />
+          <button class="help-send" type="submit" aria-label="Enviar">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z" fill="currentColor" /></svg>
+          </button>
+        </form>
+      </div>
+      <button class="help-launcher" id="help-launcher" type="button" aria-expanded="false" aria-controls="help-panel" aria-label="Conversar com o Cloudly">
+        <span class="help-bubble" id="help-bubble">Oi, eu sou o Cloudly! Dúvidas?</span>
+        <img src="assets/mascot.png" alt="" width="64" height="52" />
+      </button>
+    </aside>
+
+    <script src="main.js"></script>
+  </body>
+</html>
