@@ -37,6 +37,7 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
 
 ## Features
 
+- Loading screen with Cloudly spitting bolts, the same as in the frontend, that covers the page until its styles, fonts and images are in (fonts and images are waited for 5 seconds at most), so the page never shows unstyled. On the first visit of the session it stays at least 2 seconds
 - Opening screen with the headline, the highlights (consoles, players per match, nothing to install), the early access button and the eleven consoles side by side, all on the first screen from phones to wide monitors
 - Consoles shown as round badges with the same colors and glyphs as the console shelf of the app
 - Features in six equal squares, each with a piece of the app interface: a live card, the clip button, a room with online and local seats, save slots with the resume point, the rank with the XP bar and the daily combo, and the devices it runs on
@@ -95,6 +96,7 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
   │   ├── apple-touch-icon.png
   │   ├── favicon.png
   │   ├── logo.png
+  │   ├── mascot-sm.png
   │   └── mascot.png
   ├── index.html
   ├── LICENSE

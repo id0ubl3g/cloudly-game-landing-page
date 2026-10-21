@@ -45,6 +45,31 @@ const SOURCE_KEY = 'cloudgame-landing-source'
 const EMAIL_PATTERN = /^(?!.*\.\.)[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/
 
 document.documentElement.classList.remove('no-js')
+
+// The loading screen leaves once the page styles apply and the fonts and images are in. On a slow
+// connection it gives up waiting for fonts and images a few seconds after the page opened, but it
+// always waits for the styles, so the page never shows unstyled. On the first visit of the session
+// it also stays a short while, so Cloudly gets a moment on screen.
+const LOADER_MAX_MS = 5000
+const LOADER_MIN_MS = 2000
+const LOADER_SEEN_KEY = 'cloudly-loader-seen'
+const pageLoader = document.getElementById('page-loader')
+let loaderSeen = false
+try {
+  loaderSeen = sessionStorage.getItem(LOADER_SEEN_KEY) === '1'
+  sessionStorage.setItem(LOADER_SEEN_KEY, '1')
+} catch {
+  // Storage can be blocked; the loading screen then just stays its short while every time
+}
+const loaderMinimum = new Promise((resolve) => setTimeout(resolve, loaderSeen ? 0 : Math.max(0, LOADER_MIN_MS - performance.now())))
+const mainCss = document.getElementById('main-css')
+const stylesReady = new Promise((resolve) => (mainCss.sheet ? resolve() : mainCss.addEventListener('load', resolve, { once: true })))
+const pageLoaded = new Promise((resolve) => (document.readyState === 'complete' ? resolve() : addEventListener('load', resolve, { once: true })))
+const loaderDeadline = new Promise((resolve) => setTimeout(resolve, Math.max(0, LOADER_MAX_MS - performance.now())))
+Promise.all([stylesReady, loaderMinimum, Promise.race([Promise.all([document.fonts.ready, pageLoaded]), loaderDeadline])]).then(() => {
+  pageLoader.classList.add('is-done')
+  pageLoader.addEventListener('transitionend', () => pageLoader.remove(), { once: true })
+})
 document.getElementById('year').textContent = new Date().getFullYear()
 
 const shelf = document.getElementById('console-shelf')
@@ -279,7 +304,7 @@ function scrollLog() {
 function helpMessage(text, from) {
   const row = document.createElement('div')
   row.className = `help-row help-row-${from}`
-  if (from === 'bot') row.innerHTML = '<span class="help-avatar" aria-hidden="true"><img src="assets/mascot.png" alt="" width="24" height="19" /></span>'
+  if (from === 'bot') row.innerHTML = '<span class="help-avatar" aria-hidden="true"><img src="assets/mascot-sm.png" alt="" width="24" height="19" /></span>'
   const bubble = document.createElement('div')
   bubble.className = 'help-message'
   const body = document.createElement('p')
@@ -318,7 +343,7 @@ function botReply(text, after) {
   helpBusy = true
   const typing = document.createElement('div')
   typing.className = 'help-row help-row-bot'
-  typing.innerHTML = '<span class="help-avatar" aria-hidden="true"><img src="assets/mascot.png" alt="" width="24" height="19" /></span><div class="help-message is-typing" aria-label="Digitando"><span></span><span></span><span></span></div>'
+  typing.innerHTML = '<span class="help-avatar" aria-hidden="true"><img src="assets/mascot-sm.png" alt="" width="24" height="19" /></span><div class="help-message is-typing" aria-label="Digitando"><span></span><span></span><span></span></div>'
   helpLog.append(typing)
   scrollLog()
   setTimeout(() => {
