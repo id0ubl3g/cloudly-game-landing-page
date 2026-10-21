@@ -45,7 +45,7 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
 - Sign-ups sent by email through Web3Forms, with the traffic source (`utm_*` and the referring site) and the consent time, a notice when the email service is slow and an error that tells a slow service apart from a lost connection
 - Hidden field that catches bots: they get the same thank you and nothing is sent
 - Help chat with Cloudly in the corner: twelve frequent questions as suggestions, a list of all of them, and typed questions matched by keywords
-- Privacy note in a popup, opened from the footer and from the consent text
+- Privacy note in a popup, opened from the consent text of the form
 - In-page links that put the section in the middle of the screen
 - Brand look from the app: dark surfaces, the purple and blue gradient, Poppins and the Silkscreen pixel font, pill buttons and the pixel art sprites of the app
 - Works with the keyboard, follows the reduced motion setting of the system and has no horizontal scroll on phones
