@@ -3,7 +3,7 @@
 <!-- markdownlint-disable MD033 -->
 
 <div align="center">
-  <img src=".github/cloud-gaming-logo.png" alt="Cloudly Game Logo" width="130">
+  <img src=".github/cloudly-game-logo.png" alt="Cloudly Game Logo" width="130">
   <h1><b>Cloudly Game Landing</b></h1>
   <p>Landing page that presents Cloudly Game, its consoles and features, to people who have not played it yet.</p>
 </div>
@@ -75,7 +75,7 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
 ```plaintext
 └── landing_page/
   ├── .github/
-  │   ├── cloud-gaming-logo.png
+  │   ├── cloudly-game-logo.png
   │   ├── cloudly.png
   │   ├── features.png
   │   ├── home.png

@@ -1,4 +1,4 @@
-// Sign-ups are sent by email through Web3Forms; nothing is stored by the Cloud Game API.
+// Sign-ups are sent by email through Web3Forms; nothing is stored by the Cloudly Game API.
 // The access key only lets this form send to the inbox it was created for, so it is meant to be public.
 const FORM_ENDPOINT = 'https://api.web3forms.com/submit'
 const FORM_ACCESS_KEY = '371877e7-16ec-4de5-bb97-84d0d2cfa18f'
@@ -41,7 +41,7 @@ const GLYPHS = {
 GLYPHS.n64 = GLYPHS.snes
 
 const SOURCE_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
-const SOURCE_KEY = 'cloudgame-landing-source'
+const SOURCE_KEY = 'cloudly-landing-source'
 const EMAIL_PATTERN = /^(?!.*\.\.)[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/
 
 document.documentElement.classList.remove('no-js')
