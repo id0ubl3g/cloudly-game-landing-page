@@ -66,27 +66,156 @@ const mainCss = document.getElementById('main-css')
 const stylesReady = new Promise((resolve) => (mainCss.sheet ? resolve() : mainCss.addEventListener('load', resolve, { once: true })))
 const pageLoaded = new Promise((resolve) => (document.readyState === 'complete' ? resolve() : addEventListener('load', resolve, { once: true })))
 const loaderDeadline = new Promise((resolve) => setTimeout(resolve, Math.max(0, LOADER_MAX_MS - performance.now())))
-Promise.all([stylesReady, loaderMinimum, Promise.race([Promise.all([document.fonts.ready, pageLoaded]), loaderDeadline])]).then(() => {
+const loaderDone = Promise.all([stylesReady, loaderMinimum, Promise.race([Promise.all([document.fonts.ready, pageLoaded]), loaderDeadline])])
+loaderDone.then(() => {
   pageLoader.classList.add('is-done')
   pageLoader.addEventListener('transitionend', () => pageLoader.remove(), { once: true })
 })
 document.getElementById('year').textContent = new Date().getFullYear()
 
-const shelf = document.getElementById('console-shelf')
 const chips = document.getElementById('console-chips')
+const bubbles = document.getElementById('app-bubbles')
 for (const [id, label, name, color, kind] of PLATFORMS) {
-  const item = document.createElement('div')
-  item.className = 'console-orb'
-  item.style.setProperty('--console-color', color)
-  item.title = `${name} · ${kind}`
-  item.innerHTML = `<span class="console-orb-circle" aria-hidden="true"><svg class="console-glyph" viewBox="0 0 200 130">${GLYPHS[id]}</svg></span><span class="console-orb-name">${name}</span>`
-  shelf.append(item)
+  const bubble = document.createElement('span')
+  bubble.className = 'app-bubble'
+  bubble.style.setProperty('--console-color', color)
+  bubble.style.setProperty('--i', bubbles.children.length)
+  bubble.innerHTML = `<span class="app-bubble-shell"></span><span class="app-bubble-burst"></span><span class="app-bubble-console"><span class="console-orb-circle"><svg class="console-glyph" viewBox="0 0 200 130">${GLYPHS[id]}</svg></span><span class="app-bubble-name">${name}</span></span>`
+  bubbles.append(bubble)
 
   const chip = document.createElement('label')
   chip.className = 'chip'
   chip.style.setProperty('--chip-color', color)
   chip.innerHTML = `<input type="checkbox" name="consoles" value="${id}" /><span>${label}</span>`
   chips.append(chip)
+}
+
+// The app sketch in the hero plays on a loop. It opens with the headline writing itself on the screen,
+// then the consoles pop on it as bubbles, then the highlights come in one by one, then the screen passes through a phone, a tablet, a computer
+// and a TV with one word of "Jogue de qualquer lugar" on each; then it plays a first visit with the same steps and copy as the app:
+// the nick is typed and confirmed, a photo is picked, a game opens on the loading screen, and it
+// ends on the catalog rolling by.
+// With reduced motion it stays on the headline.
+const appDemo = document.getElementById('app-demo')
+const appDemoNick = document.getElementById('app-demo-nick')
+const appDemoNote = document.getElementById('app-demo-note')
+const appDemoProgress = document.getElementById('app-demo-progress')
+const appDemoStage = document.getElementById('app-demo-stage')
+const appDevice = document.getElementById('app-device')
+const appDeviceLabel = document.getElementById('app-device-label')
+const appTaglineWords = document.querySelectorAll('#app-tagline .app-tag-word')
+const DEMO_DEVICES = [
+  ['phone', 'Celular'],
+  ['tablet', 'Tablet'],
+  ['laptop', 'Computador'],
+  ['tv', 'TV'],
+]
+const nickStep = appDemo.querySelector('.app-step-nick')
+const avatarStep = appDemo.querySelector('.app-step-avatar')
+const DEMO_NICK = 'id0ubl3g'
+// Covers from the app catalog, 24 games across every console, split into three rows
+const CATALOG_COVERS = 24
+const CATALOG_ROWS = 3
+const appCatalog = document.getElementById('app-catalog')
+for (let row = 0; row < CATALOG_ROWS; row++) {
+  const line = document.createElement('span')
+  line.className = 'app-catalog-row'
+  const perRow = CATALOG_COVERS / CATALOG_ROWS
+  // Each row holds its covers twice, so sliding it by half loops without a seam
+  for (let copy = 0; copy < 2; copy++) {
+    for (let index = 0; index < perRow; index++) {
+      const cover = document.createElement('img')
+      cover.src = `assets/games/covers/${String(row * perRow + index + 1).padStart(2, '0')}.webp`
+      cover.alt = ''
+      cover.loading = 'lazy'
+      line.append(cover)
+    }
+  }
+  appCatalog.append(line)
+}
+const NICK_HINT = appDemoNote.textContent
+// Same labels and progress marks as the app while a session starts
+const DEMO_STAGES = [
+  [20, 'Reservando servidor'],
+  [40, 'Preparando servidor'],
+  [70, 'Iniciando emulador'],
+  [95, 'Carregando jogo'],
+  [100, 'Pronto'],
+]
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+function nickNote(text, ok = false) {
+  appDemoNote.textContent = text
+  appDemoNote.classList.toggle('is-ok', ok)
+}
+
+async function press(element) {
+  element.classList.add('is-pressed')
+  await wait(180)
+  element.classList.remove('is-pressed')
+}
+
+async function playFirstVisit() {
+  for (;;) {
+    appDemoNick.textContent = ''
+    nickNote(NICK_HINT)
+    nickStep.classList.remove('is-typing', 'is-valid')
+    avatarStep.classList.remove('is-picked')
+    appDemoProgress.style.width = '0%'
+    appDemoStage.textContent = DEMO_STAGES[0][1]
+    appTaglineWords.forEach((word) => word.classList.remove('is-on'))
+    appDevice.dataset.device = 'tv'
+    appDemo.dataset.step = 'intro'
+    await wait(5500)
+    appDemo.dataset.step = 'consoles'
+    await wait(4600)
+    appDemo.dataset.step = 'features'
+    await wait(4200)
+    appDemo.dataset.step = 'devices'
+    appDevice.classList.add('is-showing-devices')
+    for (const [index, [device, label]] of DEMO_DEVICES.entries()) {
+      appDevice.dataset.device = device
+      appDeviceLabel.textContent = label
+      appTaglineWords.forEach((word) => word.classList.remove('is-on'))
+      await wait(250)
+      appTaglineWords[index].classList.add('is-on')
+      await wait(850)
+    }
+    await wait(400)
+    appDevice.classList.remove('is-showing-devices')
+    appDemo.dataset.step = 'nick'
+    await wait(900)
+    nickStep.classList.add('is-typing')
+    for (const letter of DEMO_NICK) {
+      appDemoNick.textContent += letter
+      if (appDemoNick.textContent.length >= 3) nickNote('Verificando…')
+      await wait(130)
+    }
+    await wait(500)
+    nickNote('Disponível!', true)
+    nickStep.classList.add('is-valid')
+    await wait(900)
+    await press(nickStep.querySelector('.app-step-button'))
+    appDemo.dataset.step = 'avatar'
+    await wait(1400)
+    await press(avatarStep.querySelector('.app-option.is-robo'))
+    avatarStep.classList.add('is-picked')
+    await wait(800)
+    appDemo.dataset.step = 'loading'
+    for (const [progress, label] of DEMO_STAGES) {
+      await wait(900)
+      appDemoProgress.style.width = `${progress}%`
+      appDemoStage.textContent = label
+    }
+    await wait(1200)
+    appDemo.dataset.step = 'catalog'
+    await wait(6500)
+  }
+}
+
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  // Starts once the loading screen is gone, so the headline is the first thing seen
+  loaderDone.then(playFirstVisit)
 }
 
 // The first visit is the one that brought the person, so later visits in the same tab keep it

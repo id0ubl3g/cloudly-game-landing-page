@@ -104,29 +104,141 @@
 
     <main id="topo">
       <section class="hero" id="abertura">
-        <div class="hero-copy">
-          <h1 class="hero-title">Seus clássicos favoritos, direto no navegador.</h1>
-          <p class="lead">Jogue NES, Super Nintendo, Mega Drive, Nintendo 64, Game Boy e mais sem instalar nada. Seu progresso fica salvo na nuvem, seus amigos entram na partida e quem quiser assiste ao vivo.</p>
-          <ul class="hero-meta" aria-label="Destaques">
-            <li>11 plataformas</li>
-            <li>Até 4 jogadores por partida</li>
-            <li>Sem instalar nada</li>
-          </ul>
+        <div class="hero-main">
+          <h1 class="visually-hidden">Seus clássicos favoritos, direto no navegador.</h1>
+
+          <!-- Drawn at 480px wide and zoomed, so the screen keeps its proportions -->
+          <div class="hero-stage">
+            <!-- A sketch of the app home, drawn in HTML so it stays sharp and light -->
+            <div class="hero-visual" id="app-device" data-device="tv" aria-hidden="true">
+              <span class="hero-glow"></span>
+              <!-- Plays on a loop: the headline, then the window goes from phone to tablet, computer and TV, then the first visit runs over a sketch of the app home -->
+              <div class="app-window" id="app-demo" data-step="intro">
+                <div class="app-home">
+                  <div class="app-header">
+                    <svg class="app-logo" viewBox="0 0 100 112" width="13" height="15" aria-hidden="true"><path d="M57 4 90 2 66 33h22L8 110l36-62H21z" fill="url(#brand-bolt-gradient)" /></svg>
+                    <span class="app-tabs"><span class="is-active">Início</span><span>Catálogo</span><span>Ao vivo</span></span>
+                    <span class="app-header-actions">
+                      <span class="app-icon"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg></span>
+                      <span class="app-icon"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9h4M8 7v4M15 10h.01M18 8h.01" /><path d="M7 5h10a5 5 0 0 1 4.9 6l-1 5a3 3 0 0 1-5.2 1.3L14 16h-4l-1.7 1.3A3 3 0 0 1 3.1 16l-1-5A5 5 0 0 1 7 5z" /></svg></span>
+                      <span class="app-me"><img class="app-me-cloud" src="assets/mascot-sm.png" alt="" /><img class="app-me-robo" src="assets/pixel/robo.svg" alt="" /></span>
+                    </span>
+                  </div>
+                  <div class="app-featured">
+                    <img class="app-scene" src="assets/games/sfa3-screenshot.webp" alt="" />
+                    <span class="app-featured-copy">
+                      <span class="app-eyebrow">Em destaque</span>
+                      <strong>Street Fighter Alpha 3</strong>
+                      <span class="app-tags"><span class="app-console-tag">Arcade</span><span class="app-genre">· Luta</span></span>
+                      <span class="app-buttons"><span class="app-play"><svg viewBox="0 0 24 24" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor" stroke="none" /></svg>Entrar para jogar</span><span class="app-ghost">Detalhes</span><span class="app-ghost">PvP</span><span class="app-ghost">Co-op</span></span>
+                    </span>
+                    <span class="app-dots"><i class="is-active"></i><i></i><i></i></span>
+                  </div>
+                  <div class="app-explore">
+                    <strong class="app-row-title">Explorar</strong>
+                    <span class="app-kicker">Gêneros</span>
+                    <div class="app-genres">
+                      <span class="app-genre-tile" style="--tile: #8e7cc3"><b>RPG</b><small>22 jogos</small></span>
+                      <span class="app-genre-tile" style="--tile: #c2410c"><b>Ação</b><small>19 jogos</small></span>
+                      <span class="app-genre-tile" style="--tile: #b45309"><b>Luta</b><small>14 jogos</small></span>
+                      <span class="app-genre-tile" style="--tile: #15803d"><b>Plataforma</b><small>10 jogos</small></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Opening scene: the headline writes itself on the screen, word by word -->
+                <div class="app-intro">
+                  <p class="app-intro-title"><span class="app-word" style="--i: 0">Seus</span> <span class="app-word" style="--i: 1">clássicos</span> <span class="app-word" style="--i: 2">favoritos,</span><br /><span class="app-word is-accent" style="--i: 3">direto</span> <span class="app-word is-accent" style="--i: 4">no</span> <span class="app-word is-accent" style="--i: 5">navegador</span><span class="app-word" style="--i: 6">.</span></p>
+                  <p class="app-intro-lead">Jogue NES, Super Nintendo, Mega Drive, Nintendo 64, Game Boy e mais sem instalar nada. Seu progresso fica salvo na nuvem, seus amigos entram na partida e quem quiser assiste ao vivo.</p>
+                </div>
+
+                <!-- Then the consoles, each one a bubble that pops on the screen -->
+              <div class="app-bubbles">
+                <span class="app-eyebrow">Consoles</span>
+                <span class="app-bubble-grid" id="app-bubbles"></span>
+              </div>
+
+              <!-- Then what playing on Cloudly is like, one point at a time -->
+              <div class="app-features">
+                  <span class="app-feature" style="--i: 0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4.5 4.5 0 0 1-.6-9A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 9.5z" /></svg><span><strong>Direto na nuvem</strong>Sem downloads</span></span>
+                  <span class="app-feature" style="--i: 1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z" /></svg><span><strong>Baixa latência</strong>Alta performance</span></span>
+                  <span class="app-feature" style="--i: 2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20a6.5 6.5 0 0 1 13 0" /><circle cx="17" cy="9" r="2.8" /><path d="M17 14.5a5 5 0 0 1 4.5 5" /></svg><span><strong>Multiplayer</strong>Versus ou coop</span></span>
+                  <span class="app-feature" style="--i: 3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11l3 3v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" /><path d="M8 3v5h7V3M7 21v-7h10v7" /></svg><span><strong>Sempre salvo</strong>3 slots + auto-save</span></span>
+              </div>
+
+              <!-- Last scene: the catalog rolling by, a row each way -->
+              <div class="app-catalog">
+                <span class="app-catalog-rows" id="app-catalog"></span>
+              </div>
+
+              <!-- While the screen changes size, one word per device -->
+                <p class="app-tagline" id="app-tagline"><span class="app-tag-word">Jogue</span> <span class="app-tag-word">de</span> <span class="app-tag-word is-accent">qualquer</span> <span class="app-tag-word is-accent">lugar</span></p>
+
+                <!-- Same copy and layout as the nick prompt in the app -->
+                <div class="app-step app-dialog app-step-nick">
+                  <span class="app-eyebrow">Falta só isso</span>
+                  <strong class="app-dialog-title">Escolha seu nick</strong>
+                  <span class="app-dialog-text">É o nome que os outros jogadores veem nas salas e que seus amigos usam para te adicionar.</span>
+                  <span class="app-field">
+                    <span class="app-label">Nick</span>
+                    <span class="app-input"><span id="app-demo-nick"></span><span class="app-caret"></span><span class="app-placeholder">SeuNick_123</span></span>
+                    <span class="app-note" id="app-demo-note">De 3 a 16 caracteres: letras, números e _. É por ele que seus amigos te encontram.</span>
+                  </span>
+                  <span class="app-step-button">Confirmar nick</span>
+                  <span class="app-link">Sair da conta</span>
+                </div>
+
+                <!-- Same as the photo picker the app opens right after the nick -->
+                <div class="app-step app-dialog app-step-avatar">
+                  <span class="app-dialog-header"><span><span class="app-eyebrow">Opcional</span><strong class="app-dialog-title">Escolha sua foto</strong></span><span class="app-close">✕</span></span>
+                  <span class="app-options">
+                    <span class="app-option is-current"><span class="app-option-image is-cloud"><img src="assets/mascot-sm.png" alt="" /></span><span class="app-option-name">Nuvem</span><span class="app-option-badge">Atual</span></span>
+                    <span class="app-option is-robo"><span class="app-option-image"><img src="assets/avatars/robo.svg" alt="" /></span><span class="app-option-name">Robô</span><span class="app-option-badge">Atual</span></span>
+                    <span class="app-option"><span class="app-option-image"><img src="assets/avatars/alien.svg" alt="" /></span><span class="app-option-name">Alien</span><span class="app-option-badge">Atual</span></span>
+                    <span class="app-option"><span class="app-option-image"><img src="assets/avatars/ninja.svg" alt="" /></span><span class="app-option-name">Ninja</span><span class="app-option-badge">Atual</span></span>
+                    <span class="app-option"><span class="app-option-image"><img src="assets/avatars/cavaleiro.svg" alt="" /></span><span class="app-option-name">Cavaleiro</span><span class="app-option-badge">Atual</span></span>
+                    <span class="app-option"><span class="app-option-image"><img src="assets/avatars/bruxa.svg" alt="" /></span><span class="app-option-name">Bruxa</span><span class="app-option-badge">Atual</span></span>
+                    <span class="app-option"><span class="app-option-image"><img src="assets/avatars/astronauta.svg" alt="" /></span><span class="app-option-name">Astronauta</span><span class="app-option-badge">Atual</span></span>
+                    <span class="app-option"><span class="app-option-image"><img src="assets/avatars/gato.svg" alt="" /></span><span class="app-option-name">Gato</span><span class="app-option-badge">Atual</span></span>
+                    <span class="app-option"><span class="app-option-image"><img src="assets/avatars/dino.svg" alt="" /></span><span class="app-option-name">Dino</span><span class="app-option-badge">Atual</span></span>
+                  </span>
+                  <span class="app-hint">Dá para trocar quando quiser no seu perfil.</span>
+                  <span class="app-skip">Pular por agora</span>
+                </div>
+
+                <!-- Opening a game leaves the home for the play screen: the game art, darkened and slowly zooming, behind the loader -->
+                <span class="app-play-screen" aria-hidden="true"><img class="app-play-shot is-title" src="assets/games/kof2002-title.webp" alt="" /><img class="app-play-shot is-screenshot" src="assets/games/kof2002-screenshot.webp" alt="" /></span>
+                <!-- The loader the app shows on the play screen while the game starts -->
+                <div class="app-step app-step-loading">
+                  <svg width="0" height="0" aria-hidden="true" style="position: absolute"><defs><linearGradient id="app-bolt-gradient" x1="30" y1="0" x2="8" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e6f7ff" /><stop offset="0.45" stop-color="#38c8ff" /><stop offset="1" stop-color="#5b6cfa" /></linearGradient></defs></svg>
+                  <span class="app-loader">
+                    <span class="app-loader-halo"></span>
+                    <img class="app-loader-cloud" src="assets/mascot.png" alt="" width="200" height="162" />
+                    <svg class="app-bolt" viewBox="0 0 40 64" aria-hidden="true"><path d="M27 0 4 36h13L9 64l27-40H23z" fill="url(#app-bolt-gradient)" stroke="#0b1a3a" stroke-width="1.5" stroke-linejoin="round" /></svg>
+                    <svg class="app-bolt is-small" viewBox="0 0 40 64" aria-hidden="true"><path d="M27 0 4 36h13L9 64l27-40H23z" fill="url(#app-bolt-gradient)" stroke="#0b1a3a" stroke-width="1.5" stroke-linejoin="round" /></svg>
+                  </span>
+                  <span class="app-progress"><span id="app-demo-progress"></span></span>
+                  <span class="app-loading-label" id="app-demo-stage">Reservando servidor</span>
+                </div>
+              </div>
+              <span class="app-laptop-base"></span>
+              <span class="app-tv-stand"></span>
+              <span class="app-device-label" id="app-device-label">Celular</span>
+            </div>
+          </div>
+
           <div class="actions">
             <a class="button button-primary button-with-icon button-large" href="#lista">
               <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor" /></svg>
               Quero acesso antecipado
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
             </a>
-            <a class="button button-glass button-with-icon button-large" href="#como-funciona">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 11v5M12 8h.01" /></svg>
+            <a class="button button-outline button-with-icon button-large" href="#como-funciona">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M10 8.5v7l5.5-3.5z" /></svg>
               Ver como funciona
             </a>
           </div>
         </div>
-        <section class="console-row" aria-labelledby="consoles-title">
-          <h2 class="explore-subtitle" id="consoles-title">Consoles</h2>
-          <div class="console-orbs" id="console-shelf"></div>
-        </section>
       </section>
 
       <section class="section" id="recursos">
