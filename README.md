@@ -5,7 +5,7 @@
 <div align="center">
   <img src=".github/cloud-gaming-logo.png" alt="Cloudly Game Logo" width="130">
   <h1><b>Cloudly Game Landing</b></h1>
-  <p>Landing page that presents Cloudly Game and collects early access sign-ups by email, before the platform goes live.</p>
+  <p>Landing page that presents Cloudly Game, its consoles and features, to people who have not played it yet.</p>
 </div>
 
 <p align="center">
@@ -33,7 +33,7 @@
 
 ## Overview
 
-Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and no build step, that presents [Cloudly Game](https://github.com/id0ubl3g/cloud-game-react) to people who have not played it yet and gathers early access sign-ups. It shows the consoles in the catalog, the main features drawn as real pieces of the app interface, a short level-select walkthrough and a sign-up form. Each sign-up is sent by email to the Cloudly Game inbox through Web3Forms, so nothing is stored in the [Cloud Game Flask API](https://github.com/id0ubl3g/cloud-game-flask-api) or in a database. Cloudly, the mascot, sits in the corner as a help chat that answers the frequent questions.
+Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and no build step, that presents [Cloudly Game](https://github.com/id0ubl3g/cloudly-game-react) to people who have not played it yet and gathers early access sign-ups. It shows the consoles in the catalog, the main features drawn as real pieces of the app interface, a short level-select walkthrough and a sign-up form. Each sign-up is sent by email to the Cloudly Game inbox through Web3Forms, so nothing is stored in the [Cloudly Game Flask API](https://github.com/id0ubl3g/cloudly-game-flask-api) or in a database. Cloudly, the mascot, sits in the corner as a help chat that answers the frequent questions.
 
 ## Features
 
