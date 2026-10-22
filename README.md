@@ -9,7 +9,7 @@
 </div>
 
 <p align="center">
-  <img src=".github/home.png" alt="Opening screen with the headline, the early access button and the eleven consoles side by side" width="100%">
+  <img src=".github/home.png" alt="Opening screen with the headline over a sketch of the app on a monitor, and the early access and how it works buttons below" width="100%">
 </p>
 
 <!-- markdownlint-enable MD033 -->
@@ -81,6 +81,23 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
   │   ├── home.png
   │   └── signup.png
   ├── assets/
+  │   ├── avatars/
+  │   │   ├── alien.svg
+  │   │   ├── astronauta.svg
+  │   │   ├── bruxa.svg
+  │   │   ├── cavaleiro.svg
+  │   │   ├── dino.svg
+  │   │   ├── gato.svg
+  │   │   ├── ninja.svg
+  │   │   └── robo.svg
+  │   ├── games/
+  │   │   ├── covers/
+  │   │   │   ├── 01.webp
+  │   │   │   ├── ...
+  │   │   │   └── 24.webp
+  │   │   ├── kof2002-screenshot.webp
+  │   │   ├── kof2002-title.webp
+  │   │   └── sfa3-screenshot.webp
   │   ├── pixel/
   │   │   ├── alien.svg
   │   │   ├── cartridge.svg
@@ -105,7 +122,7 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
   └── styles.css
 ```
 
-The pixel art in `assets/pixel/` is exported from `src/sprites.ts` of the frontend, and the icons, logo and mascot come from its `public/` folder.
+The pixel art in `assets/pixel/` and `assets/avatars/` is exported from `src/sprites.ts` of the frontend, and the icons, logo and mascot come from its `public/` folder. `assets/games/` holds the covers and screenshots of catalog games that the hero tour shows on its screen.
 
 ## Prerequisites
 
