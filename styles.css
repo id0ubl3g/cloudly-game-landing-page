@@ -385,7 +385,7 @@ a { color: var(--accent-soft); }
 .app-intro,
 .app-bubbles,
 .app-features,
-.app-catalog,
+.app-outro,
 .app-tagline {
   position: absolute;
   inset: 0;
@@ -405,7 +405,7 @@ a { color: var(--accent-soft); }
 .app-window[data-step='intro'] .app-intro,
 .app-window[data-step='consoles'] .app-bubbles,
 .app-window[data-step='features'] .app-features,
-.app-window[data-step='catalog'] .app-catalog,
+.app-window[data-step='outro'] .app-outro,
 .app-window[data-step='devices'] .app-tagline { opacity: 1; }
 
 .app-intro-title { margin: 0; font-size: 30px; font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; }
@@ -497,21 +497,10 @@ a { color: var(--accent-soft); }
 
 .app-window[data-step='features'] .app-feature { animation: app-word 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) calc(0.25s + var(--i) * 0.45s) both; }
 
-/* The catalog rolling by: rows of covers sliding each way, faded at the edges */
-.app-catalog { z-index: 2; gap: 6px; padding: 14px 0; background: rgba(7, 9, 16, 0.75); }
+/* The logo built out of falling pixel blocks; drawn on a canvas the size of the screen */
+.app-outro { z-index: 2; padding: 0; background: #070910; }
 
-.app-catalog-rows { display: flex; flex-direction: column; gap: 8px; width: 100%; overflow: hidden; mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent); }
-
-.app-catalog-row { display: flex; gap: 8px; width: max-content; animation: app-catalog 22s linear infinite; }
-
-.app-catalog-row:nth-child(2) { animation-direction: reverse; animation-duration: 26s; }
-
-.app-catalog-row:nth-child(3) { animation-duration: 19s; }
-
-.app-catalog-row img { flex: none; width: 51px; height: 68px; border-radius: 6px; object-fit: cover; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45); }
-
-/* Each row holds its covers twice, so half its width is one full lap */
-@keyframes app-catalog { to { transform: translateX(calc(-50% - 4px)); } }
+.app-outro-canvas { display: block; width: 100%; height: 100%; }
 
 /* While the screen changes size, one word per device, each replacing the last */
 .app-tagline { display: grid; place-items: center; font-size: 26px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
@@ -1645,7 +1634,7 @@ input[aria-invalid='true'] { border-color: var(--danger); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .onair-dot, .app-feature, .app-catalog-row, .app-bubble-shell, .app-bubble-burst, .app-bubble-console, .app-word, .app-intro-lead, .app-caret, .app-play-shot, .app-loader-halo, .app-loader-cloud, .app-bolt, .help-launcher img, .help-message, .help-message.is-typing span, .help-suggestions, .help-faq, .modal[open] { animation: none; }
+  .onair-dot, .app-feature, .app-bubble-shell, .app-bubble-burst, .app-bubble-console, .app-word, .app-intro-lead, .app-caret, .app-play-shot, .app-loader-halo, .app-loader-cloud, .app-bolt, .help-launcher img, .help-message, .help-message.is-typing span, .help-suggestions, .help-faq, .modal[open] { animation: none; }
 }
 
 /* Layout breakpoints */

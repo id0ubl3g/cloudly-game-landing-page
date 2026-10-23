@@ -94,7 +94,7 @@ for (const [id, label, name, color, kind] of PLATFORMS) {
 // then the consoles pop on it as bubbles, then the highlights come in one by one, then the screen passes through a phone, a tablet, a computer
 // and a TV with one word of "Jogue de qualquer lugar" on each; then it plays a first visit with the same steps and copy as the app:
 // the nick is typed and confirmed, a photo is picked, a game opens on the loading screen, and it
-// ends on the catalog rolling by.
+// ends on the logo built out of falling pixel blocks, glitching now and then.
 // With reduced motion it stays on the headline.
 const appDemo = document.getElementById('app-demo')
 const appDemoNick = document.getElementById('app-demo-nick')
@@ -113,25 +113,211 @@ const DEMO_DEVICES = [
 const nickStep = appDemo.querySelector('.app-step-nick')
 const avatarStep = appDemo.querySelector('.app-step-avatar')
 const DEMO_NICK = 'id0ubl3g'
-// Covers from the app catalog, 24 games across every console, split into three rows
-const CATALOG_COVERS = 24
-const CATALOG_ROWS = 3
-const appCatalog = document.getElementById('app-catalog')
-for (let row = 0; row < CATALOG_ROWS; row++) {
-  const line = document.createElement('span')
-  line.className = 'app-catalog-row'
-  const perRow = CATALOG_COVERS / CATALOG_ROWS
-  // Each row holds its covers twice, so sliding it by half loops without a seam
-  for (let copy = 0; copy < 2; copy++) {
-    for (let index = 0; index < perRow; index++) {
-      const cover = document.createElement('img')
-      cover.src = `assets/games/covers/${String(row * perRow + index + 1).padStart(2, '0')}.webp`
-      cover.alt = ''
-      cover.loading = 'lazy'
-      line.append(cover)
+// Last scene: the mascot drops in as 2x2 pixel pieces that stack from the bottom like Tetris,
+// "Cloudly Game" glitches in under it, and then the whole logo glitches now and then, like a game character with a bug
+const appOutro = document.getElementById('app-outro')
+// The mascot inlined in the loading screen: a data URL never taints the canvas, even with the page opened from disk
+const OUTRO_MASCOT = document.querySelector('.page-loader-cloud').src
+const OUTRO_CELL = 4
+const OUTRO_COLUMNS = 46
+const OUTRO_GLITCH = ['#00e5ff', '#ff2bd6', '#ffffff']
+const OUTRO_TEXT_COLORS = [[63, 226, 255], [37, 139, 255], [139, 92, 246]]
+let outroArt = null
+
+function outroColor(stops, at) {
+  const scaled = Math.min(stops.length - 1.001, at * (stops.length - 1))
+  const [from, to] = [stops[Math.floor(scaled)], stops[Math.floor(scaled) + 1]]
+  const mix = scaled % 1
+  return `rgb(${from.map((value, index) => Math.round(value + (to[index] - value) * mix)).join()})`
+}
+
+// Samples the mascot and the name into cells, once, after the image and the pixel font are ready
+async function prepareOutro() {
+  const mascot = new Image()
+  mascot.src = OUTRO_MASCOT
+  await Promise.all([mascot.decode(), document.fonts.load('24px Silkscreen')])
+  const sampler = document.createElement('canvas').getContext('2d', { willReadFrequently: true })
+  const rows = Math.round((OUTRO_COLUMNS * mascot.height) / mascot.width)
+  sampler.canvas.width = OUTRO_COLUMNS
+  sampler.canvas.height = rows
+  sampler.drawImage(mascot, 0, 0, OUTRO_COLUMNS, rows)
+  const pixels = sampler.getImageData(0, 0, OUTRO_COLUMNS, rows).data
+  const mascotCells = []
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < OUTRO_COLUMNS; x++) {
+      const at = (y * OUTRO_COLUMNS + x) * 4
+      if (pixels[at + 3] > 128) mascotCells.push({ x, y, color: `rgb(${pixels[at]},${pixels[at + 1]},${pixels[at + 2]})` })
     }
   }
-  appCatalog.append(line)
+
+  // Silkscreen sits on a pixel grid, so at 24px every 3px of the text is one font pixel
+  const TEXT = 'CLOUDLY GAME'
+  const FONT_PIXEL = 3
+  sampler.font = '24px Silkscreen'
+  const textColumns = Math.ceil(sampler.measureText(TEXT).width / FONT_PIXEL)
+  sampler.canvas.width = textColumns * FONT_PIXEL
+  sampler.canvas.height = 30
+  sampler.font = '24px Silkscreen'
+  sampler.textBaseline = 'top'
+  sampler.fillStyle = '#fff'
+  sampler.fillText(TEXT, 0, 0)
+  const text = sampler.getImageData(0, 0, sampler.canvas.width, sampler.canvas.height).data
+  const textCells = []
+  for (let y = 0; y < 10; y++) {
+    for (let x = 0; x < textColumns; x++) {
+      const at = ((y * FONT_PIXEL + 1) * sampler.canvas.width + x * FONT_PIXEL + 1) * 4
+      if (text[at + 3] > 128) textCells.push({ x, y, color: outroColor(OUTRO_TEXT_COLORS, x / textColumns) })
+    }
+  }
+  const textTop = Math.min(...textCells.map((cell) => cell.y))
+  textCells.forEach((cell) => (cell.y -= textTop))
+  return { mascotCells, rows, textCells, textColumns, textRows: Math.max(...textCells.map((cell) => cell.y)) + 1 }
+}
+
+// Plays the scene until the returned function is called
+async function playOutro() {
+  outroArt ??= prepareOutro()
+  const { mascotCells, rows, textCells, textColumns, textRows } = await outroArt
+  const width = appOutro.clientWidth
+  const height = appOutro.clientHeight
+  const scale = Math.max(2, Math.ceil(devicePixelRatio * 1.25))
+  appOutro.width = width * scale
+  appOutro.height = height * scale
+  const context = appOutro.getContext('2d')
+  context.setTransform(scale, 0, 0, scale, 0, 0)
+
+  // Centers the mascot over the name, snapped to the cell grid so every block lines up
+  const snap = (value) => Math.round(value / OUTRO_CELL) * OUTRO_CELL
+  const lockupHeight = (rows + 3 + textRows) * OUTRO_CELL
+  const top = snap((height - lockupHeight) / 2)
+  const mascotLeft = snap((width - OUTRO_COLUMNS * OUTRO_CELL) / 2)
+  const textLeft = snap((width - textColumns * OUTRO_CELL) / 2)
+  const textTop = top + (rows + 3) * OUTRO_CELL
+
+  // Each 2x2 group of the mascot falls as one piece; the bottom rows land first so the stack builds up
+  const pieces = new Map()
+  for (const cell of mascotCells) {
+    const key = `${cell.x >> 1},${cell.y >> 1}`
+    if (!pieces.has(key)) pieces.set(key, { row: cell.y >> 1, cells: [] })
+    pieces.get(key).cells.push(cell)
+  }
+  const lastRow = (rows - 1) >> 1
+  for (const piece of pieces.values()) {
+    piece.start = (lastRow - piece.row) * 55 + Math.random() * 160
+    piece.drop = top + piece.row * 2 * OUTRO_CELL + 24 + Math.random() * 60
+    piece.fall = 320 + Math.random() * 120
+  }
+  const landed = Math.max(...[...pieces.values()].map((piece) => piece.start + piece.fall))
+  for (const cell of textCells) cell.start = landed + 150 + Math.random() * 650
+  const settled = landed + 950
+
+  // The finished logo, plus a cyan and a magenta copy for the split colors of the glitch
+  const layer = () => {
+    const canvas = document.createElement('canvas')
+    canvas.width = appOutro.width
+    canvas.height = appOutro.height
+    const layerContext = canvas.getContext('2d')
+    layerContext.setTransform(scale, 0, 0, scale, 0, 0)
+    return [canvas, layerContext]
+  }
+  const [art, artContext] = layer()
+  for (const cell of mascotCells) {
+    artContext.fillStyle = cell.color
+    artContext.fillRect(mascotLeft + cell.x * OUTRO_CELL, top + cell.y * OUTRO_CELL, OUTRO_CELL, OUTRO_CELL)
+  }
+  for (const cell of textCells) {
+    artContext.fillStyle = cell.color
+    artContext.fillRect(textLeft + cell.x * OUTRO_CELL, textTop + cell.y * OUTRO_CELL, OUTRO_CELL, OUTRO_CELL)
+  }
+  const tinted = (color) => {
+    const [canvas, tintContext] = layer()
+    tintContext.setTransform(1, 0, 0, 1, 0, 0)
+    tintContext.drawImage(art, 0, 0)
+    tintContext.globalCompositeOperation = 'source-in'
+    tintContext.fillStyle = color
+    tintContext.fillRect(0, 0, canvas.width, canvas.height)
+    return canvas
+  }
+  const cyan = tinted(OUTRO_GLITCH[0])
+  const magenta = tinted(OUTRO_GLITCH[1])
+
+  // The logo glitches twice once it is whole, in short bursts
+  const bursts = [settled + 600, settled + 2200].map((at) => [at, at + 160 + Math.random() * 140])
+  const pick = (list) => list[Math.floor(Math.random() * list.length)]
+
+  function drawGlitch(strength) {
+    context.globalAlpha = 0.75
+    context.globalCompositeOperation = 'lighter'
+    context.drawImage(cyan, -OUTRO_CELL * strength, 0, width, height)
+    context.drawImage(magenta, OUTRO_CELL * strength, 0, width, height)
+    context.globalCompositeOperation = 'source-over'
+    context.globalAlpha = 1
+    context.drawImage(art, 0, 0, width, height)
+    // Bands of the logo slide sideways, a whole number of cells, and the gap they leave stays dark
+    for (let band = 0; band < 3 + strength * 2; band++) {
+      const bandTop = snap(top + Math.random() * lockupHeight)
+      const bandHeight = OUTRO_CELL * (1 + Math.floor(Math.random() * 4))
+      const shift = OUTRO_CELL * (Math.floor(Math.random() * 7) - 3)
+      context.fillStyle = '#070910'
+      context.fillRect(0, bandTop, width, bandHeight)
+      context.drawImage(pick([art, art, cyan, magenta]), 0, bandTop * scale, appOutro.width, bandHeight * scale, shift, bandTop, width, bandHeight)
+    }
+    // Stray pixels flicker around the logo
+    for (let index = 0; index < 14 * strength; index++) {
+      context.fillStyle = pick(OUTRO_GLITCH)
+      context.fillRect(snap(mascotLeft - 40 + Math.random() * (OUTRO_COLUMNS * OUTRO_CELL + 80)), snap(top + Math.random() * lockupHeight), OUTRO_CELL, OUTRO_CELL)
+    }
+  }
+
+  let frame = 0
+  let jitter = 0
+  const begin = performance.now()
+  function draw(now) {
+    const time = now - begin
+    context.clearRect(0, 0, width, height)
+    if (time < settled) {
+      for (const piece of pieces.values()) {
+        const progress = Math.min(1, Math.max(0, (time - piece.start) / piece.fall))
+        if (time < piece.start) continue
+        // Falls with gravity, moving a cell at a time like a Tetris piece
+        const lift = snap(piece.drop * (1 - progress * progress))
+        const flash = time - piece.start - piece.fall
+        for (const cell of piece.cells) {
+          const x = mascotLeft + cell.x * OUTRO_CELL
+          const y = top + cell.y * OUTRO_CELL - lift
+          context.fillStyle = cell.color
+          context.fillRect(x, y, OUTRO_CELL, OUTRO_CELL)
+          if (progress < 1) {
+            context.fillStyle = 'rgba(255, 255, 255, 0.22)'
+            context.fillRect(x, y, OUTRO_CELL, 1)
+          } else if (flash < 140) {
+            context.fillStyle = `rgba(255, 255, 255, ${0.6 * (1 - flash / 140)})`
+            context.fillRect(x, y, OUTRO_CELL, OUTRO_CELL)
+          }
+        }
+      }
+      // The name blinks in a pixel at a time, each one off by a cell and in a glitch color at first
+      for (const cell of textCells) {
+        const since = time - cell.start
+        if (since < 0) continue
+        const glitching = since < 160
+        context.fillStyle = glitching ? pick(OUTRO_GLITCH) : cell.color
+        context.fillRect(textLeft + (cell.x + (glitching ? Math.round(Math.random() * 2 - 1) : 0)) * OUTRO_CELL, textTop + cell.y * OUTRO_CELL, OUTRO_CELL, OUTRO_CELL)
+      }
+    } else {
+      const burst = bursts.find(([from, to]) => time >= from && time < to)
+      if (burst) {
+        // Redraws the noise every few frames, so it stutters instead of shimmering
+        if (frame++ % 3 === 0) jitter = 1 + Math.floor(Math.random() * 2)
+        drawGlitch(jitter)
+      } else {
+        context.drawImage(art, 0, 0, width, height)
+      }
+    }
+    request = requestAnimationFrame(draw)
+  }
+  let request = requestAnimationFrame(draw)
+  return () => cancelAnimationFrame(request)
 }
 const NICK_HINT = appDemoNote.textContent
 // Same labels and progress marks as the app while a session starts
@@ -208,8 +394,14 @@ async function playFirstVisit() {
       appDemoStage.textContent = label
     }
     await wait(1200)
-    appDemo.dataset.step = 'catalog'
+    // A scene that fails to draw is skipped, so the loop never stalls on it
+    const stopOutro = await playOutro().catch(() => () => {})
+    appDemo.dataset.step = 'outro'
     await wait(6500)
+    appDemo.dataset.step = 'intro'
+    // Keeps drawing while the scene fades out
+    await wait(500)
+    stopOutro()
   }
 }
 
