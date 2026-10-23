@@ -408,6 +408,8 @@ a { color: var(--accent-soft); }
 .app-window[data-step='outro'] .app-outro,
 .app-window[data-step='devices'] .app-tagline { opacity: 1; }
 
+.app-intro-slogan { margin-bottom: 10px; color: var(--accent-soft); font-family: var(--font-pixel); font-size: 11px; letter-spacing: 0.06em; }
+
 .app-intro-title { margin: 0; font-size: 30px; font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; }
 
 .app-word { display: inline-block; }
@@ -428,6 +430,8 @@ a { color: var(--accent-soft); }
 .app-window[data-step='intro'] .app-word { animation: app-word 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) calc(0.2s + var(--i) * 0.2s) both; }
 
 .app-window[data-step='intro'] .app-intro-lead { animation: app-word 0.8s ease 1.8s both; }
+
+.app-window[data-step='intro'] .app-intro-slogan { animation: app-word 0.7s ease both; }
 
 @keyframes app-word { from { opacity: 0; filter: blur(6px); transform: translateY(14px); } }
 
@@ -1634,7 +1638,7 @@ input[aria-invalid='true'] { border-color: var(--danger); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .onair-dot, .app-feature, .app-bubble-shell, .app-bubble-burst, .app-bubble-console, .app-word, .app-intro-lead, .app-caret, .app-play-shot, .app-loader-halo, .app-loader-cloud, .app-bolt, .help-launcher img, .help-message, .help-message.is-typing span, .help-suggestions, .help-faq, .modal[open] { animation: none; }
+  .onair-dot, .app-feature, .app-bubble-shell, .app-bubble-burst, .app-bubble-console, .app-word, .app-intro-slogan, .app-intro-lead, .app-caret, .app-play-shot, .app-loader-halo, .app-loader-cloud, .app-bolt, .help-launcher img, .help-message, .help-message.is-typing span, .help-suggestions, .help-faq, .modal[open] { animation: none; }
 }
 
 /* Layout breakpoints */
