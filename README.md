@@ -39,13 +39,14 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
 
 - Loading screen with Cloudly spitting bolts, the same as in the frontend, that covers the page until its styles, fonts and images are in (fonts and images are waited for 5 seconds at most), so the page never shows unstyled. On the first visit of the session it stays at least 2 seconds
 - Opening screen with the headline, the highlights (consoles, players per match, nothing to install), the early access button and the eleven consoles side by side, all on the first screen from phones to wide monitors
+- Tour on the app sketch, on a loop: the headline, the consoles, the highlights, the devices, a first visit with the nick and the photo, then ranked, with the seven elos stacked from Cobre and the camera climbing with the player to Ametista, a game opening and the logo built from falling pixels
 - Consoles shown as round badges with the same colors and glyphs as the console shelf of the app
-- Features in six equal squares, each with a piece of the app interface: a live card, the clip button, a room with online and local seats, save slots with the resume point, the rank with the XP bar and the daily combo, and the devices it runs on
+- Features led by a wide ranked card, with the FT2 scoreboard over a fighting game, the elo card, the series result and the top of the ranking, followed by six equal squares, each with a piece of the app interface: a live card, the clip button, a room with online and local seats, save slots with the resume point, the level with the XP bar and the daily combo, and the devices it runs on
 - **Como funciona** as a level select: three stages joined by a dotted trail and a boss stage that leads to the sign-up form
 - Early access form in one card with two panes, like the sign-in screen of the app: name, email, an optional Brazilian mobile number, the consoles the person most wants to play and the consent to receive emails
 - Sign-ups sent by email through Web3Forms, with the traffic source (`utm_*` and the referring site) and the consent time, a notice when the email service is slow and an error that tells a slow service apart from a lost connection
 - Hidden field that catches bots: they get the same thank you and nothing is sent
-- Help chat with Cloudly in the corner: twelve frequent questions as suggestions, a list of all of them, and typed questions matched by keywords
+- Help chat with Cloudly in the corner: thirteen frequent questions as suggestions, a list of all of them, and typed questions matched by keywords
 - Privacy note in a popup, opened from the consent text of the form
 - In-page links that put the section in the middle of the screen
 - Brand look from the app: dark surfaces, the purple and blue gradient, Poppins and the Silkscreen pixel font, pill buttons and the pixel art sprites of the app
@@ -64,7 +65,7 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
 | Anchor | Section |
 | ------ | ------- |
 | `#abertura` | Headline, highlights, buttons and consoles |
-| `#recursos` | Features in six squares |
+| `#recursos` | Ranked in a wide card and the other features in six squares |
 | `#como-funciona` | Level select from choosing a game to the sign-up |
 | `#lista` | Early access form |
 | `#privacidade` | Privacy note popup |
@@ -105,9 +106,15 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
   │   │   ├── gato.svg
   │   │   ├── heart.svg
   │   │   ├── ninja.svg
+  │   │   ├── rankAmethyst.svg
+  │   │   ├── rankCopper.svg
   │   │   ├── rankDiamond.svg
+  │   │   ├── rankEmerald.svg
   │   │   ├── rankGold.svg
+  │   │   ├── rankIron.svg
+  │   │   ├── rankRuby.svg
   │   │   ├── robo.svg
+  │   │   ├── roboClimber.svg
   │   │   ├── stopwatch.svg
   │   │   └── token.svg
   │   ├── apple-touch-icon.png
@@ -195,16 +202,16 @@ To publish it, upload the folder to any static host. Web3Forms only accepts sign
 
 <!-- markdownlint-enable MD033 -->
 
-1. The chat answers twelve frequent questions about the platform, from what Cloudly Game is to how XP and ranks work. Questions about things that are not decided yet, such as the price, are not answered.
+1. The chat answers thirteen frequent questions about the platform, from what Cloudly Game is to how XP, levels and ranked work. Questions about things that are not decided yet, such as the price, are not answered.
 2. After each answer, up to three questions that were not asked yet show up as suggestions, and they leave as soon as the conversation moves on.
 3. Typed questions are lowercased and stripped of accents, then matched against keywords of each question. The question with the most matching keywords is answered; when nothing matches, Cloudly says it cannot answer that yet and suggests questions.
 4. Everything runs in the browser, with no server and no record of what was asked.
 
 ## How the Page Follows the App
 
-1. Colors, radii, buttons, the console shelf colors and glyphs, the live card, the room seats, the save slots, the XP bar and the combo tile copy the styles of the frontend, so the page looks like the product.
+1. Colors, radii, buttons, the console shelf colors and glyphs, the live card, the room seats, the save slots, the XP bar, the combo tile, the ranked scoreboard and the elo card copy the styles of the frontend, so the page looks like the product.
 2. The pixel art (rank icons, avatars, flame, cartridge, stopwatch, heart and token) is generated from the sprite patterns of the frontend and saved as SVG files.
-3. The names, numbers and rewards shown in the features match what the platform does, such as eleven consoles, up to four players, three save slots and ranks from Cobre to Ametista.
+3. The names, numbers and rewards shown in the features match what the platform does, such as eleven consoles, up to four players, three save slots, levels earned with XP in any match, ranked series in FT2 and elos from Cobre to Ametista earned only in ranked.
 
 ## License
 

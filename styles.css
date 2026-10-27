@@ -405,6 +405,7 @@ a { color: var(--accent-soft); }
 .app-window[data-step='intro'] .app-intro,
 .app-window[data-step='consoles'] .app-bubbles,
 .app-window[data-step='features'] .app-features,
+.app-window[data-step='ranked'] .app-ranked,
 .app-window[data-step='outro'] .app-outro,
 .app-window[data-step='devices'] .app-tagline { opacity: 1; }
 
@@ -505,6 +506,136 @@ a { color: var(--accent-soft); }
 .app-outro { z-index: 2; padding: 0; background: #070910; }
 
 .app-outro-canvas { display: block; width: 100%; height: 100%; }
+
+/* Ranked: the seven elos stacked from Cobre up, floors of 100px. The camera climbs one floor at a time,
+   holding the floor being reached on the line where the player stands, and stops on Ametista */
+.app-ranked {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(192, 139, 255, 0.22), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(139, 92, 246, 0.06) 0 1px, transparent 1px 20px),
+    #070910;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Floor k (0 is Cobre) sits on the line at y = 120px when the tower is moved by 120 - (6.5 - k) * 100 */
+.app-ranked-tower {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: flex;
+  flex-direction: column-reverse;
+  width: 230px;
+  margin-left: -115px;
+  transform: translateY(-530px);
+}
+
+.app-window[data-step='ranked'] .app-ranked-tower { animation: app-ranked-climb 7s both; }
+
+@keyframes app-ranked-climb {
+  0%, 8% { transform: translateY(-530px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  19%, 22% { transform: translateY(-430px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  33%, 36% { transform: translateY(-330px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  47%, 50% { transform: translateY(-230px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  61%, 64% { transform: translateY(-130px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  75%, 78% { transform: translateY(-30px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  89%, 100% { transform: translateY(70px); }
+}
+
+/* Each floor is a pixel ledge with the elo on it; it stays grey until the camera reaches it */
+.app-elo {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  height: 100px;
+  padding-left: 64px;
+  color: var(--rank-color);
+  text-align: left;
+  filter: grayscale(1) brightness(0.55);
+}
+
+.app-elo::after {
+  content: '';
+  position: absolute;
+  top: calc(50% + 24px);
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--rank-color) 80%, #fff) 0 2px, color-mix(in srgb, var(--rank-color) 45%, #0d111c) 2px);
+  box-shadow: 0 0 0 2px #05060a, 3px 3px 0 2px #05060a;
+}
+
+.app-elo img { width: 44px; height: 44px; image-rendering: pixelated; filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.5)); }
+
+.app-elo strong { display: block; font-family: var(--font-pixel); font-size: 15px; font-weight: 400; letter-spacing: 0.04em; }
+
+.app-elo small { color: var(--text-muted); font-size: 9px; }
+
+.app-window[data-step='ranked'] .app-elo { animation: app-elo-reach 0.9s ease-out calc(0.2s + var(--i) * 0.98s) both; }
+
+/* Once on top, the floors below fade so the phrase has the bottom of the screen */
+.app-window[data-step='ranked'] .app-elo:not(.is-amethyst) { animation: app-elo-reach 0.9s ease-out calc(0.2s + var(--i) * 0.98s) both, app-elo-below 0.8s ease 5.9s forwards; }
+
+@keyframes app-elo-below { to { opacity: 0; } }
+
+@keyframes app-elo-reach {
+  from { filter: grayscale(1) brightness(0.55); transform: scale(1); }
+  45% { filter: grayscale(0) brightness(1.25); transform: scale(1.04); }
+  to { filter: none; transform: scale(1); }
+}
+
+.app-window[data-step='ranked'] .app-elo.is-amethyst img { animation: app-elo-top 1.8s ease-in-out 6.3s infinite; }
+
+@keyframes app-elo-top { 50% { filter: drop-shadow(0 0 14px rgba(192, 139, 255, 0.9)); transform: translateY(-3px); } }
+
+/* The player stays on the line and hops as each floor comes down to meet them */
+.app-ranked-climber {
+  position: absolute;
+  top: 112px;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  margin-left: -109px;
+  image-rendering: pixelated;
+}
+
+.app-window[data-step='ranked'] .app-ranked-climber { animation: app-ranked-hop 0.98s cubic-bezier(0.45, 0, 0.55, 1) 0.56s 6; }
+
+@keyframes app-ranked-hop {
+  0% { transform: translateY(0); }
+  38% { transform: translateY(-18px); }
+  78%, 100% { transform: translateY(0); }
+}
+
+.app-ranked-copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 40px 16px 22px;
+  background: linear-gradient(180deg, transparent, #070910 40%);
+}
+
+.app-ranked-copy > span:last-child { color: var(--text); font-size: 14px; font-weight: 600; }
+
+.app-ranked-copy { opacity: 0; }
+
+/* The band comes in with the phrase, so the floors below stay in sight during the climb */
+.app-window[data-step='ranked'] .app-ranked-copy { animation: app-ranked-band 0.8s ease 5.9s both; }
+
+@keyframes app-ranked-band { to { opacity: 1; } }
+
+.app-window[data-step='ranked'] .app-ranked-copy > * { animation: app-word 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 6.1s both; }
 
 /* While the screen changes size, one word per device, each replacing the last */
 .app-tagline { display: grid; place-items: center; font-size: 26px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
@@ -746,8 +877,6 @@ h3 { font-size: 20px; font-weight: 600; }
 .bento .room-seats { gap: 6px; }
 .bento .room-seat-badge { width: 26px; height: 26px; font-size: 11px; }
 .bento .seat-avatar { width: 22px; height: 22px; }
-.bento .xp-progress-rank img { width: 30px; height: 30px; }
-.bento .xp-progress-rank strong { font-size: 17px; }
 .bento .arcade-tile { padding: 8px 10px 6px; }
 .bento .streak-count { margin-bottom: 6px; }
 .bento .streak-count img { width: 26px; height: 26px; }
@@ -983,16 +1112,12 @@ h3 { font-size: 20px; font-weight: 600; }
 
 .resume-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px rgba(16, 185, 129, 0.7); }
 
-/* XP bar and combo, in the app's pixel style */, in the app's pixel style */
+/* XP bar and combo, in the app's pixel style */
 .xp-progress { display: flex; flex-direction: column; gap: 8px; }
 
 .xp-progress-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 
-.xp-progress-rank { display: inline-flex; align-items: center; gap: 8px; }
-
-.xp-progress-rank img { width: 36px; height: 36px; image-rendering: pixelated; filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.45)); }
-
-.xp-progress-rank strong { color: #f6cf62; font-size: 20px; font-weight: 700; letter-spacing: 0.02em; }
+.xp-progress-title { font-size: 17px; font-weight: 700; }
 
 .xp-progress-values { color: var(--text-muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 
@@ -1073,6 +1198,108 @@ h3 { font-size: 20px; font-weight: 600; }
 .streak-week .is-today { color: var(--tile-color); }
 
 .streak-week .is-future { opacity: 0.35; }
+
+/* Ranked: the series scoreboard over the game, the elo card, the series result and the top of the ranking */
+.bento-wide { grid-column: 1 / -1; }
+
+.bento-visual.bento-ranked { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: stretch; gap: 12px; }
+
+.ranked-screen { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: #000; }
+
+.ranked-screen-art { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+
+.ranked-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  background: rgba(139, 92, 246, 0.85);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.room-scoreboard {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 24px);
+  padding: 5px 12px;
+  border: 1px solid var(--border-2);
+  border-radius: 9999px;
+  background: rgba(17, 21, 34, 0.82);
+  font-size: 12px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  backdrop-filter: blur(6px);
+}
+
+.room-scoreboard-name { overflow: hidden; max-width: 100px; text-overflow: ellipsis; }
+
+.room-scoreboard-score { font-family: var(--font-pixel); font-size: 14px; font-weight: 400; font-variant-numeric: tabular-nums; }
+
+.room-scoreboard-target { padding: 2px 6px; border-radius: var(--radius-sm); background: rgba(139, 92, 246, 0.25); color: var(--accent-soft); font-size: 10px; font-weight: 700; }
+
+.ranked-side { display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; }
+
+.is-copper { --rank-color: #e8925f; }
+
+.is-iron { --rank-color: #d8dde3; }
+
+.is-gold { --rank-color: #f6cf62; }
+
+.is-diamond { --rank-color: #6fe6ef; }
+
+.is-emerald { --rank-color: #3fdc7c; }
+
+.is-ruby { --rank-color: #ff5c7f; }
+
+.is-amethyst { --rank-color: #c08bff; }
+
+.elo-card { display: flex; flex-direction: column; gap: 6px; }
+
+.elo-card-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+.elo-card-tier { display: inline-flex; align-items: center; gap: 8px; color: var(--rank-color, var(--text)); font-size: 16px; }
+
+.elo-card-tier img { width: 28px; height: 28px; image-rendering: pixelated; filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.45)); }
+
+.elo-card-points { color: var(--text-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+.elo-card-points strong { color: var(--text); font-size: 14px; }
+
+.elo-card-bar { height: 10px; overflow: hidden; border: 2px solid #05060a; background: #151a28; }
+
+.elo-card-fill { display: block; width: 39%; height: 100%; background: var(--rank-color, var(--accent)); }
+
+.series-result {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  font-size: 12px;
+}
+
+.series-points { margin-left: auto; color: var(--success); font-weight: 700; white-space: nowrap; }
+
+.ranking-mini { display: flex; flex-direction: column; gap: 4px; margin: 0; padding: 0; list-style: none; }
+
+.ranking-mini li { display: flex; align-items: center; gap: 8px; padding: 4px 10px; border-radius: var(--radius-md); background: var(--surface-2); font-size: 12px; }
+
+.ranking-mini img { width: 16px; height: 16px; image-rendering: pixelated; }
+
+.ranking-mini li.is-you { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--rank-color) 45%, transparent); }
+
+.ranking-mini span:last-child { margin-left: auto; color: var(--rank-color, var(--text-muted)); }
+
+.ranking-mini-pos { width: 22px; color: var(--text-faint); font-family: var(--font-pixel); font-size: 10px; }
 
 /* Devices */
 .bento-visual.bento-devices { flex-direction: row; flex-wrap: wrap; align-content: center; justify-content: center; gap: 10px; }
@@ -1638,7 +1865,7 @@ input[aria-invalid='true'] { border-color: var(--danger); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .onair-dot, .app-feature, .app-bubble-shell, .app-bubble-burst, .app-bubble-console, .app-word, .app-intro-slogan, .app-intro-lead, .app-caret, .app-play-shot, .app-loader-halo, .app-loader-cloud, .app-bolt, .help-launcher img, .help-message, .help-message.is-typing span, .help-suggestions, .help-faq, .modal[open] { animation: none; }
+  .onair-dot, .app-feature, .app-ranked-tower, .app-elo, .app-elo img, .app-ranked-climber, .app-ranked-copy, .app-ranked-copy > *, .app-bubble-shell, .app-bubble-burst, .app-bubble-console, .app-word, .app-intro-slogan, .app-intro-lead, .app-caret, .app-play-shot, .app-loader-halo, .app-loader-cloud, .app-bolt, .help-launcher img, .help-message, .help-message.is-typing span, .help-suggestions, .help-faq, .modal[open] { animation: none; }
 }
 
 /* Layout breakpoints */
@@ -1666,6 +1893,8 @@ input[aria-invalid='true'] { border-color: var(--danger); }
   .button-large { min-height: 44px; padding: 0 18px; font-size: 14px; }
   .bento { grid-template-columns: 1fr; }
   .bento-card .bento-visual { height: auto; min-height: 200px; }
+  .bento-visual.bento-ranked { grid-template-columns: 1fr; }
+  .ranked-screen { aspect-ratio: 4 / 3; }
   .quest { grid-template-columns: 1fr; }
   .section { padding: 56px var(--gutter); }
   .form, .success, .signup-copy { padding: 24px 20px; }

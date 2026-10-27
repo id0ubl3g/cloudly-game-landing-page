@@ -93,8 +93,8 @@ for (const [id, label, name, color, kind] of PLATFORMS) {
 // The app sketch in the hero plays on a loop. It opens with the headline writing itself on the screen,
 // then the consoles pop on it as bubbles, then the highlights come in one by one, then the screen passes through a phone, a tablet, a computer
 // and a TV with one word of "Jogue de qualquer lugar" on each; then it plays a first visit with the same steps and copy as the app:
-// the nick is typed and confirmed, a photo is picked, a game opens on the loading screen, and it
-// ends on the logo built out of falling pixel blocks, glitching now and then.
+// the nick is typed and confirmed, a photo is picked, the camera climbs the stacked elos of ranked from Cobre
+// to Ametista, a game opens on the loading screen, and it ends on the logo built out of falling pixel blocks, glitching now and then.
 // With reduced motion it stays on the headline.
 const appDemo = document.getElementById('app-demo')
 const appDemoNick = document.getElementById('app-demo-nick')
@@ -387,6 +387,8 @@ async function playFirstVisit() {
     await press(avatarStep.querySelector('.app-option.is-robo'))
     avatarStep.classList.add('is-picked')
     await wait(800)
+    appDemo.dataset.step = 'ranked'
+    await wait(8800)
     appDemo.dataset.step = 'loading'
     for (const [progress, label] of DEMO_STAGES) {
       await wait(900)
@@ -599,7 +601,8 @@ const HELP_QUESTIONS = [
   ['E com alguém do meu lado?', 'Também. Até quatro pessoas podem jogar no mesmo computador: uma no teclado e as outras em controles. Plugou um controle, entrou na partida.', ['lado', 'mesmo computador', 'mesmo aparelho', 'local', 'sofa', 'dois jogadores', '2 jogadores']],
   ['Meu progresso fica salvo?', 'Fica. Seus saves vão junto com a sua conta na nuvem, com três slots de estado por jogo e um ponto para continuar de onde parou.', ['salvar', 'salvo', 'save', 'saves', 'progresso', 'continuar', 'nuvem', 'perder']],
   ['Posso transmitir minhas partidas?', 'Pode. Você transmite ao vivo para todo mundo, só para amigos ou para amigos escolhidos, e salva um clipe dos últimos 60 segundos quando sair aquela jogada.', ['transmitir', 'ao vivo', 'live', 'stream', 'clipe', 'gravar', 'gravacao', 'assistir']],
-  ['Como funcionam XP e ranks?', 'Cada partida rende XP. Você sobe de rank do Cobre à Ametista, mantém uma sequência diária de jogo e desbloqueia conquistas.', ['xp', 'rank', 'ranks', 'nivel', 'conquista', 'conquistas', 'pontos', 'ranking']],
+  ['Como funcionam XP e nível?', 'Toda partida rende XP, casual ou ranked. Com XP você sobe de nível, mantém uma sequência diária de jogo e desbloqueia conquistas. O elo é separado: ele vem só do ranked.', ['xp', 'nivel', 'level', 'conquista', 'conquistas', 'combo', 'sequencia']],
+  ['Como funciona o ranked?', 'Nos jogos de luta com ranked, você busca um adversário e joga uma série FT2: vence quem ganhar duas lutas primeiro. O placar sai da memória do jogo, cada série dá ou tira pontos de elo, do Cobre à Ametista, e os 50 melhores aparecem no ranking. Abandonar conta como derrota.', ['ranked', 'rank', 'ranks', 'elo', 'elos', 'ranking', 'ft2', 'serie', 'competitivo', 'pontos', 'luta']],
 ]
 const HELP_GREETING = 'Oi! Eu sou o Cloudly. Pode escrever sua dúvida ou tocar numa das sugestões.'
 const HELP_UNKNOWN = 'Ainda não sei responder isso. Veja se uma destas ajuda:'

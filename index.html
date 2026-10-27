@@ -166,6 +166,24 @@
                   <span class="app-feature" style="--i: 3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11l3 3v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" /><path d="M8 3v5h7V3M7 21v-7h10v7" /></svg><span><strong>Sempre salvo</strong>3 slots + auto-save</span></span>
               </div>
 
+              <!-- Before the game opens, ranked: the elos stacked from Cobre up, and the camera climbing with the player to Ametista -->
+              <div class="app-ranked">
+                <div class="app-ranked-tower">
+                  <span class="app-elo is-copper" style="--i: 0"><img src="assets/pixel/rankCopper.svg" alt="" /><span><strong>Cobre</strong><small>0 pts</small></span></span>
+                  <span class="app-elo is-iron" style="--i: 1"><img src="assets/pixel/rankIron.svg" alt="" /><span><strong>Ferro</strong><small>3.500 pts</small></span></span>
+                  <span class="app-elo is-gold" style="--i: 2"><img src="assets/pixel/rankGold.svg" alt="" /><span><strong>Ouro</strong><small>7.000 pts</small></span></span>
+                  <span class="app-elo is-diamond" style="--i: 3"><img src="assets/pixel/rankDiamond.svg" alt="" /><span><strong>Diamante</strong><small>10.500 pts</small></span></span>
+                  <span class="app-elo is-emerald" style="--i: 4"><img src="assets/pixel/rankEmerald.svg" alt="" /><span><strong>Esmeralda</strong><small>14.000 pts</small></span></span>
+                  <span class="app-elo is-ruby" style="--i: 5"><img src="assets/pixel/rankRuby.svg" alt="" /><span><strong>Rubi</strong><small>17.500 pts</small></span></span>
+                  <span class="app-elo is-amethyst" style="--i: 6"><img src="assets/pixel/rankAmethyst.svg" alt="" /><span><strong>Ametista</strong><small>21.000 pts</small></span></span>
+                </div>
+                <img class="app-ranked-climber" src="assets/pixel/roboClimber.svg" alt="" />
+                <span class="app-ranked-copy">
+                  <span class="app-eyebrow">Ranked · FT2</span>
+                  <span>Vença séries FT2 no ranked e suba de elo até o topo.</span>
+                </span>
+              </div>
+
               <!-- Last scene: the logo built out of falling pixel blocks, then glitching -->
               <div class="app-outro">
                 <canvas class="app-outro-canvas" id="app-outro"></canvas>
@@ -181,7 +199,7 @@
                   <span class="app-dialog-text">É o nome que os outros jogadores veem nas salas e que seus amigos usam para te adicionar.</span>
                   <span class="app-field">
                     <span class="app-label">Nick</span>
-                    <span class="app-input"><span id="app-demo-nick"></span><span class="app-caret"></span><span class="app-placeholder">SeuNick_123</span></span>
+                    <span class="app-input"><span id="app-demo-nick"></span><span class="app-caret"></span><span class="app-placeholder">seu_nick</span></span>
                     <span class="app-note" id="app-demo-note">De 3 a 16 caracteres: letras, números e _. É por ele que seus amigos te encontram.</span>
                   </span>
                   <span class="app-step-button">Confirmar nick</span>
@@ -249,11 +267,38 @@
           <h2>Tudo o que um bom fliperama tem, sem sair do sofá.</h2>
         </header>
         <div class="bento">
+          <article class="bento-card bento-wide reveal">
+            <div class="bento-visual bento-ranked" aria-hidden="true">
+              <div class="ranked-screen">
+                <img class="ranked-screen-art" src="assets/games/kof2002-screenshot.webp" alt="" />
+                <span class="ranked-tag">Ranked · FT2</span>
+                <div class="room-scoreboard"><span class="room-scoreboard-name">id0ubl3g</span><strong class="room-scoreboard-score">2 × 1</strong><span class="room-scoreboard-name">Claude</span><span class="room-scoreboard-target">FT2</span></div>
+              </div>
+              <div class="ranked-side">
+                <div class="elo-card is-emerald">
+                  <div class="elo-card-header">
+                    <span class="elo-card-tier"><img src="assets/pixel/rankEmerald.svg" alt="" /><strong>Esmeralda III</strong></span>
+                    <span class="elo-card-points"><strong>16.120</strong> pts · #1</span>
+                  </div>
+                  <div class="elo-card-bar"><span class="elo-card-fill"></span></div>
+                  <p class="xp-progress-hint">Faltam 430 pts para Esmeralda II.</p>
+                </div>
+                <span class="series-result"><span aria-hidden="true">🏆</span>Você venceu a série FT2 · 2 × 1<span class="series-points">+190 pts</span></span>
+                <ol class="ranking-mini">
+                  <li class="is-emerald is-you"><span class="ranking-mini-pos">#1</span><img src="assets/pixel/rankEmerald.svg" alt="" /><strong>id0ubl3g</strong><span>Esmeralda III</span></li>
+                  <li class="is-diamond"><span class="ranking-mini-pos">#2</span><img src="assets/pixel/rankDiamond.svg" alt="" /><strong>Claude</strong><span>Diamante I</span></li>
+                </ol>
+              </div>
+            </div>
+            <h3>Ranked FT2</h3>
+            <p>Busque um adversário nos jogos de luta e vença duas lutas primeiro. O placar sai direto da memória do jogo, cada série vale pontos de elo, do Cobre à Ametista, e os 50 melhores entram no ranking.</p>
+          </article>
+
           <article class="bento-card reveal">
             <div class="bento-visual" aria-hidden="true">
               <ul class="room-seats">
-                <li class="room-seat is-ready"><span class="room-seat-badge">P1</span><img class="seat-avatar" src="assets/pixel/robo.svg" alt="" /><span class="room-seat-name">George <small>(você)</small></span><span class="device"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01" /></svg>Online</span></li>
-                <li class="room-seat is-ready"><span class="room-seat-badge">P2</span><img class="seat-avatar" src="assets/pixel/ninja.svg" alt="" /><span class="room-seat-name">Samuel</span><span class="device"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01" /></svg>Online</span></li>
+                <li class="room-seat is-ready"><span class="room-seat-badge">P1</span><img class="seat-avatar" src="assets/pixel/robo.svg" alt="" /><span class="room-seat-name">id0ubl3g <small>(você)</small></span><span class="device"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01" /></svg>Online</span></li>
+                <li class="room-seat is-ready"><span class="room-seat-badge">P2</span><img class="seat-avatar" src="assets/pixel/ninja.svg" alt="" /><span class="room-seat-name">ewt3000</span><span class="device"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01" /></svg>Online</span></li>
                 <li class="room-seat"><span class="room-seat-badge">P3</span><img class="seat-avatar" src="assets/pixel/gato.svg" alt="" /><span class="room-seat-name">Isadora</span><span class="device"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9h4M8 7v4M15 10h.01M18 8h.01" /><path d="M7 5h10a5 5 0 0 1 4.9 6l-1 5a3 3 0 0 1-5.2 1.3L14 16h-4l-1.7 1.3A3 3 0 0 1 3.1 16l-1-5A5 5 0 0 1 7 5z" /></svg>Local</span></li>
                 <li class="room-seat is-empty"><span class="room-seat-badge">P4</span><span class="room-seat-name">Vago</span></li>
               </ul>
@@ -279,11 +324,11 @@
             <div class="bento-visual" aria-hidden="true">
               <div class="xp-progress">
                 <div class="xp-progress-header">
-                  <span class="xp-progress-rank"><img src="assets/pixel/rankGold.svg" alt="" /><strong>Ouro III</strong></span>
-                  <span class="xp-progress-values"><strong>120</strong> / 300 XP</span>
+                  <span class="xp-progress-title">Nível 12</span>
+                  <span class="xp-progress-values"><strong>240</strong> / 600 XP</span>
                 </div>
                 <div class="xp-progress-track"><span class="xp-progress-level">LV <strong>12</strong></span><div class="xp-progress-bar"><span class="xp-progress-fill"></span></div></div>
-                <p class="xp-progress-hint">Faltam 180 XP para Ouro II.</p>
+                <p class="xp-progress-hint">Faltam 360 XP para o nível 13.</p>
               </div>
               <div class="arcade-tile streak-tile">
                 <div class="arcade-tile-header"><span class="arcade-tile-label">Combo</span><span class="arcade-tile-meta">Recorde 9</span></div>
@@ -293,8 +338,8 @@
                 </ol>
               </div>
             </div>
-            <h3>XP, elos e combo</h3>
-            <p>Cada partida rende XP. Suba do Cobre à Ametista e mantenha o combo de dias seguidos.</p>
+            <h3>XP, nível e combo</h3>
+            <p>Toda partida rende XP, casual ou ranked. Suba de nível e mantenha o combo de dias seguidos.</p>
           </article>
 
           <article class="bento-card reveal">
@@ -308,7 +353,7 @@
                 </div>
                 <div class="tv-card-body">
                   <span class="tv-card-title">Final da sala</span>
-                  <span class="live-players"><strong>George</strong><img class="rank-icon" src="assets/pixel/rankGold.svg" alt="" /><span class="live-players-sep">vs</span><strong>Claude</strong><img class="rank-icon" src="assets/pixel/rankDiamond.svg" alt="" /></span>
+                  <span class="live-players"><strong>id0ubl3g</strong><img class="rank-icon" src="assets/pixel/rankEmerald.svg" alt="" /><span class="live-players-sep">vs</span><strong>Claude</strong><img class="rank-icon" src="assets/pixel/rankDiamond.svg" alt="" /></span>
                   <span class="card-meta">Versus · Público</span>
                 </div>
               </div>
