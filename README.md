@@ -9,7 +9,7 @@
 </div>
 
 <p align="center">
-  <img src=".github/home.png" alt="Opening screen with the headline over a sketch of the app on a monitor, and the early access and how it works buttons below" width="100%">
+  <img src=".github/home.png" alt="Opening screen with the slogan and the headline over a sketch of the app on a TV, and the early access and how it works buttons below" width="100%">
 </p>
 
 <!-- markdownlint-enable MD033 -->
@@ -33,15 +33,15 @@
 
 ## Overview
 
-Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and no build step, that presents [Cloudly Game](https://github.com/id0ubl3g/cloudly-game-react) to people who have not played it yet and gathers early access sign-ups. It shows the consoles in the catalog, the main features drawn as real pieces of the app interface, a short level-select walkthrough and a sign-up form. Each sign-up is sent by email to the Cloudly Game inbox through Web3Forms, so nothing is stored in the [Cloudly Game Flask API](https://github.com/id0ubl3g/cloudly-game-flask-api) or in a database. Cloudly, the mascot, sits in the corner as a help chat that answers the frequent questions.
+Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and no build step, that presents [Cloudly Game](https://github.com/id0ubl3g/cloudly-game-react) to people who have not played it yet and gathers early access sign-ups. It opens on an animated tour of the app, then shows ranked and the main features drawn as real pieces of the app interface, a short level-select walkthrough and a sign-up form. Each sign-up is sent by email to the Cloudly Game inbox through Web3Forms, so nothing is stored in the [Cloudly Game Flask API](https://github.com/id0ubl3g/cloudly-game-flask-api) or in a database. Cloudly, the mascot, sits in the corner as a help chat that answers the frequent questions.
 
 ## Features
 
 - Loading screen with Cloudly spitting bolts, the same as in the frontend, that covers the page until its styles, fonts and images are in (fonts and images are waited for 5 seconds at most), so the page never shows unstyled. On the first visit of the session it stays at least 2 seconds
-- Opening screen with the headline, the highlights (consoles, players per match, nothing to install), the early access button and the eleven consoles side by side, all on the first screen from phones to wide monitors
-- Tour on the app sketch, on a loop: the headline, the consoles, the highlights, the devices, a first visit with the nick and the photo, then ranked, with the seven elos stacked from Cobre and the camera climbing with the player to Ametista, a game opening and the logo built from falling pixels
-- Consoles shown as round badges with the same colors and glyphs as the console shelf of the app
-- Features led by a wide ranked card, with the FT2 scoreboard over a fighting game, the elo card, the series result and the top of the ranking, followed by six equal squares, each with a piece of the app interface: a live card, the clip button, a room with online and local seats, save slots with the resume point, the level with the XP bar and the daily combo, and the devices it runs on
+- Opening screen with a sketch of the app home on a screen, and the early access and how it works buttons below, all on the first screen from phones to wide monitors
+- Tour on the app sketch, on a loop: the slogan **Da nuvem até a sua tela** and the headline, the consoles, the highlights (in the cloud, low latency, multiplayer, always saved), the screen turning into a phone, tablet, computer and TV, a first visit with the nick and the photo, then ranked, with the seven elos stacked from Cobre and the camera climbing with the player to Ametista, a game opening and the logo built from falling pixels
+- The eleven consoles pop up in the tour as bubbles with the same colors and glyphs as the console shelf of the app
+- Features led by a wide ranked card, with the FT2 scoreboard over a fighting game, the elo card, the series result and the top of the ranking, followed by six equal squares, each with a piece of the app interface: a room with online and local seats, save slots with the resume point, the level with the XP bar and the daily combo, a live card, the clip button and the devices it runs on
 - **Como funciona** as a level select: three stages joined by a dotted trail and a boss stage that leads to the sign-up form
 - Early access form in one card with two panes, like the sign-in screen of the app: name, email, an optional Brazilian mobile number, the consoles the person most wants to play and the consent to receive emails
 - Sign-ups sent by email through Web3Forms, with the traffic source (`utm_*` and the referring site) and the consent time, a notice when the email service is slow and an error that tells a slow service apart from a lost connection
@@ -55,7 +55,7 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
 <!-- markdownlint-disable MD033 -->
 
 <p align="center">
-  <img src=".github/features.png" alt="Features section with six squares showing a live card, the clip button, a room with online and local seats, save slots, the rank with the XP bar and combo, and the supported devices" width="100%">
+  <img src=".github/features.png" alt="Features section with the wide ranked card, with the FT2 scoreboard over The King of Fighters 2002, the elo card and the ranking, above six squares showing a room with online and local seats, save slots, the level with the XP bar and combo, a live card, the clip button and the supported devices" width="100%">
 </p>
 
 <!-- markdownlint-enable MD033 -->
@@ -64,7 +64,7 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
 
 | Anchor | Section |
 | ------ | ------- |
-| `#abertura` | Headline, highlights, buttons and consoles |
+| `#abertura` | Tour on the app sketch and the buttons |
 | `#recursos` | Ranked in a wide card and the other features in six squares |
 | `#como-funciona` | Level select from choosing a game to the sign-up |
 | `#lista` | Early access form |
@@ -163,7 +163,7 @@ To publish it, upload the folder to any static host. Web3Forms only accepts sign
 
 ### From the First Visit to the Sign-Up
 
-1. The person opens the page and sees the headline, the highlights and the eleven consoles on the first screen.
+1. The person opens the page and the tour on the app sketch starts with the slogan and the headline, then goes through the consoles, the highlights, the devices, a first visit and ranked.
 2. **Ver como funciona** puts the level select in the middle of the screen, and the boss stage **Continuar ▸** goes to the form. **Quero acesso antecipado** goes straight there.
 3. The person fills in the name and email, optionally the mobile number and the consoles, accepts the consent and presses **Quero acesso antecipado**.
 4. The form checks the fields in the browser and sends the sign-up. If the email service takes more than 5 seconds, the page says so and keeps waiting.
@@ -209,9 +209,9 @@ To publish it, upload the folder to any static host. Web3Forms only accepts sign
 
 ## How the Page Follows the App
 
-1. Colors, radii, buttons, the console shelf colors and glyphs, the live card, the room seats, the save slots, the XP bar, the combo tile, the ranked scoreboard and the elo card copy the styles of the frontend, so the page looks like the product.
+1. Colors, radii, buttons, the console shelf colors and glyphs, the live card, the room seats, the save slots, the XP bar, the combo tile, the ranked scoreboard, the elo card and the ranking copy the styles of the frontend, so the page looks like the product. The app, in turn, uses the footer and the loading screen of the page.
 2. The pixel art (rank icons, avatars, flame, cartridge, stopwatch, heart and token) is generated from the sprite patterns of the frontend and saved as SVG files.
-3. The names, numbers and rewards shown in the features match what the platform does, such as eleven consoles, up to four players, three save slots, levels earned with XP in any match, ranked series in FT2 and elos from Cobre to Ametista earned only in ranked.
+3. The names, numbers and rewards shown in the features match what the platform does, such as eleven consoles, up to four players, three save slots, levels earned with XP in any match and shown as a number, apart from the elo, ranked series in FT2 in the fighting games that have ranked switched on, elos from Cobre to Ametista earned only in ranked and the top 50 in the ranking.
 
 ## License
 
