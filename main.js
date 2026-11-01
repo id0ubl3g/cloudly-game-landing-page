@@ -5,7 +5,7 @@ const FORM_ACCESS_KEY = '371877e7-16ec-4de5-bb97-84d0d2cfa18f'
 const SLOW_NOTICE_MS = 5000
 const SUBMIT_TIMEOUT_MS = 120000
 
-// Same order, names, colors and glyphs as the console shelf on the app home
+// Same names and colors as the console shelf on the app home
 const PLATFORMS = [
   ['neogeo', 'NEO GEO', 'Neo Geo', '#e53935', 'Arcade doméstico'],
   ['arcade', 'ARCADE', 'Arcade', '#ff6d00', 'Fliperama'],
@@ -19,26 +19,6 @@ const PLATFORMS = [
   ['nds', 'DS', 'Nintendo DS', '#90a4ae', 'Portátil de duas telas'],
   ['n64', 'N64', 'Nintendo 64', '#2e7d32', 'Console de mesa'],
 ]
-
-const dpad = (x, y, size = 30) => {
-  const arm = size / 3
-  return `<path class="glyph-fill" d="M${x - arm / 2} ${y - size / 2}h${arm}v${arm}h${arm}v${arm}h-${arm}v${arm}h-${arm}v-${arm}h-${arm}v-${arm}h${arm}z" />`
-}
-const dots = (points, radius = 10) => points.map(([cx, cy]) => `<circle class="glyph-fill" cx="${cx}" cy="${cy}" r="${radius}" />`).join('')
-const handheld = `<path class="glyph-body" d="M68 6H132A6 6 0 0 1 138 12V104A22 22 0 0 1 116 126H68A6 6 0 0 1 62 120V12A6 6 0 0 1 68 6Z" /><rect class="glyph-screen" x="74" y="18" width="52" height="42" rx="3" />${dpad(84, 88, 24)}${dots([[112, 92], [126, 82]], 7)}`
-const GLYPHS = {
-  nes: `<rect class="glyph-body" x="14" y="32" width="172" height="68" rx="10" />${dpad(52, 66)}${dots([[138, 70], [164, 70]], 12)}`,
-  snes: `<rect class="glyph-body" x="10" y="24" width="180" height="84" rx="42" />${dpad(56, 66)}${dots([[146, 46], [146, 86], [126, 66], [166, 66]], 10)}`,
-  megadrive: `<path class="glyph-body" d="M30 38Q100 18 170 38Q198 50 188 86Q180 114 150 102Q100 86 50 102Q20 114 12 86Q2 50 30 38Z" />${dpad(54, 62)}${dots([[124, 76], [146, 66], [168, 56]], 11)}`,
-  mastersystem: `<rect class="glyph-body" x="16" y="34" width="168" height="64" rx="6" />${dpad(54, 66)}${dots([[132, 66], [160, 66]], 13)}`,
-  neogeo: `<path class="glyph-body" d="M14 76H186L174 118H26Z" /><path class="glyph-line" d="M52 78V34" /><circle class="glyph-fill" cx="52" cy="26" r="18" />${dots([[96, 98], [120, 92], [144, 90], [168, 94]], 10)}`,
-  arcade: `<path class="glyph-body" d="M14 76H186L174 118H26Z" /><path class="glyph-line" d="M48 78V34" /><circle class="glyph-fill" cx="48" cy="26" r="18" />${dots([[104, 90], [130, 88], [156, 90], [104, 108], [130, 106], [156, 108]], 8)}`,
-  gb: handheld,
-  gbc: handheld,
-  gba: `<path class="glyph-body" d="M44 28H156Q192 28 192 64V70Q192 106 156 106H44Q8 106 8 70V64Q8 28 44 28Z" /><rect class="glyph-screen" x="64" y="40" width="72" height="52" rx="3" />${dpad(36, 66, 24)}${dots([[160, 72], [176, 60]], 8)}`,
-  nds: '<rect class="glyph-body" x="52" y="4" width="96" height="58" rx="8" /><rect class="glyph-screen" x="66" y="14" width="68" height="40" rx="2" /><rect class="glyph-body" x="52" y="68" width="96" height="58" rx="8" /><rect class="glyph-screen" x="80" y="78" width="40" height="38" rx="2" />',
-}
-GLYPHS.n64 = GLYPHS.snes
 
 const SOURCE_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
 const SOURCE_KEY = 'cloudly-landing-source'
@@ -73,16 +53,42 @@ loaderDone.then(() => {
 })
 document.getElementById('year').textContent = new Date().getFullYear()
 
-const chips = document.getElementById('console-chips')
-const bubbles = document.getElementById('app-bubbles')
-for (const [id, label, name, color, kind] of PLATFORMS) {
-  const bubble = document.createElement('span')
-  bubble.className = 'app-bubble'
-  bubble.style.setProperty('--console-color', color)
-  bubble.style.setProperty('--i', bubbles.children.length)
-  bubble.innerHTML = `<span class="app-bubble-shell"></span><span class="app-bubble-burst"></span><span class="app-bubble-console"><span class="console-orb-circle"><svg class="console-glyph" viewBox="0 0 200 130">${GLYPHS[id]}</svg></span><span class="app-bubble-name">${name}</span></span>`
-  bubbles.append(bubble)
+const SHOWCASE = [
+  ['neogeo', 25, 320 / 205],
+  ['arcade', 19, 180 / 240],
+  ['gba', 17, 303 / 210],
+  ['nds', 8, 242 / 240],
+  ['nes', 7, 312 / 240],
+  ['gb', 5, 194 / 240],
+  ['megadrive', 5, 320 / 222],
+  ['snes', 4, 287 / 240],
+  ['gbc', 3, 172 / 240],
+  ['n64', 2, 320 / 209],
+  ['mastersystem', 1, 320 / 198],
+]
+const SHOWCASE_AREA = 0.72
+const platformById = Object.fromEntries(PLATFORMS.map((platform) => [platform[0], platform]))
+const consoleArt = (id, ratio) => `<img src="assets/consoles/${id}.webp" alt="" style="height: ${Math.min(100, (SHOWCASE_AREA / Math.sqrt(ratio)) * 100).toFixed(1)}%" draggable="false" />`
 
+const showcase = document.getElementById('app-consoles')
+const shelf = document.getElementById('app-shelf')
+for (const [index, [id, count, ratio]] of SHOWCASE.entries()) {
+  const [, label, , color] = platformById[id]
+  const item = document.createElement('span')
+  item.className = 'app-console'
+  item.style.setProperty('--i', index)
+  item.style.setProperty('--console-color', color)
+  item.innerHTML = `<span class="app-console-art"><span class="app-console-glow"></span>${consoleArt(id, ratio)}</span><span class="app-console-name">${label}</span><span class="app-console-count">${count} ${count === 1 ? 'jogo' : 'jogos'}</span>`
+  showcase.append(item)
+
+  const shelfItem = document.createElement('span')
+  shelfItem.className = 'app-shelf-item'
+  shelfItem.innerHTML = `<span class="app-shelf-art">${consoleArt(id, ratio)}</span><span>${label}</span>`
+  shelf.append(shelfItem)
+}
+
+const chips = document.getElementById('console-chips')
+for (const [id, label, , color] of PLATFORMS) {
   const chip = document.createElement('label')
   chip.className = 'chip'
   chip.style.setProperty('--chip-color', color)
@@ -91,7 +97,7 @@ for (const [id, label, name, color, kind] of PLATFORMS) {
 }
 
 // The app sketch in the hero plays on a loop. It opens with the headline writing itself on the screen,
-// then the consoles pop on it as bubbles, then the highlights come in one by one, then the screen passes through a phone, a tablet, a computer
+// then the consoles rise on the shelf, then the highlights come in one by one, then the screen passes through a phone, a tablet, a computer
 // and a TV with one word of "Jogue de qualquer lugar" on each; then it plays a first visit with the same steps and copy as the app:
 // the nick is typed and confirmed, a photo is picked, the camera climbs the stacked elos of ranked from Cobre
 // to Ametista, a game opens on the loading screen, and it ends on the logo built out of falling pixel blocks, glitching now and then.
@@ -118,6 +124,8 @@ const DEMO_NICK = 'id0ubl3g'
 const appOutro = document.getElementById('app-outro')
 // The mascot inlined in the loading screen: a data URL never taints the canvas, even with the page opened from disk
 const OUTRO_MASCOT = document.querySelector('.page-loader-cloud').src
+const OUTRO_MASCOT_SHARP = 'assets/mascot.png'
+const OUTRO_FADE = 700
 const OUTRO_CELL = 4
 const OUTRO_COLUMNS = 46
 const OUTRO_GLITCH = ['#00e5ff', '#ff2bd6', '#ffffff']
@@ -135,7 +143,9 @@ function outroColor(stops, at) {
 async function prepareOutro() {
   const mascot = new Image()
   mascot.src = OUTRO_MASCOT
-  await Promise.all([mascot.decode(), document.fonts.load('24px Silkscreen')])
+  const sharpMascot = new Image()
+  sharpMascot.src = OUTRO_MASCOT_SHARP
+  await Promise.all([mascot.decode(), sharpMascot.decode(), document.fonts.load('24px Silkscreen')])
   const sampler = document.createElement('canvas').getContext('2d', { willReadFrequently: true })
   const rows = Math.round((OUTRO_COLUMNS * mascot.height) / mascot.width)
   sampler.canvas.width = OUTRO_COLUMNS
@@ -171,13 +181,13 @@ async function prepareOutro() {
   }
   const textTop = Math.min(...textCells.map((cell) => cell.y))
   textCells.forEach((cell) => (cell.y -= textTop))
-  return { mascotCells, rows, textCells, textColumns, textRows: Math.max(...textCells.map((cell) => cell.y)) + 1 }
+  return { mascotCells, rows, textCells, textColumns, textTop, sharpMascot, textRows: Math.max(...textCells.map((cell) => cell.y)) + 1 }
 }
 
 // Plays the scene until the returned function is called
 async function playOutro() {
   outroArt ??= prepareOutro()
-  const { mascotCells, rows, textCells, textColumns, textRows } = await outroArt
+  const { mascotCells, rows, textCells, textColumns, textRows, textTop: textOffset, sharpMascot } = await outroArt
   const width = appOutro.clientWidth
   const height = appOutro.clientHeight
   const scale = Math.max(2, Math.ceil(devicePixelRatio * 1.25))
@@ -238,11 +248,21 @@ async function playOutro() {
     tintContext.fillRect(0, 0, canvas.width, canvas.height)
     return canvas
   }
+  const [sharp, sharpContext] = layer()
+  sharpContext.imageSmoothingQuality = 'high'
+  sharpContext.drawImage(sharpMascot, mascotLeft, top, OUTRO_COLUMNS * OUTRO_CELL, rows * OUTRO_CELL)
+  const textGradient = sharpContext.createLinearGradient(textLeft, 0, textLeft + textColumns * OUTRO_CELL, 0)
+  OUTRO_TEXT_COLORS.forEach((color, index) => textGradient.addColorStop(index / (OUTRO_TEXT_COLORS.length - 1), `rgb(${color.join()})`))
+  sharpContext.fillStyle = textGradient
+  sharpContext.font = `${(24 * OUTRO_CELL) / 3}px Silkscreen`
+  sharpContext.textBaseline = 'top'
+  sharpContext.fillText('CLOUDLY GAME', textLeft, textTop - textOffset * OUTRO_CELL)
   const cyan = tinted(OUTRO_GLITCH[0])
   const magenta = tinted(OUTRO_GLITCH[1])
 
-  // The logo glitches twice once it is whole, in short bursts
-  const bursts = [settled + 600, settled + 2200].map((at) => [at, at + 160 + Math.random() * 140])
+  // The logo glitches once it is whole, then the pixels fade into the sharp logo drawn on the same spot
+  const bursts = [settled + 500, settled + 1300].map((at) => [at, at + 160 + Math.random() * 140])
+  const official = bursts[1][1] + 60
   const pick = (list) => list[Math.floor(Math.random() * list.length)]
 
   function drawGlitch(strength) {
@@ -258,7 +278,7 @@ async function playOutro() {
       const bandTop = snap(top + Math.random() * lockupHeight)
       const bandHeight = OUTRO_CELL * (1 + Math.floor(Math.random() * 4))
       const shift = OUTRO_CELL * (Math.floor(Math.random() * 7) - 3)
-      context.fillStyle = '#070910'
+      context.fillStyle = '#080a12'
       context.fillRect(0, bandTop, width, bandHeight)
       context.drawImage(pick([art, art, cyan, magenta]), 0, bandTop * scale, appOutro.width, bandHeight * scale, shift, bandTop, width, bandHeight)
     }
@@ -310,6 +330,14 @@ async function playOutro() {
         // Redraws the noise every few frames, so it stutters instead of shimmering
         if (frame++ % 3 === 0) jitter = 1 + Math.floor(Math.random() * 2)
         drawGlitch(jitter)
+      } else if (time >= official) {
+        const fade = Math.min(1, (time - official) / OUTRO_FADE)
+        const eased = fade * fade * (3 - 2 * fade)
+        context.globalAlpha = 1 - eased
+        context.drawImage(art, 0, 0, width, height)
+        context.globalAlpha = eased
+        context.drawImage(sharp, 0, 0, width, height)
+        context.globalAlpha = 1
       } else {
         context.drawImage(art, 0, 0, width, height)
       }
@@ -579,7 +607,7 @@ function scrollToSection(target) {
 
 document.addEventListener('click', (event) => {
   const link = event.target.closest('a[href^="#"]')
-  if (!link || link.hasAttribute('data-open-help') || link.hasAttribute('data-open-privacy')) return
+  if (!link || link.hasAttribute('data-open-privacy')) return
   const target = document.querySelector(link.getAttribute('href'))
   if (!target) return
   event.preventDefault()
@@ -782,12 +810,6 @@ document.addEventListener('keydown', (event) => {
   closeHelp()
   helpLauncher.focus()
 })
-for (const link of document.querySelectorAll('a[data-open-help]')) {
-  link.addEventListener('click', (event) => {
-    event.preventDefault()
-    openHelp()
-  })
-}
 // The speech bubble shows once, a little after the TV has finished turning on
 setTimeout(() => {
   if (helpPanel.hidden && !helpStarted) helpBubble.classList.add('is-visible')
@@ -820,3 +842,22 @@ for (const element of document.querySelectorAll('.reveal')) {
   if (observer) observer.observe(element)
   else element.classList.add('is-visible')
 }
+
+const navLinks = [...document.querySelectorAll('.nav-links a[data-section]')]
+const navSections = navLinks.map((link) => document.getElementById(link.dataset.section)).filter(Boolean)
+function markSection() {
+  const line = window.scrollY + window.innerHeight * 0.35
+  let current = 'topo'
+  for (const section of navSections) {
+    if (section.id !== 'topo' && section.offsetTop <= line) current = section.id
+  }
+  for (const link of navLinks) {
+    const active = link.dataset.section === current
+    link.classList.toggle('is-active', active)
+    if (active) link.setAttribute('aria-current', 'true')
+    else link.removeAttribute('aria-current')
+  }
+}
+addEventListener('scroll', markSection, { passive: true })
+addEventListener('resize', markSection)
+markSection()
