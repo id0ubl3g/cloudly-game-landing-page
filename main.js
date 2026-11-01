@@ -1,35 +1,19 @@
-// Sign-ups are sent by email through Web3Forms; nothing is stored by the Cloudly Game API.
-// The access key only lets this form send to the inbox it was created for, so it is meant to be public.
-const FORM_ENDPOINT = 'https://api.web3forms.com/submit'
-const FORM_ACCESS_KEY = '371877e7-16ec-4de5-bb97-84d0d2cfa18f'
-const SLOW_NOTICE_MS = 5000
-const SUBMIT_TIMEOUT_MS = 120000
-
-// Same names and colors as the console shelf on the app home
 const PLATFORMS = [
-  ['neogeo', 'NEO GEO', 'Neo Geo', '#e53935', 'Arcade doméstico'],
-  ['arcade', 'ARCADE', 'Arcade', '#ff6d00', 'Fliperama'],
-  ['nes', 'NES', 'NES', '#c62828', 'Nintendo Entertainment System, console de mesa'],
-  ['snes', 'SNES', 'Super Nintendo', '#5c6bc0', 'Console de mesa'],
-  ['megadrive', 'MEGA DRIVE', 'Mega Drive', '#1e88e5', 'Console de mesa'],
-  ['mastersystem', 'MASTER SYSTEM', 'Master System', '#26a69a', 'Console de mesa'],
-  ['gb', 'GB', 'Game Boy', '#8bac0f', 'Portátil'],
-  ['gbc', 'GBC', 'Game Boy Color', '#ffb300', 'Portátil'],
-  ['gba', 'GBA', 'Game Boy Advance', '#7c4dff', 'Portátil'],
-  ['nds', 'DS', 'Nintendo DS', '#90a4ae', 'Portátil de duas telas'],
-  ['n64', 'N64', 'Nintendo 64', '#2e7d32', 'Console de mesa'],
+  ['neogeo', 'NEO GEO', 'Neo Geo', '#e53935'],
+  ['arcade', 'ARCADE', 'Arcade', '#ff6d00'],
+  ['nes', 'NES', 'NES', '#c62828'],
+  ['snes', 'SNES', 'Super Nintendo', '#5c6bc0'],
+  ['megadrive', 'MEGA DRIVE', 'Mega Drive', '#1e88e5'],
+  ['mastersystem', 'MASTER SYSTEM', 'Master System', '#26a69a'],
+  ['gb', 'GB', 'Game Boy', '#8bac0f'],
+  ['gbc', 'GBC', 'Game Boy Color', '#ffb300'],
+  ['gba', 'GBA', 'Game Boy Advance', '#7c4dff'],
+  ['nds', 'DS', 'Nintendo DS', '#90a4ae'],
+  ['n64', 'N64', 'Nintendo 64', '#2e7d32'],
 ]
-
-const SOURCE_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
-const SOURCE_KEY = 'cloudly-landing-source'
-const EMAIL_PATTERN = /^(?!.*\.\.)[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/
 
 document.documentElement.classList.remove('no-js')
 
-// The loading screen leaves once the page styles apply and the fonts and images are in. On a slow
-// connection it gives up waiting for fonts and images a few seconds after the page opened, but it
-// always waits for the styles, so the page never shows unstyled. On the first visit of the session
-// it also stays a short while, so Cloudly gets a moment on screen.
 const LOADER_MAX_MS = 5000
 const LOADER_MIN_MS = 2000
 const LOADER_SEEN_KEY = 'cloudly-loader-seen'
@@ -39,7 +23,6 @@ try {
   loaderSeen = sessionStorage.getItem(LOADER_SEEN_KEY) === '1'
   sessionStorage.setItem(LOADER_SEEN_KEY, '1')
 } catch {
-  // Storage can be blocked; the loading screen then just stays its short while every time
 }
 const loaderMinimum = new Promise((resolve) => setTimeout(resolve, loaderSeen ? 0 : Math.max(0, LOADER_MIN_MS - performance.now())))
 const mainCss = document.getElementById('main-css')
@@ -48,580 +31,70 @@ const pageLoaded = new Promise((resolve) => (document.readyState === 'complete' 
 const loaderDeadline = new Promise((resolve) => setTimeout(resolve, Math.max(0, LOADER_MAX_MS - performance.now())))
 const loaderDone = Promise.all([stylesReady, loaderMinimum, Promise.race([Promise.all([document.fonts.ready, pageLoaded]), loaderDeadline])])
 loaderDone.then(() => {
+  document.documentElement.classList.add('is-loaded')
   pageLoader.classList.add('is-done')
   pageLoader.addEventListener('transitionend', () => pageLoader.remove(), { once: true })
 })
 document.getElementById('year').textContent = new Date().getFullYear()
 
 const SHOWCASE = [
-  ['neogeo', 25, 320 / 205],
-  ['arcade', 19, 180 / 240],
-  ['gba', 17, 303 / 210],
-  ['nds', 8, 242 / 240],
-  ['nes', 7, 312 / 240],
-  ['gb', 5, 194 / 240],
-  ['megadrive', 5, 320 / 222],
-  ['snes', 4, 287 / 240],
-  ['gbc', 3, 172 / 240],
-  ['n64', 2, 320 / 209],
-  ['mastersystem', 1, 320 / 198],
+  ['neogeo', 320 / 205],
+  ['arcade', 180 / 240],
+  ['gba', 303 / 210],
+  ['nds', 242 / 240],
+  ['nes', 312 / 240],
+  ['gb', 194 / 240],
+  ['megadrive', 320 / 222],
+  ['snes', 287 / 240],
+  ['gbc', 172 / 240],
+  ['n64', 320 / 209],
+  ['mastersystem', 320 / 198],
 ]
 const SHOWCASE_AREA = 0.72
 const platformById = Object.fromEntries(PLATFORMS.map((platform) => [platform[0], platform]))
 const consoleArt = (id, ratio) => `<img src="assets/consoles/${id}.webp" alt="" style="height: ${Math.min(100, (SHOWCASE_AREA / Math.sqrt(ratio)) * 100).toFixed(1)}%" draggable="false" />`
 
-const showcase = document.getElementById('app-consoles')
 const shelf = document.getElementById('app-shelf')
-for (const [index, [id, count, ratio]] of SHOWCASE.entries()) {
-  const [, label, , color] = platformById[id]
+for (const [id, ratio] of SHOWCASE) {
   const item = document.createElement('span')
-  item.className = 'app-console'
-  item.style.setProperty('--i', index)
-  item.style.setProperty('--console-color', color)
-  item.innerHTML = `<span class="app-console-art"><span class="app-console-glow"></span>${consoleArt(id, ratio)}</span><span class="app-console-name">${label}</span><span class="app-console-count">${count} ${count === 1 ? 'jogo' : 'jogos'}</span>`
-  showcase.append(item)
-
-  const shelfItem = document.createElement('span')
-  shelfItem.className = 'app-shelf-item'
-  shelfItem.innerHTML = `<span class="app-shelf-art">${consoleArt(id, ratio)}</span><span>${label}</span>`
-  shelf.append(shelfItem)
+  item.className = 'app-shelf-item'
+  item.innerHTML = `<span class="app-shelf-art">${consoleArt(id, ratio)}</span><span>${platformById[id][1]}</span>`
+  shelf.append(item)
 }
-
-const chips = document.getElementById('console-chips')
-for (const [id, label, , color] of PLATFORMS) {
-  const chip = document.createElement('label')
-  chip.className = 'chip'
-  chip.style.setProperty('--chip-color', color)
-  chip.innerHTML = `<input type="checkbox" name="consoles" value="${id}" /><span>${label}</span>`
-  chips.append(chip)
-}
-
-// The app sketch in the hero plays on a loop. It opens with the headline writing itself on the screen,
-// then the consoles rise on the shelf, then the highlights come in one by one, then the screen passes through a phone, a tablet, a computer
-// and a TV with one word of "Jogue de qualquer lugar" on each; then it plays a first visit with the same steps and copy as the app:
-// the nick is typed and confirmed, a photo is picked, the camera climbs the stacked elos of ranked from Cobre
-// to Ametista, a game opens on the loading screen, and it ends on the logo built out of falling pixel blocks, glitching now and then.
-// With reduced motion it stays on the headline.
-const appDemo = document.getElementById('app-demo')
-const appDemoNick = document.getElementById('app-demo-nick')
-const appDemoNote = document.getElementById('app-demo-note')
-const appDemoProgress = document.getElementById('app-demo-progress')
-const appDemoStage = document.getElementById('app-demo-stage')
-const appDevice = document.getElementById('app-device')
-const appDeviceLabel = document.getElementById('app-device-label')
-const appTaglineWords = document.querySelectorAll('#app-tagline .app-tag-word')
-const DEMO_DEVICES = [
-  ['phone', 'Celular'],
-  ['tablet', 'Tablet'],
-  ['laptop', 'Computador'],
-  ['tv', 'TV'],
-]
-const nickStep = appDemo.querySelector('.app-step-nick')
-const avatarStep = appDemo.querySelector('.app-step-avatar')
-const DEMO_NICK = 'id0ubl3g'
-// Last scene: the mascot drops in as 2x2 pixel pieces that stack from the bottom like Tetris,
-// "Cloudly Game" glitches in under it, and then the whole logo glitches now and then, like a game character with a bug
-const appOutro = document.getElementById('app-outro')
-// The mascot inlined in the loading screen: a data URL never taints the canvas, even with the page opened from disk
-const OUTRO_MASCOT = document.querySelector('.page-loader-cloud').src
-const OUTRO_MASCOT_SHARP = 'assets/mascot.png'
-const OUTRO_FADE = 700
-const OUTRO_CELL = 4
-const OUTRO_COLUMNS = 46
-const OUTRO_GLITCH = ['#00e5ff', '#ff2bd6', '#ffffff']
-const OUTRO_TEXT_COLORS = [[63, 226, 255], [37, 139, 255], [139, 92, 246]]
-let outroArt = null
-
-function outroColor(stops, at) {
-  const scaled = Math.min(stops.length - 1.001, at * (stops.length - 1))
-  const [from, to] = [stops[Math.floor(scaled)], stops[Math.floor(scaled) + 1]]
-  const mix = scaled % 1
-  return `rgb(${from.map((value, index) => Math.round(value + (to[index] - value) * mix)).join()})`
-}
-
-// Samples the mascot and the name into cells, once, after the image and the pixel font are ready
-async function prepareOutro() {
-  const mascot = new Image()
-  mascot.src = OUTRO_MASCOT
-  const sharpMascot = new Image()
-  sharpMascot.src = OUTRO_MASCOT_SHARP
-  await Promise.all([mascot.decode(), sharpMascot.decode(), document.fonts.load('24px Silkscreen')])
-  const sampler = document.createElement('canvas').getContext('2d', { willReadFrequently: true })
-  const rows = Math.round((OUTRO_COLUMNS * mascot.height) / mascot.width)
-  sampler.canvas.width = OUTRO_COLUMNS
-  sampler.canvas.height = rows
-  sampler.drawImage(mascot, 0, 0, OUTRO_COLUMNS, rows)
-  const pixels = sampler.getImageData(0, 0, OUTRO_COLUMNS, rows).data
-  const mascotCells = []
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < OUTRO_COLUMNS; x++) {
-      const at = (y * OUTRO_COLUMNS + x) * 4
-      if (pixels[at + 3] > 128) mascotCells.push({ x, y, color: `rgb(${pixels[at]},${pixels[at + 1]},${pixels[at + 2]})` })
-    }
-  }
-
-  // Silkscreen sits on a pixel grid, so at 24px every 3px of the text is one font pixel
-  const TEXT = 'CLOUDLY GAME'
-  const FONT_PIXEL = 3
-  sampler.font = '24px Silkscreen'
-  const textColumns = Math.ceil(sampler.measureText(TEXT).width / FONT_PIXEL)
-  sampler.canvas.width = textColumns * FONT_PIXEL
-  sampler.canvas.height = 30
-  sampler.font = '24px Silkscreen'
-  sampler.textBaseline = 'top'
-  sampler.fillStyle = '#fff'
-  sampler.fillText(TEXT, 0, 0)
-  const text = sampler.getImageData(0, 0, sampler.canvas.width, sampler.canvas.height).data
-  const textCells = []
-  for (let y = 0; y < 10; y++) {
-    for (let x = 0; x < textColumns; x++) {
-      const at = ((y * FONT_PIXEL + 1) * sampler.canvas.width + x * FONT_PIXEL + 1) * 4
-      if (text[at + 3] > 128) textCells.push({ x, y, color: outroColor(OUTRO_TEXT_COLORS, x / textColumns) })
-    }
-  }
-  const textTop = Math.min(...textCells.map((cell) => cell.y))
-  textCells.forEach((cell) => (cell.y -= textTop))
-  return { mascotCells, rows, textCells, textColumns, textTop, sharpMascot, textRows: Math.max(...textCells.map((cell) => cell.y)) + 1 }
-}
-
-// Plays the scene until the returned function is called
-async function playOutro() {
-  outroArt ??= prepareOutro()
-  const { mascotCells, rows, textCells, textColumns, textRows, textTop: textOffset, sharpMascot } = await outroArt
-  const width = appOutro.clientWidth
-  const height = appOutro.clientHeight
-  const scale = Math.max(2, Math.ceil(devicePixelRatio * 1.25))
-  appOutro.width = width * scale
-  appOutro.height = height * scale
-  const context = appOutro.getContext('2d')
-  context.setTransform(scale, 0, 0, scale, 0, 0)
-
-  // Centers the mascot over the name, snapped to the cell grid so every block lines up
-  const snap = (value) => Math.round(value / OUTRO_CELL) * OUTRO_CELL
-  const lockupHeight = (rows + 3 + textRows) * OUTRO_CELL
-  const top = snap((height - lockupHeight) / 2)
-  const mascotLeft = snap((width - OUTRO_COLUMNS * OUTRO_CELL) / 2)
-  const textLeft = snap((width - textColumns * OUTRO_CELL) / 2)
-  const textTop = top + (rows + 3) * OUTRO_CELL
-
-  // Each 2x2 group of the mascot falls as one piece; the bottom rows land first so the stack builds up
-  const pieces = new Map()
-  for (const cell of mascotCells) {
-    const key = `${cell.x >> 1},${cell.y >> 1}`
-    if (!pieces.has(key)) pieces.set(key, { row: cell.y >> 1, cells: [] })
-    pieces.get(key).cells.push(cell)
-  }
-  const lastRow = (rows - 1) >> 1
-  for (const piece of pieces.values()) {
-    piece.start = (lastRow - piece.row) * 55 + Math.random() * 160
-    piece.drop = top + piece.row * 2 * OUTRO_CELL + 24 + Math.random() * 60
-    piece.fall = 320 + Math.random() * 120
-  }
-  const landed = Math.max(...[...pieces.values()].map((piece) => piece.start + piece.fall))
-  for (const cell of textCells) cell.start = landed + 150 + Math.random() * 650
-  const settled = landed + 950
-
-  // The finished logo, plus a cyan and a magenta copy for the split colors of the glitch
-  const layer = () => {
-    const canvas = document.createElement('canvas')
-    canvas.width = appOutro.width
-    canvas.height = appOutro.height
-    const layerContext = canvas.getContext('2d')
-    layerContext.setTransform(scale, 0, 0, scale, 0, 0)
-    return [canvas, layerContext]
-  }
-  const [art, artContext] = layer()
-  for (const cell of mascotCells) {
-    artContext.fillStyle = cell.color
-    artContext.fillRect(mascotLeft + cell.x * OUTRO_CELL, top + cell.y * OUTRO_CELL, OUTRO_CELL, OUTRO_CELL)
-  }
-  for (const cell of textCells) {
-    artContext.fillStyle = cell.color
-    artContext.fillRect(textLeft + cell.x * OUTRO_CELL, textTop + cell.y * OUTRO_CELL, OUTRO_CELL, OUTRO_CELL)
-  }
-  const tinted = (color) => {
-    const [canvas, tintContext] = layer()
-    tintContext.setTransform(1, 0, 0, 1, 0, 0)
-    tintContext.drawImage(art, 0, 0)
-    tintContext.globalCompositeOperation = 'source-in'
-    tintContext.fillStyle = color
-    tintContext.fillRect(0, 0, canvas.width, canvas.height)
-    return canvas
-  }
-  const [sharp, sharpContext] = layer()
-  sharpContext.imageSmoothingQuality = 'high'
-  sharpContext.drawImage(sharpMascot, mascotLeft, top, OUTRO_COLUMNS * OUTRO_CELL, rows * OUTRO_CELL)
-  const textGradient = sharpContext.createLinearGradient(textLeft, 0, textLeft + textColumns * OUTRO_CELL, 0)
-  OUTRO_TEXT_COLORS.forEach((color, index) => textGradient.addColorStop(index / (OUTRO_TEXT_COLORS.length - 1), `rgb(${color.join()})`))
-  sharpContext.fillStyle = textGradient
-  sharpContext.font = `${(24 * OUTRO_CELL) / 3}px Silkscreen`
-  sharpContext.textBaseline = 'top'
-  sharpContext.fillText('CLOUDLY GAME', textLeft, textTop - textOffset * OUTRO_CELL)
-  const cyan = tinted(OUTRO_GLITCH[0])
-  const magenta = tinted(OUTRO_GLITCH[1])
-
-  // The logo glitches once it is whole, then the pixels fade into the sharp logo drawn on the same spot
-  const bursts = [settled + 500, settled + 1300].map((at) => [at, at + 160 + Math.random() * 140])
-  const official = bursts[1][1] + 60
-  const pick = (list) => list[Math.floor(Math.random() * list.length)]
-
-  function drawGlitch(strength) {
-    context.globalAlpha = 0.75
-    context.globalCompositeOperation = 'lighter'
-    context.drawImage(cyan, -OUTRO_CELL * strength, 0, width, height)
-    context.drawImage(magenta, OUTRO_CELL * strength, 0, width, height)
-    context.globalCompositeOperation = 'source-over'
-    context.globalAlpha = 1
-    context.drawImage(art, 0, 0, width, height)
-    // Bands of the logo slide sideways, a whole number of cells, and the gap they leave stays dark
-    for (let band = 0; band < 3 + strength * 2; band++) {
-      const bandTop = snap(top + Math.random() * lockupHeight)
-      const bandHeight = OUTRO_CELL * (1 + Math.floor(Math.random() * 4))
-      const shift = OUTRO_CELL * (Math.floor(Math.random() * 7) - 3)
-      context.fillStyle = '#080a12'
-      context.fillRect(0, bandTop, width, bandHeight)
-      context.drawImage(pick([art, art, cyan, magenta]), 0, bandTop * scale, appOutro.width, bandHeight * scale, shift, bandTop, width, bandHeight)
-    }
-    // Stray pixels flicker around the logo
-    for (let index = 0; index < 14 * strength; index++) {
-      context.fillStyle = pick(OUTRO_GLITCH)
-      context.fillRect(snap(mascotLeft - 40 + Math.random() * (OUTRO_COLUMNS * OUTRO_CELL + 80)), snap(top + Math.random() * lockupHeight), OUTRO_CELL, OUTRO_CELL)
-    }
-  }
-
-  let frame = 0
-  let jitter = 0
-  const begin = performance.now()
-  function draw(now) {
-    const time = now - begin
-    context.clearRect(0, 0, width, height)
-    if (time < settled) {
-      for (const piece of pieces.values()) {
-        const progress = Math.min(1, Math.max(0, (time - piece.start) / piece.fall))
-        if (time < piece.start) continue
-        // Falls with gravity, moving a cell at a time like a Tetris piece
-        const lift = snap(piece.drop * (1 - progress * progress))
-        const flash = time - piece.start - piece.fall
-        for (const cell of piece.cells) {
-          const x = mascotLeft + cell.x * OUTRO_CELL
-          const y = top + cell.y * OUTRO_CELL - lift
-          context.fillStyle = cell.color
-          context.fillRect(x, y, OUTRO_CELL, OUTRO_CELL)
-          if (progress < 1) {
-            context.fillStyle = 'rgba(255, 255, 255, 0.22)'
-            context.fillRect(x, y, OUTRO_CELL, 1)
-          } else if (flash < 140) {
-            context.fillStyle = `rgba(255, 255, 255, ${0.6 * (1 - flash / 140)})`
-            context.fillRect(x, y, OUTRO_CELL, OUTRO_CELL)
-          }
-        }
-      }
-      // The name blinks in a pixel at a time, each one off by a cell and in a glitch color at first
-      for (const cell of textCells) {
-        const since = time - cell.start
-        if (since < 0) continue
-        const glitching = since < 160
-        context.fillStyle = glitching ? pick(OUTRO_GLITCH) : cell.color
-        context.fillRect(textLeft + (cell.x + (glitching ? Math.round(Math.random() * 2 - 1) : 0)) * OUTRO_CELL, textTop + cell.y * OUTRO_CELL, OUTRO_CELL, OUTRO_CELL)
-      }
-    } else {
-      const burst = bursts.find(([from, to]) => time >= from && time < to)
-      if (burst) {
-        // Redraws the noise every few frames, so it stutters instead of shimmering
-        if (frame++ % 3 === 0) jitter = 1 + Math.floor(Math.random() * 2)
-        drawGlitch(jitter)
-      } else if (time >= official) {
-        const fade = Math.min(1, (time - official) / OUTRO_FADE)
-        const eased = fade * fade * (3 - 2 * fade)
-        context.globalAlpha = 1 - eased
-        context.drawImage(art, 0, 0, width, height)
-        context.globalAlpha = eased
-        context.drawImage(sharp, 0, 0, width, height)
-        context.globalAlpha = 1
-      } else {
-        context.drawImage(art, 0, 0, width, height)
-      }
-    }
-    request = requestAnimationFrame(draw)
-  }
-  let request = requestAnimationFrame(draw)
-  return () => cancelAnimationFrame(request)
-}
-const NICK_HINT = appDemoNote.textContent
-// Same labels and progress marks as the app while a session starts
-const DEMO_STAGES = [
-  [20, 'Reservando servidor'],
-  [40, 'Preparando servidor'],
-  [70, 'Iniciando emulador'],
-  [95, 'Carregando jogo'],
-  [100, 'Pronto'],
-]
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-
-function nickNote(text, ok = false) {
-  appDemoNote.textContent = text
-  appDemoNote.classList.toggle('is-ok', ok)
-}
-
-async function press(element) {
-  element.classList.add('is-pressed')
-  await wait(180)
-  element.classList.remove('is-pressed')
-}
-
-async function playFirstVisit() {
-  for (;;) {
-    appDemoNick.textContent = ''
-    nickNote(NICK_HINT)
-    nickStep.classList.remove('is-typing', 'is-valid')
-    avatarStep.classList.remove('is-picked')
-    appDemoProgress.style.width = '0%'
-    appDemoStage.textContent = DEMO_STAGES[0][1]
-    appTaglineWords.forEach((word) => word.classList.remove('is-on'))
-    appDevice.dataset.device = 'tv'
-    appDemo.dataset.step = 'intro'
-    await wait(5500)
-    appDemo.dataset.step = 'consoles'
-    await wait(4600)
-    appDemo.dataset.step = 'features'
-    await wait(4200)
-    appDemo.dataset.step = 'devices'
-    appDevice.classList.add('is-showing-devices')
-    for (const [index, [device, label]] of DEMO_DEVICES.entries()) {
-      appDevice.dataset.device = device
-      appDeviceLabel.textContent = label
-      appTaglineWords.forEach((word) => word.classList.remove('is-on'))
-      await wait(250)
-      appTaglineWords[index].classList.add('is-on')
-      await wait(850)
-    }
-    await wait(400)
-    appDevice.classList.remove('is-showing-devices')
-    appDemo.dataset.step = 'nick'
-    await wait(900)
-    nickStep.classList.add('is-typing')
-    for (const letter of DEMO_NICK) {
-      appDemoNick.textContent += letter
-      if (appDemoNick.textContent.length >= 3) nickNote('Verificando…')
-      await wait(130)
-    }
-    await wait(500)
-    nickNote('Disponível!', true)
-    nickStep.classList.add('is-valid')
-    await wait(900)
-    await press(nickStep.querySelector('.app-step-button'))
-    appDemo.dataset.step = 'avatar'
-    await wait(1400)
-    await press(avatarStep.querySelector('.app-option.is-robo'))
-    avatarStep.classList.add('is-picked')
-    await wait(800)
-    appDemo.dataset.step = 'ranked'
-    await wait(8800)
-    appDemo.dataset.step = 'loading'
-    for (const [progress, label] of DEMO_STAGES) {
-      await wait(900)
-      appDemoProgress.style.width = `${progress}%`
-      appDemoStage.textContent = label
-    }
-    await wait(1200)
-    // A scene that fails to draw is skipped, so the loop never stalls on it
-    const stopOutro = await playOutro().catch(() => () => {})
-    appDemo.dataset.step = 'outro'
-    await wait(6500)
-    appDemo.dataset.step = 'intro'
-    // Keeps drawing while the scene fades out
-    await wait(500)
-    stopOutro()
-  }
-}
-
-if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  // Starts once the loading screen is gone, so the headline is the first thing seen
-  loaderDone.then(playFirstVisit)
-}
-
-// The first visit is the one that brought the person, so later visits in the same tab keep it
-function trafficSource() {
-  try {
-    const saved = sessionStorage.getItem(SOURCE_KEY)
-    if (saved) return JSON.parse(saved)
-  } catch {
-    // Storage can be blocked; the current URL still has the campaign
-  }
-  const params = new URLSearchParams(location.search)
-  const source = {}
-  for (const field of SOURCE_FIELDS) {
-    const value = params.get(field)
-    if (value) source[field] = value.slice(0, 300)
-  }
-  if (document.referrer && !document.referrer.startsWith(location.origin)) source.referrer = document.referrer.slice(0, 300)
-  try {
-    sessionStorage.setItem(SOURCE_KEY, JSON.stringify(source))
-  } catch {
-    // Same as above
-  }
-  return source
-}
-const source = trafficSource()
-
-const form = document.getElementById('lead-form')
-const nameInput = document.getElementById('name')
-const emailInput = document.getElementById('email')
-const phoneInput = document.getElementById('phone')
-const consentInput = document.getElementById('consent')
-const submitButton = document.getElementById('submit')
-const status = document.getElementById('form-status')
-
-function phoneDigits(value) {
-  let digits = value.replace(/\D/g, '')
-  if (digits.length > 11 && digits.startsWith('55')) digits = digits.slice(2)
-  return digits.slice(0, 11)
-}
-
-function formatPhone(digits) {
-  if (digits.length <= 2) return digits ? `(${digits}` : ''
-  if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`
-  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`
-}
-
-phoneInput.addEventListener('input', () => {
-  phoneInput.value = formatPhone(phoneDigits(phoneInput.value))
-})
-
-function setError(input, message) {
-  const error = document.getElementById(`${input.id}-error`)
-  error.textContent = message
-  input.setAttribute('aria-invalid', message ? 'true' : 'false')
-}
-
-function validate() {
-  const name = nameInput.value.trim().replace(/\s+/g, ' ')
-  const email = emailInput.value.trim().toLowerCase()
-  const phone = phoneDigits(phoneInput.value)
-  const errors = [
-    [nameInput, name.length < 2 ? 'Conta pra gente como te chamar.' : ''],
-    [emailInput, !EMAIL_PATTERN.test(email) ? 'Digite um e-mail válido.' : ''],
-    [phoneInput, phone && !/^[1-9]{2}9[0-9]{8}$/.test(phone) ? 'Use um celular com DDD, como (11) 91234-5678.' : ''],
-    [consentInput, consentInput.checked ? '' : 'Precisamos do seu aceite para te avisar.'],
-  ]
-  for (const [input, message] of errors) setError(input, message)
-  const firstInvalid = errors.find(([, message]) => message)
-  if (firstInvalid) {
-    firstInvalid[0].focus()
-    return null
-  }
-  return { name, email, phone: phone ? `+55${phone}` : '' }
-}
-
-for (const input of [nameInput, emailInput, phoneInput, consentInput]) {
-  input.addEventListener('change', () => {
-    if (input.getAttribute('aria-invalid') === 'true') validate()
-  })
-}
-
-function showSuccess(name) {
-  form.hidden = true
-  const success = document.getElementById('success')
-  document.getElementById('success-name').textContent = name.split(' ')[0]
-  success.hidden = false
-  success.classList.add('is-visible')
-  scrollToSection(success)
-}
-
-form.addEventListener('submit', async (event) => {
-  event.preventDefault()
-  status.textContent = ''
-  status.classList.remove('is-error')
-  const lead = validate()
-  if (!lead) return
-
-  // Bots fill the hidden field; they get the same thank you and nothing is sent
-  if (document.getElementById('website').value) {
-    showSuccess(lead.name)
-    return
-  }
-
-  const consoles = [...form.querySelectorAll('input[name="consoles"]:checked')].map((input) => input.nextElementSibling.textContent)
-  const payload = {
-    access_key: FORM_ACCESS_KEY,
-    subject: `Novo inscrito no acesso antecipado: ${lead.name}`,
-    from_name: 'Cloudly Game',
-    replyto: lead.email,
-    botcheck: '',
-    Nome: lead.name,
-    'E-mail': lead.email,
-    Celular: lead.phone || 'não informado',
-    Consoles: consoles.join(', ') || 'nenhum escolhido',
-    Origem: Object.entries(source).map(([key, value]) => `${key}=${value}`).join(' · ') || 'acesso direto',
-    Consentimento: `aceito em ${new Date().toISOString()}`,
-  }
-
-  submitButton.disabled = true
-  submitButton.classList.add('is-loading')
-  // If the email service is slow, the page says so and waits up to two minutes
-  const slowNotice = setTimeout(() => {
-    status.textContent = 'Enviando… o serviço de e-mail está demorando um pouco, não feche a página.'
-  }, SLOW_NOTICE_MS)
-  const timeout = new AbortController()
-  const abort = setTimeout(() => timeout.abort(), SUBMIT_TIMEOUT_MS)
-  try {
-    // Sent as a plain form so the browser skips the CORS preflight, which Web3Forms' firewall rejects
-    const body = new FormData()
-    for (const [key, value] of Object.entries(payload)) body.append(key, value)
-    const response = await fetch(FORM_ENDPOINT, {
-      method: 'POST',
-      headers: { Accept: 'application/json' },
-      body,
-      signal: timeout.signal,
-    })
-    const result = await response.json().catch(() => ({}))
-    if (!response.ok || result.success !== true) throw new Error(result.message || `HTTP ${response.status}`)
-    status.textContent = ''
-    showSuccess(lead.name)
-  } catch (error) {
-    console.error('Sign-up failed', error)
-    status.textContent = navigator.onLine
-      ? 'Não conseguimos enviar agora. O serviço de e-mail está instável; tente de novo em instantes.'
-      : 'Parece que você está sem internet. Confira sua conexão e tente de novo.'
-    status.classList.add('is-error')
-  } finally {
-    clearTimeout(slowNotice)
-    clearTimeout(abort)
-    submitButton.disabled = false
-    submitButton.classList.remove('is-loading')
-  }
-})
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
 
-// In-page links put the section's content in the middle of the screen. A section taller
-// than the screen starts near the top instead, so nothing is cut off.
-function scrollToSection(target) {
-  const first = target.firstElementChild ?? target
-  const last = target.lastElementChild ?? target
-  const top = first.getBoundingClientRect().top
-  const height = last.getBoundingClientRect().bottom - top
-  const offset = height < innerHeight ? (innerHeight - height) / 2 : 24
-  scrollTo({ top: scrollY + top - offset, behavior: reducedMotion.matches ? 'auto' : 'smooth' })
-}
-
-document.addEventListener('click', (event) => {
-  const link = event.target.closest('a[href^="#"]')
-  if (!link || link.hasAttribute('data-open-privacy')) return
-  const target = document.querySelector(link.getAttribute('href'))
-  if (!target) return
-  event.preventDefault()
-  history.pushState(null, '', link.getAttribute('href'))
-  scrollToSection(target)
+const CONSOLE_SLIDE_MS = 2800
+const consoleShow = document.getElementById('console-show')
+const consoleDots = document.getElementById('console-show-dots')
+const consoleSlides = SHOWCASE.map(([id, ratio]) => {
+  const [, , name, color] = platformById[id]
+  const slide = document.createElement('figure')
+  slide.className = 'console-slide'
+  slide.style.setProperty('--console-color', color)
+  slide.innerHTML = `<span class="console-slide-art"><span class="console-slide-glow"></span>${consoleArt(id, ratio)}</span><figcaption><strong>${name}</strong></figcaption>`
+  consoleShow.append(slide)
+  const dot = document.createElement('i')
+  consoleDots.append(dot)
+  return [slide, dot]
 })
+let consoleIndex = 0
+function showConsole(next) {
+  const [slide, dot] = consoleSlides[consoleIndex]
+  slide.classList.remove('is-active')
+  dot.classList.remove('is-active')
+  consoleIndex = (next + consoleSlides.length) % consoleSlides.length
+  consoleSlides[consoleIndex][0].classList.add('is-active')
+  consoleSlides[consoleIndex][1].classList.add('is-active')
+}
+showConsole(0)
+setInterval(() => showConsole(consoleIndex + 1), CONSOLE_SLIDE_MS)
 
-// Help chat: Cloudly, the mascot, answers the frequent questions, picked from suggestions or typed.
-// Typed questions are matched by keywords in the browser; there is no server behind it.
 const HELP_QUESTIONS = [
   ['O que é o Cloudly Game?', 'Uma plataforma para jogar clássicos dos videogames direto no navegador. Os jogos rodam nos nossos servidores e chegam até você em vídeo, com resposta rápida aos seus comandos.', ['o que e', 'cloud game', 'cloudly game', 'cloudly', 'plataforma', 'como funciona', 'servidor', 'streaming']],
-  ['Quando a plataforma abre?', 'Estamos preparando o lançamento. Quem se inscreve no acesso antecipado recebe o aviso primeiro, assim que entrarmos no ar.', ['quando', 'lanca', 'lancamento', 'abre', 'data', 'no ar', 'disponivel', 'estreia']],
-  ['Como funciona o acesso antecipado?', 'Você deixa seu nome e e-mail no formulário desta página. Quando o Cloudly Game entrar no ar, avisamos você por e-mail antes de todo mundo.', ['acesso antecipado', 'antecipado', 'inscrever', 'inscricao', 'cadastro', 'lista', 'formulario', 'aviso', 'email']],
-  ['Preciso instalar alguma coisa?', 'Não. Basta abrir no navegador, no computador ou no celular.', ['instalar', 'baixar', 'download', 'app', 'aplicativo', 'programa', 'emulador']],
+  ['Quando a plataforma abre?', 'Em breve. Estamos nos últimos ajustes, e o botão Jogar agora desta página vai levar direto para a plataforma assim que ela entrar no ar.', ['quando', 'lanca', 'lancamento', 'abre', 'data', 'no ar', 'disponivel', 'estreia', 'em breve', 'jogar agora']],
+  ['Funciona na TV?', 'Funciona. Abra pelo navegador da TV ou de um computador ligado nela e jogue com controle, como num videogame.', ['tv', 'televisao', 'smart tv', 'telao']],
+  ['Preciso instalar alguma coisa?', 'Não. Basta abrir no navegador, no computador, no celular ou na TV.', ['instalar', 'baixar', 'download', 'app', 'aplicativo', 'programa', 'emulador']],
   ['Funciona no celular?', 'Sim. No celular você joga pelo navegador com controles na tela, pelo toque.', ['celular', 'smartphone', 'android', 'iphone', 'tablet', 'mobile', 'toque']],
   ['Funciona com controle?', 'Funciona com teclado, com controles conectados ao computador e com controles na tela pelo toque.', ['controle', 'joystick', 'gamepad', 'teclado', 'manete', 'xbox', 'playstation']],
   ['Quais consoles vou poder jogar?', 'NES, Super Nintendo, Nintendo 64, Mega Drive, Master System, Game Boy, Game Boy Color, Game Boy Advance, Nintendo DS, Neo Geo e Arcade.', ['console', 'consoles', 'plataformas', 'jogos', 'nintendo', 'sega', 'mega drive', 'snes', 'nes', 'n64', 'game boy', 'gba', 'neo geo', 'arcade', 'fliperama', 'catalogo']],
@@ -670,7 +143,6 @@ function helpMessage(text, from) {
   return { row, bubble, body }
 }
 
-// Suggestions only follow the latest answer, so the conversation stays easy to read
 function showSuggestions(indexes) {
   helpLog.querySelector('.help-suggestions')?.remove()
   if (!indexes.length) return
@@ -755,7 +227,6 @@ document.getElementById('help-composer').addEventListener('submit', (event) => {
   botReply(HELP_UNKNOWN, () => showSuggestions(nextSuggestions(4)))
 })
 
-// The full list opens over the conversation only when asked for
 const faqList = document.getElementById('help-faq-list')
 HELP_QUESTIONS.forEach(([question], index) => {
   const button = document.createElement('button')
@@ -810,22 +281,14 @@ document.addEventListener('keydown', (event) => {
   closeHelp()
   helpLauncher.focus()
 })
-// The speech bubble shows once, a little after the TV has finished turning on
-setTimeout(() => {
-  if (helpPanel.hidden && !helpStarted) helpBubble.classList.add('is-visible')
-}, 7000)
-
-// Privacy note in a popup; a click on the dimmed area around it closes it too
-const privacy = document.getElementById('privacidade')
-for (const link of document.querySelectorAll('[data-open-privacy]')) {
-  link.addEventListener('click', (event) => {
-    event.preventDefault()
-    privacy.showModal()
-  })
-}
-for (const button of privacy.querySelectorAll('.modal-close, .modal-ok')) button.addEventListener('click', () => privacy.close())
-privacy.addEventListener('click', (event) => {
-  if (event.target === privacy) privacy.close()
+const HELP_BUBBLE_DELAY_MS = 1500
+const HELP_BUBBLE_MS = 5000
+loaderDone.then(() => {
+  setTimeout(() => {
+    if (!helpPanel.hidden || helpStarted) return
+    helpBubble.classList.add('is-visible')
+    setTimeout(() => helpBubble.classList.remove('is-visible'), HELP_BUBBLE_MS)
+  }, HELP_BUBBLE_DELAY_MS)
 })
 
 const observer = 'IntersectionObserver' in window
@@ -842,22 +305,3 @@ for (const element of document.querySelectorAll('.reveal')) {
   if (observer) observer.observe(element)
   else element.classList.add('is-visible')
 }
-
-const navLinks = [...document.querySelectorAll('.nav-links a[data-section]')]
-const navSections = navLinks.map((link) => document.getElementById(link.dataset.section)).filter(Boolean)
-function markSection() {
-  const line = window.scrollY + window.innerHeight * 0.35
-  let current = 'topo'
-  for (const section of navSections) {
-    if (section.id !== 'topo' && section.offsetTop <= line) current = section.id
-  }
-  for (const link of navLinks) {
-    const active = link.dataset.section === current
-    link.classList.toggle('is-active', active)
-    if (active) link.setAttribute('aria-current', 'true')
-    else link.removeAttribute('aria-current')
-  }
-}
-addEventListener('scroll', markSection, { passive: true })
-addEventListener('resize', markSection)
-markSection()
