@@ -9,7 +9,7 @@
 </div>
 
 <p align="center">
-  <img src=".github/home.png" alt="Opening screen with the slogan and the headline over a sketch of the app on a TV, and the early access and how it works buttons below" width="100%">
+  <img src=".github/home.png" alt="Opening screen with the slogan and the headline on the left above a TV, a laptop, a tablet and a phone showing the app, and a large console on the right" width="100%">
 </p>
 
 <!-- markdownlint-enable MD033 -->
@@ -24,38 +24,32 @@
 - [Configuration](#configuration)
 - [Running the Page](#running-the-page)
 - [Example Use Case](#example-use-case)
-  - [From the First Visit to the Sign-Up](#from-the-first-visit-to-the-sign-up)
+  - [From the First Visit to the Product](#from-the-first-visit-to-the-product)
   - [Asking Cloudly a Question](#asking-cloudly-a-question)
-- [How Sign-Ups Work](#how-sign-ups-work)
 - [How the Help Chat Works](#how-the-help-chat-works)
 - [How the Page Follows the App](#how-the-page-follows-the-app)
 - [License](#license)
 
 ## Overview
 
-Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and no build step, that presents [Cloudly Game](https://github.com/id0ubl3g/cloudly-game-react) to people who have not played it yet and gathers early access sign-ups. It opens on an animated tour of the app, then shows ranked and the main features drawn as real pieces of the app interface, a short level-select walkthrough and a sign-up form. Each sign-up is sent by email to the Cloudly Game inbox through Web3Forms, so nothing is stored in the [Cloudly Game Flask API](https://github.com/id0ubl3g/cloudly-game-flask-api) or in a database. Cloudly, the mascot, sits in the corner as a help chat that answers the frequent questions.
+Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and no build step, that presents [Cloudly Game](https://github.com/id0ubl3g/cloudly-game-react) to people who have not played it yet. It opens on one screen with the headline and the app drawn on a TV, a laptop, a tablet and a phone on the left, and the eleven consoles passing one at a time on the right. Below it, one section shows the three steps to start playing and the other features, all drawn as real pieces of the app interface. The **Jogar agora** button in the header is marked **Em breve** until the platform opens, and the page collects no data. Cloudly, the mascot, sits in the corner as a help chat that answers the frequent questions.
 
 ## Features
 
 - Loading screen with Cloudly spitting bolts, the same as in the frontend, that covers the page until its styles, fonts and images are in (fonts and images are waited for 5 seconds at most), so the page never shows unstyled. On the first visit of the session it stays at least 2 seconds
-- Opening screen with a sketch of the app home on a screen, and the early access and how it works buttons below, all on the first screen from phones to wide monitors
-- Tour on the app sketch, on a loop: the slogan **Da nuvem até a sua tela** and the headline, the consoles, the highlights (in the cloud, low latency, multiplayer, always saved), the screen turning into a phone, tablet, computer and TV, a first visit with the nick and the photo, then ranked, with the seven elos stacked from Cobre and the camera climbing with the player to Ametista, a game opening and the logo built from falling pixels
-- The eleven consoles rise in the tour on a shelf with the same artwork and game counts as the console showcase of the app
-- Features led by a wide ranked card, with the FT2 scoreboard over a fighting game, the elo card, the series result and the top of the ranking, followed by six equal squares, each with a piece of the app interface: a room with online and local seats, save slots with the resume point, the level with the XP bar and the daily combo, a live card, the clip button and the devices it runs on
-- **Como funciona** as a level select: three stages joined by a dotted trail and a boss stage that leads to the sign-up form
-- Early access form in one card with two panes, like the sign-in screen of the app: name, email, an optional Brazilian mobile number, the consoles the person most wants to play and the consent to receive emails
-- Sign-ups sent by email through Web3Forms, with the traffic source (`utm_*` and the referring site) and the consent time, a notice when the email service is slow and an error that tells a slow service apart from a lost connection
-- Hidden field that catches bots: they get the same thank you and nothing is sent
+- Opening screen with the slogan **Da nuvem até a sua tela** and the headline on the left, above the app drawn in HTML on four devices: the home with the featured game and the console shelf on a TV, the catalog on a laptop, a live on a tablet and New Super Mario Bros. with the touch controls on a phone
+- When the loading screen leaves, the slogan, the headline, the four devices and the console come in one after the other, and further down the titles and cards appear in sequence as the page scrolls
+- The eleven consoles pass one at a time on the right of the opening screen, large, with the same artwork and color as the console shelf of the app and their name
+- **Jogar agora** in the top right corner of the header, marked **Em breve** until the platform opens, with the whole opening screen fitting without scrolling down to about 600px of height
+- **Como funciona** in one section: three numbered steps to start playing, each drawn as a piece of the app (open in the browser on any device, pick a game in the catalog, call friends to the room), then the other features as cards: ranked, with the FT2 scoreboard over a fighting game, the elo card, the series result and the top of the ranking, save slots with the resume point, the level with the XP bar and the daily combo, a live card and the clip button
 - Help chat with Cloudly in the corner: thirteen frequent questions as suggestions, a list of all of them, and typed questions matched by keywords
-- Privacy note in a popup, opened from the consent text of the form
-- In-page links that put the section in the middle of the screen
 - Brand look from the app: dark surfaces, the purple and blue gradient, Poppins and the Silkscreen pixel font, pill buttons and the pixel art sprites of the app
 - Works with the keyboard, follows the reduced motion setting of the system and has no horizontal scroll on phones
 
 <!-- markdownlint-disable MD033 -->
 
 <p align="center">
-  <img src=".github/features.png" alt="Features section with the wide ranked card, with the FT2 scoreboard over The King of Fighters 2002, the elo card and the ranking, above six squares showing a room with online and local seats, save slots, the level with the XP bar and combo, a live card, the clip button and the supported devices" width="100%">
+  <img src=".github/features.png" alt="Como funciona section with the three steps, open in the browser, pick a game and call friends, above the ranked, save slots, XP, live and clip cards" width="100%">
 </p>
 
 <!-- markdownlint-enable MD033 -->
@@ -64,11 +58,8 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
 
 | Anchor | Section |
 | ------ | ------- |
-| `#abertura` | Tour on the app sketch and the buttons |
-| `#recursos` | Ranked in a wide card and the other features in six squares |
-| `#como-funciona` | Level select from choosing a game to the sign-up |
-| `#lista` | Early access form |
-| `#privacidade` | Privacy note popup |
+| `#abertura` | Headline, the app on four devices and the consoles passing one at a time |
+| `#como-funciona` | The three steps to play and the other features |
 | `#ajuda` | Help chat with Cloudly |
 
 ## Project Structure
@@ -79,25 +70,21 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
   │   ├── cloudly-game-logo.png
   │   ├── cloudly.png
   │   ├── features.png
-  │   ├── home.png
-  │   └── signup.png
+  │   └── home.png
   ├── assets/
   │   ├── avatars/
-  │   │   ├── alien.svg
-  │   │   ├── astronauta.svg
-  │   │   ├── bruxa.svg
-  │   │   ├── cavaleiro.svg
-  │   │   ├── dino.svg
-  │   │   ├── gato.svg
-  │   │   ├── ninja.svg
   │   │   └── robo.svg
+  │   ├── consoles/
+  │   │   ├── arcade.webp
+  │   │   ├── ...
+  │   │   └── snes.webp
   │   ├── games/
   │   │   ├── covers/
   │   │   │   ├── 01.webp
   │   │   │   ├── ...
-  │   │   │   └── 24.webp
+  │   │   │   └── 12.webp
   │   │   ├── kof2002-screenshot.webp
-  │   │   ├── kof2002-title.webp
+  │   │   ├── nsmb-screenshot.webp
   │   │   └── sfa3-screenshot.webp
   │   ├── pixel/
   │   │   ├── alien.svg
@@ -105,18 +92,10 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
   │   │   ├── flame.svg
   │   │   ├── gato.svg
   │   │   ├── heart.svg
-  │   │   ├── ninja.svg
-  │   │   ├── rankAmethyst.svg
-  │   │   ├── rankCopper.svg
   │   │   ├── rankDiamond.svg
   │   │   ├── rankEmerald.svg
-  │   │   ├── rankGold.svg
-  │   │   ├── rankIron.svg
-  │   │   ├── rankRuby.svg
   │   │   ├── robo.svg
-  │   │   ├── roboClimber.svg
-  │   │   ├── stopwatch.svg
-  │   │   └── token.svg
+  │   │   └── stopwatch.svg
   │   ├── apple-touch-icon.png
   │   ├── favicon.png
   │   ├── logo.png
@@ -129,24 +108,15 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
   └── styles.css
 ```
 
-The pixel art in `assets/pixel/` and `assets/avatars/` is exported from `src/sprites.ts` of the frontend, and the icons, logo and mascot come from its `public/` folder. `assets/games/` holds the covers and screenshots of catalog games that the hero tour shows on its screen.
+The pixel art in `assets/pixel/` and `assets/avatars/` is exported from `src/sprites.ts` of the frontend, and the icons, logo and mascot come from its `public/` folder. `assets/games/` holds the covers and screenshots of catalog games shown on the devices of the opening screen, and `assets/consoles/` the console artwork of the app.
 
 ## Prerequisites
 
-To run Cloudly Game Landing, any static file server is enough, such as Python 3 (`python3 -m http.server`), and a recent browser. A [Web3Forms](https://web3forms.com) access key created for the inbox that receives the sign-ups is needed for the form.
+To run Cloudly Game Landing, any static file server is enough, such as Python 3 (`python3 -m http.server`), and a recent browser.
 
 ## Configuration
 
-The form settings are at the top of `main.js`:
-
-| Constant | Description |
-| -------- | ----------- |
-| `FORM_ENDPOINT` | Web3Forms API address, `https://api.web3forms.com/submit` |
-| `FORM_ACCESS_KEY` | Web3Forms access key of the Cloudly Game inbox. It only lets the form send to that inbox, so it is meant to be public |
-| `SLOW_NOTICE_MS` | Time before the form says the email service is slow, `5000` by default |
-| `SUBMIT_TIMEOUT_MS` | Time the form waits for the email service before showing an error, `120000` by default |
-
-The list of consoles, with their names, colors and glyphs, is in `PLATFORMS` and `GLYPHS`, and the help chat questions and answers are in `HELP_QUESTIONS`, also in `main.js`.
+Everything lives in `main.js`: the consoles, with their names and colors, in `PLATFORMS`, their order and artwork proportions in `SHOWCASE`, the time each console stays on screen in `CONSOLE_SLIDE_MS`, and the help chat questions and answers in `HELP_QUESTIONS`.
 
 ## Running the Page
 
@@ -155,42 +125,22 @@ cd landing_page
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000`. Serve the page over HTTP instead of opening `index.html` as a file, so the browser sends the form from a regular web origin.
-
-To publish it, upload the folder to any static host. Web3Forms only accepts sign-ups sent from a regular browser: requests from servers, scripts and headless browsers are blocked by its firewall.
+Open `http://localhost:8000`. To publish it, upload the folder to any static host.
 
 ## Example Use Case
 
-### From the First Visit to the Sign-Up
+### From the First Visit to the Product
 
-1. The person opens the page and the tour on the app sketch starts with the slogan and the headline, then goes through the consoles, the highlights, the devices, a first visit and ranked.
-2. **Ver como funciona** puts the level select in the middle of the screen, and the boss stage **Continuar ▸** goes to the form. **Quero acesso antecipado** goes straight there.
-3. The person fills in the name and email, optionally the mobile number and the consoles, accepts the consent and presses **Quero acesso antecipado**.
-4. The form checks the fields in the browser and sends the sign-up. If the email service takes more than 5 seconds, the page says so and keeps waiting.
-5. The card shows **Acesso antecipado garantido!**, and the Cloudly Game inbox receives an email titled **Novo inscrito no acesso antecipado** with the answers, the traffic source and the consent time. Replying to it writes to the person who signed up.
-
-<!-- markdownlint-disable MD033 -->
-
-<p align="center">
-  <img src=".github/signup.png" alt="Early access card with the benefits on the left and the form on the right" width="100%">
-</p>
-
-<!-- markdownlint-enable MD033 -->
+1. The person opens the page and sees the headline above the app on a TV, a laptop, a tablet and a phone, while the consoles pass one at a time on the right.
+2. Scrolling down, the three steps show how to start playing, followed by the other features of the app.
+3. **Jogar agora** is marked **Em breve** and does nothing yet; asking Cloudly when the platform opens explains that it will lead to the platform as soon as it opens.
 
 ### Asking Cloudly a Question
 
-1. A few seconds after the page opens, Cloudly says hello next to the button in the corner.
+1. Right after the loading screen, Cloudly says hello next to the button in the corner, and the greeting fades away after 5 seconds so it does not cover the page.
 2. Pressing the button, or **Perguntas** in the header, opens the chat with a greeting and four suggestions.
 3. A suggestion, or a typed question such as "funciona no iphone?", gets an answer after a short typing animation, followed by new suggestions.
 4. The list button next to the text field opens all the questions. Escape closes the list first and then the chat.
-
-## How Sign-Ups Work
-
-1. On the first visit, the page reads the `utm_source`, `utm_medium`, `utm_campaign`, `utm_term` and `utm_content` parameters and the referring site, and keeps them for the tab, so the source of the first visit is the one that is sent.
-2. When the form is sent, the browser checks the name, the email format, the mobile number (area code and 9 digits) and the consent. If the hidden field was filled, the page shows the thank you and sends nothing.
-3. The sign-up goes to Web3Forms as a regular form post, with the access key, the subject, the sender name **Cloudly Game**, the reply address, the name, email, mobile number, consoles, traffic source and consent time. A regular form post avoids the CORS preflight that the Web3Forms firewall rejects.
-4. While the request runs, the button shows a spinner. After 5 seconds the page says the email service is slow, and after 2 minutes it gives up.
-5. When Web3Forms answers `success: true`, the form is replaced by the thank you message. Otherwise the page asks to try again, or to check the connection when the browser is offline.
 
 ## How the Help Chat Works
 
@@ -209,8 +159,8 @@ To publish it, upload the folder to any static host. Web3Forms only accepts sign
 
 ## How the Page Follows the App
 
-1. Colors, radii, buttons, the console shelf colors and glyphs, the live card, the room seats, the save slots, the XP bar, the combo tile, the ranked scoreboard, the elo card and the ranking copy the styles of the frontend, so the page looks like the product. The app, in turn, uses the footer and the loading screen of the page.
-2. The pixel art (rank icons, avatars, flame, cartridge, stopwatch, heart and token) is generated from the sprite patterns of the frontend and saved as SVG files.
+1. Colors, radii, buttons, the console shelf colors and artwork, the home, catalog and play screens on the devices, the live card, the room seats, the save slots, the XP bar, the combo tile, the ranked scoreboard, the elo card and the ranking copy the styles of the frontend, so the page looks like the product. The app, in turn, uses the footer and the loading screen of the page.
+2. The pixel art (rank icons, avatars, flame, cartridge, stopwatch and heart) is generated from the sprite patterns of the frontend and saved as SVG files.
 3. The names, numbers and rewards shown in the features match what the platform does, such as eleven consoles, up to four players, three save slots, levels earned with XP in any match and shown as a number, apart from the elo, ranked series in FT2 in the fighting games that have ranked switched on, elos from Cobre to Ametista earned only in ranked and the top 50 in the ranking.
 
 ## License
