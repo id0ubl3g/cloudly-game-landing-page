@@ -1289,3 +1289,71 @@ h3 { font-size: 20px; font-weight: 600; }
   .help-composer input { font-size: 16px; }
   .help-suggestions button, .help-faq-list button { padding: 7px 11px; }
 }
+
+/* Events: the event live with its score and the bracket, as on the event page */
+
+.bento-event { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+
+.bento-event .onair-pill { top: 10px; left: 10px; }
+
+.event-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  max-width: calc(100% - 110px);
+  overflow: hidden;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  background: rgba(137, 87, 245, 0.85);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event-bracket { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: stretch; min-width: 0; }
+
+.event-round { display: flex; flex-direction: column; justify-content: space-around; gap: 8px; min-width: 0; }
+
+.event-round-title { color: var(--text-faint); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.event-match { position: relative; display: flex; flex-direction: column; overflow: visible; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); }
+
+.event-match span { display: flex; align-items: center; justify-content: space-between; gap: 4px; min-width: 0; padding: 4px 6px; border-left: 2px solid transparent; font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.event-match span + span { border-top: 1px solid var(--border); }
+
+.event-match b { font-family: var(--font-pixel); font-weight: 400; }
+
+.event-match .is-winner { border-left-color: var(--success); background: rgba(50, 213, 131, 0.1); font-weight: 700; }
+
+.event-match .is-loser { color: var(--text-faint); text-decoration: line-through rgba(255, 255, 255, 0.25); }
+
+.event-match.is-live { border-color: rgba(240, 68, 82, 0.8); box-shadow: 0 0 14px -4px rgba(240, 68, 82, 0.9); }
+
+.event-match i { position: absolute; top: -7px; right: 4px; padding: 1px 5px; border-radius: 9999px; background: var(--live); color: #fff; font-size: 7.5px; font-style: normal; font-weight: 800; text-transform: uppercase; }
+
+.event-champion { display: flex; align-items: center; gap: 4px; padding: 8px 6px; border: 1px dashed var(--border-2); border-radius: var(--radius-md); color: var(--text-faint); font-size: 10px; white-space: nowrap; overflow: hidden; }
+
+.event-toast { display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 12px; border: 1px solid rgba(137, 87, 245, 0.5); border-radius: var(--radius-md); background: #0d111c; box-shadow: var(--shadow-md); }
+
+.event-toast.is-called { border-color: rgba(50, 213, 131, 0.6); box-shadow: 0 0 22px -8px rgba(50, 213, 131, 0.8); }
+
+.event-toast-text { display: flex; flex: 1; flex-direction: column; gap: 2px; min-width: 0; }
+
+.event-toast-text strong { overflow: hidden; font-family: var(--font-pixel); font-size: 11px; font-weight: 400; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+
+.event-toast.is-called .event-toast-text strong { color: var(--success); }
+
+.event-toast-text span { overflow: hidden; color: var(--text-muted); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+
+.event-toast-button { flex: none; align-self: flex-end; padding: 5px 10px; border-radius: 9999px; background: var(--brand-gradient); color: #fff; font-size: 11px; font-weight: 600; }
+
+@media (max-width: 720px) {
+  .bento-event { grid-template-columns: 1fr; }
+}
+
+.event-toast-name { display: flex; gap: 5px; }
+
+.event-toast-name span { overflow: hidden; color: var(--text); font-family: inherit; font-size: inherit; text-overflow: ellipsis; white-space: nowrap; }

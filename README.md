@@ -41,15 +41,15 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
 - When the loading screen leaves, the slogan, the headline, the four devices and the console come in one after the other, and further down the titles and cards appear in sequence as the page scrolls
 - The eleven consoles pass one at a time on the right of the opening screen, large, with the same artwork and color as the console shelf of the app and their name
 - **Jogar agora** in the top right corner of the header, marked **Em breve** until the platform opens, with the whole opening screen fitting without scrolling down to about 600px of height
-- **Como funciona** in one section: three numbered steps to start playing, each drawn as a piece of the app (open in the browser on any device, pick a game in the catalog, call friends to the room), then the other features as cards: ranked, with the FT2 scoreboard over a fighting game, the elo card, the series result and the top of the ranking, save slots with the resume point, the level with the XP bar and the daily combo, a live card and the clip button
-- Help chat with Cloudly in the corner: thirteen frequent questions as suggestions, a list of all of them, and typed questions matched by keywords
+- **Como funciona** in one section: three numbered steps to start playing, each drawn as a piece of the app (open in the browser on any device, pick a game in the catalog, call friends to the room), then the other features as cards: ranked, with the FT2 scoreboard over a fighting game, the elo card, the series result and the top of the ranking, save slots with the resume point, the level with the XP bar and the daily combo, a live card, the clip button, tournaments, with an event live over Super Bomberman 3 next to its bracket, and the event alerts
+- Help chat with Cloudly in the corner: fourteen frequent questions as suggestions, a list of all of them, and typed questions matched by keywords
 - Brand look from the app: dark surfaces, the purple and blue gradient, Poppins and the Silkscreen pixel font, pill buttons and the pixel art sprites of the app
 - Works with the keyboard, follows the reduced motion setting of the system and has no horizontal scroll on phones
 
 <!-- markdownlint-disable MD033 -->
 
 <p align="center">
-  <img src=".github/features.png" alt="Como funciona section with the three steps, open in the browser, pick a game and call friends, above the ranked, save slots, XP, live and clip cards" width="100%">
+  <img src=".github/features.png" alt="Como funciona section with the three steps, open in the browser, pick a game and call friends, above the ranked, save slots, XP, live, clip, tournament and event alert cards" width="100%">
 </p>
 
 <!-- markdownlint-enable MD033 -->
@@ -79,6 +79,7 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
   │   │   ├── ...
   │   │   └── snes.webp
   │   ├── games/
+  │   │   ├── bomberman3-screenshot.webp
   │   │   ├── covers/
   │   │   │   ├── 01.webp
   │   │   │   ├── ...
@@ -152,16 +153,16 @@ Open `http://localhost:8000`. To publish it, upload the folder to any static hos
 
 <!-- markdownlint-enable MD033 -->
 
-1. The chat answers thirteen frequent questions about the platform, from what Cloudly Game is to how XP, levels and ranked work. Questions about things that are not decided yet, such as the price, are not answered.
+1. The chat answers fourteen frequent questions about the platform, from what Cloudly Game is to how XP, levels, ranked and tournaments work. Questions about things that are not decided yet, such as the price, are not answered.
 2. After each answer, up to three questions that were not asked yet show up as suggestions, and they leave as soon as the conversation moves on.
 3. Typed questions are lowercased and stripped of accents, then matched against keywords of each question. The question with the most matching keywords is answered; when nothing matches, Cloudly says it cannot answer that yet and suggests questions.
 4. Everything runs in the browser, with no server and no record of what was asked.
 
 ## How the Page Follows the App
 
-1. Colors, radii, buttons, the console shelf colors and artwork, the home, catalog and play screens on the devices, the live card, the room seats, the save slots, the XP bar, the combo tile, the ranked scoreboard, the elo card and the ranking copy the styles of the frontend, so the page looks like the product. The app, in turn, uses the footer and the loading screen of the page.
+1. Colors, radii, buttons, the console shelf colors and artwork, the home, catalog and play screens on the devices, the live card, the room seats, the save slots, the XP bar, the combo tile, the ranked scoreboard, the elo card, the ranking, the event bracket and the event alerts copy the styles of the frontend, so the page looks like the product. The app, in turn, uses the footer and the loading screen of the page.
 2. The pixel art (rank icons, avatars, flame, cartridge, stopwatch and heart) is generated from the sprite patterns of the frontend and saved as SVG files.
-3. The names, numbers and rewards shown in the features match what the platform does, such as eleven consoles, up to four players, three save slots, levels earned with XP in any match and shown as a number, apart from the elo, ranked series in FT2 in the fighting games that have ranked switched on, elos from Cobre to Ametista earned only in ranked and the top 50 in the ranking.
+3. The names, numbers and rewards shown in the features match what the platform does, such as eleven consoles, up to four players, three save slots, levels earned with XP in any match and shown as a number, apart from the elo, ranked series in FT2 in the fighting games that have ranked switched on, elos from Cobre to Ametista earned only in ranked, the top 50 in the ranking, and tournaments in 1v1 or in pairs with one point per win, a call 10 minutes before the start and 5 minutes to join the room when the match is called.
 
 ## License
 
