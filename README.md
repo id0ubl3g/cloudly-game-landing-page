@@ -49,7 +49,7 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
 <!-- markdownlint-disable MD033 -->
 
 <p align="center">
-  <img src=".github/features.png" alt="Como funciona section with the three steps, open in the browser, pick a game and call friends, above the ranked, save slots, XP, live, clip, tournament and event alert cards" width="100%">
+  <img src=".github/features.png" alt="Como funciona section with the three steps, open in the browser, pick a game and call friends, above the ranked, save slots, XP, live, clip, tournament, event alert, public rooms and rooms with friends cards" width="100%">
 </p>
 
 <!-- markdownlint-enable MD033 -->
