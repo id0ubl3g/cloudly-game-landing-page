@@ -9,8 +9,8 @@ const PLATFORMS = [
   ['gbc', 'GBC', 'Game Boy Color', '#ffb300'],
   ['gba', 'GBA', 'Game Boy Advance', '#7c4dff'],
   ['nds', 'DS', 'Nintendo DS', '#90a4ae'],
-  ['n64', 'N64', 'Nintendo 64', '#2e7d32'],
   ['psx', 'PS1', 'PlayStation 1', '#607d8b'],
+  ['n64', 'N64', 'Nintendo 64', '#2e7d32'],
 ]
 
 document.documentElement.classList.remove('no-js')
@@ -41,16 +41,16 @@ document.getElementById('year').textContent = new Date().getFullYear()
 const SHOWCASE = [
   ['neogeo', 320 / 205],
   ['arcade', 180 / 240],
+  ['nes', 312 / 240],
+  ['snes', 287 / 240],
+  ['megadrive', 320 / 222],
+  ['mastersystem', 320 / 198],
+  ['gb', 194 / 240],
+  ['gbc', 172 / 240],
   ['gba', 303 / 210],
   ['nds', 242 / 240],
-  ['nes', 312 / 240],
-  ['gb', 194 / 240],
-  ['megadrive', 320 / 222],
-  ['snes', 287 / 240],
-  ['gbc', 172 / 240],
-  ['n64', 320 / 209],
-  ['mastersystem', 320 / 198],
   ['psx', 320 / 200],
+  ['n64', 320 / 209],
 ]
 const SHOWCASE_AREA = 0.72
 const platformById = Object.fromEntries(PLATFORMS.map((platform) => [platform[0], platform]))
