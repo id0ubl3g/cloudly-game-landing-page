@@ -10,6 +10,7 @@ const PLATFORMS = [
   ['gba', 'GBA', 'Game Boy Advance', '#7c4dff'],
   ['nds', 'DS', 'Nintendo DS', '#90a4ae'],
   ['n64', 'N64', 'Nintendo 64', '#2e7d32'],
+  ['psx', 'PS1', 'PlayStation 1', '#607d8b'],
 ]
 
 document.documentElement.classList.remove('no-js')
@@ -49,6 +50,7 @@ const SHOWCASE = [
   ['gbc', 172 / 240],
   ['n64', 320 / 209],
   ['mastersystem', 320 / 198],
+  ['psx', 320 / 200],
 ]
 const SHOWCASE_AREA = 0.72
 const platformById = Object.fromEntries(PLATFORMS.map((platform) => [platform[0], platform]))
@@ -97,7 +99,7 @@ const HELP_QUESTIONS = [
   ['Preciso instalar alguma coisa?', 'Não. Basta abrir no navegador, no computador, no celular ou na TV.', ['instalar', 'baixar', 'download', 'app', 'aplicativo', 'programa', 'emulador']],
   ['Funciona no celular?', 'Sim. No celular você joga pelo navegador com controles na tela, pelo toque.', ['celular', 'smartphone', 'android', 'iphone', 'tablet', 'mobile', 'toque']],
   ['Funciona com controle?', 'Funciona com teclado, com controles conectados ao computador e com controles na tela pelo toque.', ['controle', 'joystick', 'gamepad', 'teclado', 'manete', 'xbox', 'playstation']],
-  ['Quais consoles vou poder jogar?', 'NES, Super Nintendo, Nintendo 64, Mega Drive, Master System, Game Boy, Game Boy Color, Game Boy Advance, Nintendo DS, Neo Geo e Arcade.', ['console', 'consoles', 'plataformas', 'jogos', 'nintendo', 'sega', 'mega drive', 'snes', 'nes', 'n64', 'game boy', 'gba', 'neo geo', 'arcade', 'fliperama', 'catalogo']],
+  ['Quais consoles vou poder jogar?', 'NES, Super Nintendo, Nintendo 64, PlayStation 1, Mega Drive, Master System, Game Boy, Game Boy Color, Game Boy Advance, Nintendo DS, Neo Geo e Arcade.', ['console', 'consoles', 'plataformas', 'jogos', 'nintendo', 'sega', 'mega drive', 'snes', 'nes', 'n64', 'game boy', 'gba', 'neo geo', 'arcade', 'fliperama', 'catalogo', 'playstation', 'ps1', 'psx', 'sony']],
   ['Dá para jogar com amigos que estão longe?', 'Sim. Você cria uma sala e convida os amigos por código ou pela lista de amigos. Eles entram pela internet na mesma partida, com até quatro lugares.', ['amigo', 'amigos', 'online', 'multiplayer', 'sala', 'convidar', 'longe', 'internet', 'juntos']],
   ['E com alguém do meu lado?', 'Também. Até quatro pessoas podem jogar no mesmo computador: uma no teclado e as outras em controles. Plugou um controle, entrou na partida.', ['lado', 'mesmo computador', 'mesmo aparelho', 'local', 'sofa', 'dois jogadores', '2 jogadores']],
   ['Meu progresso fica salvo?', 'Fica. Seus saves vão junto com a sua conta na nuvem, com três slots de estado por jogo e um ponto para continuar de onde parou.', ['salvar', 'salvo', 'save', 'saves', 'progresso', 'continuar', 'nuvem', 'perder']],
