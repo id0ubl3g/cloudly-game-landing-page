@@ -88,10 +88,23 @@ a { color: var(--accent-soft); }
   gap: 24px;
   height: 64px;
   padding: 0 clamp(16px, 3.4vw, 48px);
-  background: rgba(8, 10, 18, 0.78);
+  background: rgba(8, 10, 18, 0.35);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
   backdrop-filter: blur(16px) saturate(1.2);
+  transition: background-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
+
+/* Once the page scrolls, the bar turns into liquid glass, as the app's header: a brighter blur, a lit top edge and a hairline under it */
+.nav.is-scrolled {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)), rgba(13, 16, 26, 0.55);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  backdrop-filter: blur(20px) saturate(1.8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 rgba(255, 255, 255, 0.07), 0 12px 32px -20px rgba(0, 0, 0, 0.9);
+}
+
+.nav-cta { transition: opacity 0.3s var(--ease), translate 0.3s var(--ease), visibility 0.3s; }
+
+.nav-cta.is-tucked { opacity: 0; translate: 0 -8px; visibility: hidden; pointer-events: none; }
 
 .brand {
   display: flex;
@@ -236,25 +249,28 @@ a { color: var(--accent-soft); }
 .lead { margin: 16px 0 0; max-width: 560px; color: var(--text-muted); font-size: 16px; }
 
 .hero {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: clamp(8px, 1.6vh, 16px);
-  max-width: 1520px;
   min-height: calc(100vh - 64px);
   min-height: calc(100svh - 64px);
   margin: 0 auto;
   padding: clamp(12px, 3vh, 32px) clamp(var(--gutter), 9vw, 180px) clamp(24px, 4vh, 48px);
 }
 
-.hero-left { display: flex; flex: none; flex-direction: column; gap: clamp(28px, 6vh, 64px); width: min(100%, 40vw, 640px, calc((100svh - 280px) * 1.49)); min-width: 0; }
+.hero-left { display: flex; flex: none; flex-direction: column; gap: clamp(20px, 4vh, 44px); width: min(100%, 53vw, 860px, calc((100svh - 330px) * 2.08)); min-width: 0; }
 
-.hero-copy { display: flex; flex-direction: column; gap: 10px; }
+.hero-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 
 .hero-slogan { margin: 0; color: var(--accent-soft); font-family: var(--font-pixel); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
 
-.hero-copy h1 { margin: 0; font-size: clamp(20px, min(2.2vw, 4.2vh), 36px); white-space: nowrap; font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; }
+.hero-copy h1 { position: relative; z-index: 1; margin: 0; font-size: clamp(22px, min(2.4vw, 4.6vh), 40px); white-space: nowrap; font-weight: 700; line-height: 1.08; letter-spacing: -0.025em; }
+
+/* The app on four devices under the headline, as the site's showcase */
+.devices-stage { width: 86%; }
 
 .hero-copy h1 .is-accent { background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
@@ -278,13 +294,16 @@ a { color: var(--accent-soft); }
 
 .button-small .soon-badge { padding: 1px 6px; font-size: 9px; }
 
-.hero-stage { display: flex; align-items: center; justify-content: center; gap: clamp(32px, 6vw, 140px); width: 100%; }
+/* The text sits a little above the middle of the screen, where the eye lands first */
+.hero-stage { display: flex; align-items: center; justify-content: flex-start; width: 100%; max-width: 1520px; margin-bottom: clamp(16px, 4vh, 48px); }
 
-.devices { position: relative; width: 100%; aspect-ratio: 640 / 430; }
+/* The four devices in a row, TV, laptop, tablet and phone, each one covering 75% of its own width over the one before.
+   All four stand on the same line, the TV at the back and a little taller, the phone in front */
+.devices { position: relative; width: 100%; aspect-ratio: 100 / 48; }
 
 .devices-glow {
   position: absolute;
-  inset: 4% 10% 0;
+  inset: 4% 4% 0;
   z-index: -1;
   background:
     radial-gradient(ellipse 50% 55% at 50% 35%, rgba(80, 110, 255, 0.55), transparent 70%),
@@ -293,27 +312,32 @@ a { color: var(--accent-soft); }
   filter: blur(40px);
 }
 
-.devices > .device { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 0; }
+.devices > .device { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 0; transition: translate 0.3s var(--ease), filter 0.3s var(--ease); }
+
+/* Only the device under the pointer lifts a little */
+@media (hover: hover) and (pointer: fine) {
+  .devices > .device:hover { translate: 0 -8px; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.45)) drop-shadow(0 4px 16px rgba(var(--accent-rgb), 0.25)); }
+}
 
 .device-screen { position: relative; width: 100%; overflow: hidden; container-type: inline-size; background: var(--bg); }
 
-.device-tv { top: 0; left: 50%; width: 72%; transform: translateX(-50%); }
+.device-tv { bottom: 0; left: 0; z-index: 1; width: 74.6%; }
 
 .device-tv .device-screen { aspect-ratio: 16 / 9; border: 6px solid #05060b; border-radius: 10px; box-shadow: 0 0 0 1px var(--border-2), var(--shadow-lg); }
 
 .device-tv-stand { width: 24%; height: 22px; background: linear-gradient(#1c2232, #0d111c); clip-path: polygon(42% 0, 58% 0, 62% 70%, 100% 70%, 100% 100%, 0 100%, 0 70%, 38% 70%); }
 
-.device-laptop { bottom: 0; left: 4%; width: 44%; }
+.device-laptop { bottom: 0; left: 32.6%; z-index: 2; width: 56%; }
 
 .device-laptop .device-screen { aspect-ratio: 16 / 10; border: 7px solid #05060b; border-bottom-width: 12px; border-radius: 10px 10px 0 0; box-shadow: 0 0 0 1px var(--border-2), var(--shadow-lg); }
 
 .device-laptop-base { width: 116%; height: 12px; border-radius: 0 0 12px 12px; background: linear-gradient(#2a3247, #121624); box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.8); }
 
-.device-tablet { bottom: 0; left: 52%; width: 28%; }
+.device-tablet { bottom: 0; left: 67.6%; z-index: 3; width: 28%; }
 
 .device-tablet .device-screen { aspect-ratio: 3 / 4; border: 7px solid #05060b; border-radius: 16px; box-shadow: 0 0 0 1px var(--border-2), var(--shadow-lg); }
 
-.device-phone { right: 1%; bottom: 0; width: 15%; }
+.device-phone { bottom: 0; left: 82.3%; z-index: 4; width: 17.7%; }
 
 .device-phone .device-screen { aspect-ratio: 9 / 19.5; border: 4px solid #05060b; border-radius: 16px; box-shadow: 0 0 0 1px var(--border-2), var(--shadow-lg); }
 
@@ -423,29 +447,201 @@ html.is-loaded .intro { animation: intro-in 0.8s var(--ease) both; animation-del
 
 .sketch-live-badge .sketch-live { background: #fff; }
 
-.console-show { display: flex; flex-direction: column; align-items: center; gap: 12px; width: min(480px, 36vw, calc(100svh - 240px)); min-width: 200px; }
+/* Consoles on a roulette wheel. The hub sits beyond the right edge (below the console on narrow screens), so the
+   console in front faces the visitor and its two neighbours come in tilted, cut by the screen. Each console sits at
+   --i × --step on the wheel; the wheel turns by --turn steps (plus --drag while a finger holds it) */
+.console-show {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(46%, 780px);
+  overflow: hidden;
+  container-type: size;
+  outline: none;
+  touch-action: pan-x pinch-zoom;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  mask-image: linear-gradient(to bottom, transparent, #000 7%, #000 93%, transparent);
+}
 
-.console-show-stage { position: relative; width: 100%; aspect-ratio: 1 / 1; }
+.console-show > * {
+  --item: min(44cqh, 66cqw);
+  --r-factor: 2.2;
+  --r: calc(var(--item) * var(--r-factor));
+  --step: -30deg;
+  --tx: calc(var(--r) * -1);
+  --ty: 0px;
+}
 
-.console-slide { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 10px; margin: 0; opacity: 0; transform: translateX(40px) scale(0.96); transition: opacity 0.5s var(--ease), transform 0.6s var(--ease); pointer-events: none; }
+.console-show-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--item) * 1.5);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--console-color, var(--accent)), transparent);
+  opacity: 0.4;
+  filter: blur(36px);
+  transform: translate(-50%, -50%);
+  transition: background 0.8s var(--ease);
+}
 
-.console-slide.is-active { opacity: 1; transform: none; }
+.console-wheel {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + var(--r));
+  width: 0;
+  height: 0;
+  transform: rotate(calc((var(--turn, 0) + var(--drag, 0)) * var(--step) * -1));
+  transition: transform 0.95s cubic-bezier(0.3, 1.25, 0.45, 1);
+}
 
-.console-slide-art { position: relative; display: block; width: 100%; flex: 1; }
+.console-show.is-spinning .console-wheel { transition: transform 2.1s cubic-bezier(0.12, 0.75, 0.2, 1.02); }
 
-.console-slide-art img { position: absolute; bottom: 4%; left: 50%; max-width: 92%; transform: translateX(-50%); object-fit: contain; filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.6)); }
+.console-show.is-flung .console-wheel { transition: transform var(--fling-ms, 2.4s) cubic-bezier(0.08, 0.7, 0.18, 1.01); }
 
-.console-slide-glow { position: absolute; inset: 18% 12% 6%; border-radius: 50%; background: var(--console-color); opacity: 0.45; filter: blur(48px); }
+/* While the wheel spins or is held, every console on it shows as it passes in front */
+:is(.console-show.is-spinning, .console-show.is-flung, .console-show.is-dragging) .console-item:not(.is-active) { opacity: 0.7; }
 
-.console-slide figcaption { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.console-show.is-dragging { cursor: grabbing; }
 
-.console-slide strong { font-size: clamp(18px, 2vw, 30px); font-weight: 700; letter-spacing: -0.01em; }
+.console-show.is-dragging .console-wheel { transition: none; }
 
-.console-show-dots { display: flex; gap: 6px; }
+.console-show:focus-visible .console-item.is-active figcaption { outline: 2px solid rgba(255, 255, 255, 0.85); outline-offset: 4px; border-radius: 4px; }
 
-.console-show-dots i { width: 6px; height: 6px; border-radius: 9999px; background: var(--border-2); transition: width 0.3s var(--ease), background 0.3s var(--ease); }
+.console-item {
+  position: absolute;
+  top: calc(var(--item) * -0.575);
+  left: calc(var(--item) * -0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: var(--item);
+  height: calc(var(--item) * 1.15);
+  margin: 0;
+  opacity: 0;
+  filter: saturate(0.4) brightness(0.6);
+  transform: rotate(calc(var(--i) * var(--step))) translate(var(--tx), var(--ty)) scale(0.74);
+  transition: transform 0.95s cubic-bezier(0.3, 1.25, 0.45, 1), opacity 0.6s var(--ease), filter 0.6s var(--ease);
+}
 
-.console-show-dots i.is-active { width: 20px; background: var(--accent-soft); }
+.console-item.is-near { opacity: 0.7; }
+
+.console-item.is-active { opacity: 1; filter: none; transform: rotate(calc(var(--i) * var(--step))) translate(var(--tx), var(--ty)) scale(1); }
+
+.console-item-art {
+  position: relative;
+  display: block;
+  flex: 1;
+  width: 100%;
+  transition: transform 250ms ease, filter 250ms ease;
+}
+
+/* Hovering the console in front lifts it a little and brightens it, as on the app's console shelf */
+.console-item.is-active:hover .console-item-art {
+  transform: translateY(-4%) scale(1.04);
+  filter: drop-shadow(0 6px 18px rgba(var(--accent-rgb), 0.28)) brightness(1.1);
+}
+
+.console-item.is-active:hover figcaption { background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.console-item-art img { position: absolute; bottom: 0; left: 50%; max-width: 100%; transform: translateX(-50%); object-fit: contain; filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.6)); }
+
+.console-item figcaption {
+  font-size: clamp(18px, calc(var(--item) * 0.085), 32px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  opacity: 0;
+  translate: 0 8px;
+  transition: opacity 0.4s var(--ease), translate 0.4s var(--ease);
+}
+
+.console-item.is-active figcaption { opacity: 1; translate: 0 0; transition-delay: 0.25s; }
+
+/* Big play button under the headline: the brand gradient with a light sweeping across it now and then */
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+
+.button-cta {
+  min-height: 54px;
+  padding: 0 20px 0 12px;
+  gap: 12px;
+  overflow: hidden;
+  border-radius: var(--radius-2xl);
+  font-size: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 16px 36px -12px rgba(var(--accent-rgb), 0.9), 0 0 56px -12px rgba(var(--accent-2-rgb), 0.75);
+}
+
+.button-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.4) 50%, transparent 65%);
+  translate: -110% 0;
+  animation: cta-shine 4s ease-in-out 2.4s infinite;
+  pointer-events: none;
+}
+
+@keyframes cta-shine { 0% { translate: -110% 0; } 30%, 100% { translate: 110% 0; } }
+
+.button-cta.is-soon, .button-cta.is-soon:hover { filter: none; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 16px 36px -12px rgba(var(--accent-rgb), 0.9), 0 0 56px -12px rgba(var(--accent-2-rgb), 0.75); }
+
+.button-cta.is-soon:hover { translate: 0 -1px; }
+
+.button-cta-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25); }
+
+.button-cta-icon svg { translate: 1px 0; }
+
+.button-cta .soon-badge { padding: 3px 9px; background: rgba(8, 10, 18, 0.4); font-size: 10px; }
+
+.button-cta-secondary { min-height: 54px; padding: 0 22px; border-radius: var(--radius-2xl); font-size: 15px; }
+
+/* The headline split into letters: they rise in one after the other when the page opens */
+.hero-title.is-split .split-word { display: inline-block; white-space: nowrap; }
+
+.hero-title.is-split .split-mask { display: inline-block; }
+
+.hero-title.is-split .split-char { display: inline-block; }
+
+.hero-title.is-split .is-accent { background: none; color: inherit; }
+
+.hero-title.is-split .is-accent .split-char {
+  background: var(--brand-gradient) calc(var(--accent-x, 0px) * -1) 0 / var(--accent-w, 100%) 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Room under the line, so the gradient also paints descenders such as the g */
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
+}
+
+html:not(.is-loaded) .hero-title.is-split .split-char { opacity: 0; }
+
+html.is-loaded .hero-title.is-split .split-char { animation: char-rise 0.7s var(--ease) both; animation-delay: calc(110ms + var(--c) * 22ms); }
+
+@keyframes char-rise { from { opacity: 0; translate: 0 0.6em; filter: blur(6px); } }
+
+/* Skeletons for images still on their way, as in the app; the image fades in over it once it arrives */
+img.is-pending, .is-pending::before {
+  background: linear-gradient(100deg, var(--surface) 30%, var(--surface-3) 50%, var(--surface) 70%) 0 0 / 300% 100%;
+  animation: skeleton 1.3s ease-in-out infinite;
+}
+
+img.is-pending { color: transparent; }
+
+.console-item-art.is-pending::before, .app-shelf-art.is-pending::before { content: ''; position: absolute; inset: 30% 12% 0; border-radius: 18px; }
+
+.app-shelf-art.is-pending::before { inset: 20% 10% 0; border-radius: 4px; }
+
+img.is-arriving { animation: img-in 0.5s var(--ease) both; }
+
+@keyframes skeleton { from { background-position: 100% 0; } to { background-position: 0 0; } }
+
+@keyframes img-in { from { opacity: 0; filter: blur(8px); } }
 
 /* Sections */
 
@@ -1018,13 +1214,14 @@ h3 { font-size: 20px; font-weight: 600; }
 
 .help-bubble.is-visible { opacity: 1; transform: none; }
 
+/* The chat stands up as a tall rectangle, with the same height however long the conversation is */
 .help-panel {
   position: relative;
   display: flex;
   flex-direction: column;
   width: min(340px, calc(100vw - 32px));
-  max-height: min(560px, calc(100vh - 120px));
-  max-height: min(560px, calc(100svh - 120px));
+  height: min(600px, calc(100vh - 120px));
+  height: min(600px, calc(100svh - 120px));
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
@@ -1037,7 +1234,7 @@ h3 { font-size: 20px; font-weight: 600; }
 
 @keyframes help-open { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
 
-.help-header { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.help-header { display: flex; flex: none; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
 
 .help-header h2 { font-size: 14px; font-weight: 600; letter-spacing: 0; }
 
@@ -1086,9 +1283,10 @@ h3 { font-size: 20px; font-weight: 600; }
   flex: 1;
   flex-direction: column;
   gap: 8px;
-  min-height: 220px;
+  min-height: 0;
   padding: 14px 12px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   background: radial-gradient(ellipse at 50% 0%, rgba(137, 87, 245, 0.06), transparent 60%), var(--bg);
 }
 
@@ -1129,7 +1327,6 @@ h3 { font-size: 20px; font-weight: 600; }
 
 @keyframes help-typing { 50% { opacity: 0.3; transform: translateY(-2px); } }
 
-.help-cta { align-self: flex-start; margin-left: 38px; font-size: 12px; }
 
 /* Quick replies under the latest answer; they leave as soon as the conversation moves on */
 .help-suggestions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; margin-top: 4px; animation: help-in 0.2s ease; }
@@ -1177,7 +1374,7 @@ h3 { font-size: 20px; font-weight: 600; }
 
 .help-faq-list button { border-radius: var(--radius-md); }
 
-.help-composer { display: flex; align-items: center; gap: 6px; padding: 8px; border-top: 1px solid var(--border); background: var(--surface); }
+.help-composer { display: flex; flex: none; align-items: center; gap: 6px; padding: 8px; border-top: 1px solid var(--border); background: var(--surface); }
 
 .help-composer input {
   flex: 1;
@@ -1252,18 +1449,27 @@ h3 { font-size: 20px; font-weight: 600; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   html:not(.no-js) .intro { opacity: 1; animation: none; }
-  .console-slide { transition: none; }
+  .console-wheel, .console-item, .devices > .device { transition: none; }
+  .devices > .device:hover { translate: none; }
+  .console-item.is-active:hover .console-item-art { transform: none; }
+  .button-cta::after, img.is-pending, .is-pending::before, img.is-arriving { animation: none; }
+  html.is-loaded .hero-title.is-split .split-char { animation: none; }
   .onair-dot, .brand-cloud, .brand-spit, .sketch-live, .help-launcher img, .help-message, .help-message.is-typing span, .help-suggestions, .help-faq { animation: none; }
 }
 
 /* Layout breakpoints */
 
 @media (max-width: 960px) {
-  .hero { min-height: 0; }
-  .hero-stage { flex-direction: column; justify-content: center; }
-  .hero-left { width: min(100%, 540px); }
+  .hero { min-height: 0; justify-content: flex-start; }
+  .hero-stage { flex-direction: column; justify-content: center; margin-bottom: 0; }
+  .hero-left { width: min(100%, 560px); }
+  .devices-stage { width: 100%; }
   .hero-copy h1 { white-space: normal; }
-  .console-show { width: min(320px, 80vw); }
+  .hero-stage { align-items: flex-start; }
+  .console-show { position: relative; top: auto; right: auto; bottom: auto; width: 100vw; height: clamp(330px, 100vw, 480px); margin: 8px calc(50% - 50vw) 0; touch-action: pan-y pinch-zoom; mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); }
+  .console-show > * { --item: min(64cqw, 72cqh); --r-factor: 1.7; --step: 30deg; --tx: 0px; --ty: calc(var(--r) * -1); }
+  .console-show-glow { top: calc(var(--item) * 0.62 + 8px); width: calc(var(--item) * 1.1); filter: blur(28px); }
+  .console-wheel { top: calc(var(--item) * 0.575 + 8px + var(--r)); left: 50%; }
   .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
@@ -1271,6 +1477,9 @@ h3 { font-size: 20px; font-weight: 600; }
   :root { --gutter: 16px; }
   .nav { gap: 16px; }
   .hero { padding: 28px var(--gutter) 40px; }
+  .hero-actions { gap: 10px; }
+  .hero-actions .button { flex: 1 1 auto; }
+  .button-cta-secondary { min-height: 48px; }
   .button-large { min-height: 46px; padding: 0 20px; font-size: 14px; }
   .bento { grid-template-columns: 1fr; }
   .bento-wide { grid-column: auto; }
@@ -1283,11 +1492,32 @@ h3 { font-size: 20px; font-weight: 600; }
   .help-launcher { width: 52px; height: 52px; }
   .help-bubble { display: none; }
   .help { gap: 10px; }
-  .help-panel { width: calc(100vw - 24px); max-height: calc(100vh - 88px); max-height: calc(100svh - 88px); border-radius: var(--radius-2xl); }
-  .help-log { min-height: 0; }
-  .help-row { max-width: 92%; }
-  .help-composer input { font-size: 16px; }
-  .help-suggestions button, .help-faq-list button { padding: 7px 11px; }
+  /* On a phone the chat is the whole screen (a phone inside a phone would only shrink it): it follows the visible
+     area above the keyboard, keeps clear of the notch and the home bar, and the page behind it stops scrolling */
+  .help-panel {
+    position: fixed;
+    top: var(--viewport-top, 0px);
+    left: 0;
+    width: 100%;
+    height: var(--viewport-h, 100dvh);
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .help-header { padding: calc(10px + env(safe-area-inset-top)) 12px 10px; }
+  .help-close { width: 44px; height: 44px; margin-right: -6px; }
+  .help:has(.help-panel:not([hidden])) .help-launcher { display: none; }
+  html.is-help-open, html.is-help-open body { overflow: hidden; }
+  .help-log { padding: 16px 14px; gap: 10px; }
+  .help-row { max-width: 88%; }
+  .help-message { font-size: 15px; }
+  .help-message time { font-size: 10.5px; }
+  .help-suggestions { gap: 8px; }
+  .help-suggestions button, .help-faq-list button { min-height: 40px; padding: 9px 14px; font-size: 14px; }
+  .help-composer { gap: 8px; padding: 10px 10px max(10px, env(safe-area-inset-bottom)); }
+  .help-composer input { min-height: 44px; font-size: 16px; }
+  .help-icon-button, .help-send { width: 44px; height: 44px; }
+  .help-faq { bottom: calc(70px + env(safe-area-inset-bottom)); max-height: 70%; }
 }
 
 /* Events: the event live with its score and the bracket, as on the event page */
