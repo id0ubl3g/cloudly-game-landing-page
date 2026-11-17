@@ -767,7 +767,7 @@ h3 { font-size: 20px; font-weight: 600; }
 
 .bento-card:hover .bento-visual { border-color: var(--border-2); }
 
-/* Live card, as on the Ao vivo tab */
+/* Live card, as on the watch page */
 .tv-card { display: grid; grid-template-columns: 1fr; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
 
 .tv-card-media {
