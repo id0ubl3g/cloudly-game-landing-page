@@ -670,6 +670,43 @@ h3 { font-size: 20px; font-weight: 600; }
 
 .bento-card.bento-wide .bento-visual { height: 220px; }
 
+.bento-full { grid-column: 1 / -1; }
+
+.bento-card.bento-full .bento-visual { height: auto; }
+
+.bento-visual.bento-offline { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; gap: 16px; }
+
+.offline-panel { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+
+.offline-meters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+
+.offline-meter { display: flex; flex-direction: column; gap: 5px; }
+
+.offline-meter span { display: flex; justify-content: space-between; gap: 8px; color: var(--text-muted); font-size: 11px; }
+
+.offline-meter strong { color: var(--text); font-weight: 600; }
+
+.offline-meter i { position: relative; height: 4px; overflow: hidden; border-radius: 9999px; background: rgba(255, 255, 255, 0.08); }
+
+.offline-meter i::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--fill); border-radius: inherit; background: var(--brand-gradient); }
+
+.offline-games .lobby-row { grid-template-columns: 38px minmax(0, 1fr) auto auto; }
+
+.offline-chip { padding: 3px 9px; border-radius: 9999px; background: rgba(255, 255, 255, 0.08); color: var(--text-muted); font-size: 11px; }
+
+.offline-side { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+
+.event-toast.offline-toast { flex-direction: row; align-items: center; gap: 12px; border-color: rgba(250, 204, 21, 0.45); }
+
+.offline-toast .offline-download { flex: none; }
+
+.offline-toast .event-toast-text span { white-space: normal; }
+
+
+.offline-toast .event-toast-text strong { color: #facc15; }
+
+.offline-download { display: inline-flex; align-self: center; align-items: center; justify-content: center; gap: 6px; padding: 7px 16px; border-radius: 9999px; background: var(--brand-gradient); box-shadow: 0 6px 16px -10px rgba(39, 136, 255, 0.8); color: #fff; font-size: 12.5px; font-weight: 600; }
+
 .section-head-more { margin-top: 36px; }
 
 .card-step {
@@ -956,8 +993,6 @@ h3 { font-size: 20px; font-weight: 600; }
 .state-meta span { color: var(--text-muted); font-size: 12px; }
 
 .resume-chip { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 12px; }
-
-.resume-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px rgba(16, 185, 129, 0.7); }
 
 /* XP bar and combo, in the app's pixel style */
 .xp-progress { display: flex; flex-direction: column; gap: 8px; }
@@ -1483,6 +1518,11 @@ h3 { font-size: 20px; font-weight: 600; }
   .button-large { min-height: 46px; padding: 0 20px; font-size: 14px; }
   .bento { grid-template-columns: 1fr; }
   .bento-wide { grid-column: auto; }
+  .bento-full { grid-column: auto; }
+  .bento-visual.bento-offline { grid-template-columns: 1fr; }
+  .bento-card.bento-full .bento-visual { height: auto; }
+  .offline-chip { display: none; }
+  .event-toast.offline-toast { flex-direction: column; align-items: flex-start; }
   .bento-card .bento-visual { height: auto; min-height: 200px; }
   .bento-visual.bento-ranked { grid-template-columns: 1fr; }
   .ranked-screen { aspect-ratio: 4 / 3; }
