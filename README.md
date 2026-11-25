@@ -42,15 +42,15 @@ Cloudly Game Landing is a static page, with plain HTML, CSS and JavaScript and n
 - Images that are still loading when the loading screen leaves hold their place with a skeleton, as in the app, and fade in when they arrive; the device under the pointer lifts a little
 - The twelve consoles sit on a roulette wheel whose hub is off the right edge of the screen: the console in front is large, with its glow color and name, and the one before and after come in tilted, cut by the screen. The wheel opens with a full spin, then turns on its own and stops while the pointer is over it; it also turns by dragging it, or with the arrow keys once focused, and a strong flick lets it spin free, slow down and land on a random console; the console in front lifts a little under the pointer, as on the console shelf of the app. On narrow screens the wheel turns sideways, with the neighbours cut by the sides of the screen
 - A large **Jogar agora** button under the devices, with a light sweeping across it, marked **Em breve** until the platform opens, next to **Como funciona**, which scrolls to the steps. The small one in the header only shows once the large one scrolls away, and the header turns to glass as the page scrolls
-- **Como funciona** in one section: three numbered steps to start playing, each drawn as a piece of the app (open in the browser on any device, pick a game in the catalog, call friends to the room), then the other features as cards: ranked, with the FT2 scoreboard over a fighting game, the elo card, the series result and the top of the ranking, save slots with the resume point, the level with the XP bar and the daily combo, a live card, the clip button, tournaments, with an event live over Super Bomberman 3 next to its bracket, the event alerts, public rooms, drawn as a list of open rooms with their seats and a join button, and rooms with friends, with the invite code and the invite alert
-- Help chat with Cloudly in the corner, opened as a tall rectangle: fourteen frequent questions as suggestions, a list of all of them, and typed questions matched by keywords. On a phone the chat takes the whole screen, follows the area above the keyboard and keeps the keyboard closed until the text field is tapped, so the suggestions stay in sight
+- **Como funciona** in one section: three numbered steps to start playing, each drawn as a piece of the app (open in the browser on any device, pick a game in the catalog, call friends to the room), then the other features as cards: ranked, with the FT2 scoreboard over a fighting game, the elo card, the series result and the top of the ranking, save slots with the resume point, offline play with the games kept on the device, the space they take and the **Sem conexão** notice, the level with the XP bar and the daily combo, a live card, the clip button, tournaments, with an event live over Super Bomberman 3 next to its bracket, the event alerts, public rooms, drawn as a list of open rooms with their seats and a join button, and rooms with friends, with the invite code and the invite alert
+- Help chat with Cloudly in the corner, opened as a tall rectangle: fifteen frequent questions as suggestions, a list of all of them, and typed questions matched by keywords. On a phone the chat takes the whole screen, follows the area above the keyboard and keeps the keyboard closed until the text field is tapped, so the suggestions stay in sight
 - Brand look from the app: dark surfaces, the purple and blue gradient, Poppins and the Silkscreen pixel font, pill buttons and the pixel art sprites of the app
 - Works with the keyboard, follows the reduced motion setting of the system and has no horizontal scroll on phones
 
 <!-- markdownlint-disable MD033 -->
 
 <p align="center">
-  <img src=".github/features.png" alt="Dentro do app section with the ranked, save slots, XP, live, clip, tournament, event alert, public rooms and rooms with friends cards" width="100%">
+  <img src=".github/features.png" alt="Dentro do app section with the ranked, save slots, offline play, XP, live, clip, tournament, event alert, public rooms and rooms with friends cards" width="100%">
 </p>
 
 <!-- markdownlint-enable MD033 -->
@@ -154,7 +154,7 @@ Open `http://localhost:8000`. To publish it, upload the folder to any static hos
 
 <!-- markdownlint-enable MD033 -->
 
-1. The chat answers fourteen frequent questions about the platform, from what Cloudly Game is to how XP, levels, ranked and tournaments work. Questions about things that are not decided yet, such as the price, are not answered.
+1. The chat answers fifteen frequent questions about the platform, from what Cloudly Game is to playing without internet and how XP, levels, ranked and tournaments work. Questions about things that are not decided yet, such as the price, are not answered.
 2. After each answer, up to three questions that were not asked yet show up as suggestions, and they leave as soon as the conversation moves on.
 3. Typed questions are lowercased and stripped of accents, then matched against keywords of each question. The question with the most matching keywords is answered; when nothing matches, Cloudly says it cannot answer that yet and suggests questions.
 4. Everything runs in the browser, with no server and no record of what was asked.
